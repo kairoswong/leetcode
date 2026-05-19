@@ -130,6 +130,7 @@ dmypy.json
 *.swo
 *~
 .DS_Store
+*.ini
 
 # Project specific
 .env.local
