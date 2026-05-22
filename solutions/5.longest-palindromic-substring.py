@@ -5,6 +5,7 @@
 #
 
 # @lc code=start
+# Manacher Algorithm is all you need
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         processed_s = "/" + "/".join(s) + "/"
@@ -16,7 +17,7 @@ class Solution:
 
         for i in range(n):
             if i < r:
-                p[i] = min(p[2 * mid -i], r -i)
+                p[i] = min(p[2 * mid - i], r - i)
             else:
                 p[i] = 1
 
