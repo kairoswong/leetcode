@@ -1,0 +1,17 @@
+{
+  "1":  {"time": "O(n)",     "space": "O(n)"},
+  "2":  {"time": "O(max(m,n))", "space": "O(max(m,n))"},
+  "3":  {"time": "O(n)",     "space": "O(min(m,n))"},
+  "4":  {"time": "O(log(min(m,n)))", "space": "O(1)"},
+  "5":  {"time": "O(n²)",    "space": "O(1)"},
+  "6":  {"time": "O(n)",     "space": "O(n)"},
+  "7":  {"time": "O(log n)", "space": "O(1)"},
+  "8":  {"time": "O(n)",     "space": "O(1)"},
+  "21": {"time": "O(m+n)",   "space": "O(1)"},
+  "28": {"time": "O(n*m)",   "space": "O(1)"},
+  "36": {"time": "O(1)",     "space": "O(1)"},
+  "42": {"time": "O(n)",     "space": "O(1)"},
+  "48": {"time": "O(n²)",    "space": "O(1)"},
+  "69": {"time": "O(log n)", "space": "O(1)"},
+  "70": {"time": "—",        "space": "—"}
+}

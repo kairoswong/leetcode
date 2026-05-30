@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solution Detail — LeetCode Explorer</title>
+<link rel="icon" href="assets/leetcode.ico">
+<style>
+  /* ===== Self-hosted fonts ===== */
+  @font-face {
+    font-family: 'Instrument Sans';
+    src: url('fonts/InstrumentSans.woff2') format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    src: url('fonts/JetBrainsMono.woff2') format('woff2');
+    font-weight: 400 600;
+    font-display: swap;
+  }
+  /* =====================================================
+     Design System — same as index.html
+     ===================================================== */
+  :root {
+    --surface-0: #0A0B0E;
+    --surface-1: #121318;
+    --surface-2: #1A1B22;
+    --surface-3: #24262E;
+    --surface-hover: #2C2E38;
+    --text-primary: #EAEBED;
+    --text-secondary: #9B9DA6;
+    --text-tertiary: #6B6D78;
+    --accent: #00D4AA;
+    --accent-dim: #00A888;
+    --accent-glow: rgba(0, 212, 170, 0.15);
+    --green: #22C55E;
+    --green-bg: rgba(34, 197, 94, 0.1);
+    --yellow: #EAB308;
+    --yellow-bg: rgba(234, 179, 8, 0.1);
+    --red: #EF4444;
+    --red-bg: rgba(239, 68, 68, 0.1);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245, 158, 11, 0.1);
+    --border: #2C2E38;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --font-ui: 'Instrument Sans', system-ui, sans-serif;
+    --font-code: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-ui);
+    background: var(--surface-0);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* =====================================================
+     Nav bar
+     ===================================================== */
+  .top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .top-nav .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--font-ui);
+  }
+
+  .top-nav .back-link:hover {
+    color: var(--accent);
+  }
+
+  .top-nav .nav-title {
+    font-size: 13px;
+    color: var(--text-tertiary);
+  }
+
+  /* =====================================================
+     Problem navigation — prev / next between solutions
+     ===================================================== */
+  .problem-navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .problem-navigation .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .problem-navigation .nav-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--accent-dim);
+  }
+
+  .problem-navigation .nav-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .problem-navigation .nav-btn .nav-label {
+    color: var(--text-tertiary);
+    font-size: 11px;
+  }
+
+  .problem-navigation .nav-btn .nav-title-text {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .problem-navigation .nav-spacer {
+    flex: 1;
+  }
+
+  .problem-navigation .nav-position {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: var(--font-code);
+    padding: 0 4px;
+  }
+
+  /* =====================================================
+     Problem header
+     ===================================================== */
+  .problem-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .problem-id {
+    font-family: var(--font-code);
+    font-size: 14px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .problem-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .problem-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .badge.easy  { background: var(--green-bg); color: var(--green); }
+  .badge.medium { background: var(--yellow-bg); color: var(--yellow); }
+  .badge.hard  { background: var(--red-bg); color: var(--red); }
+  .badge.solved { background: var(--green-bg); color: var(--green); }
+  .badge.wip   { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+  .tag-pill {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .complexity-badges {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .complexity-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .complexity-badge .label {
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .complexity-badge .value {
+    font-family: var(--font-code);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* =====================================================
+     Section layout
+     ===================================================== */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 900px) {
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+
+  .section-card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  /* =====================================================
+     Code block
+     ===================================================== */
+  .code-block {
+    background: var(--surface-0);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .code-header .lang-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-tertiary);
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--font-ui);
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent-dim);
+  }
+
+  .copy-btn.copied {
+    color: var(--green);
+    border-color: var(--green);
+  }
+
+  pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-family: var(--font-code);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-primary);
+  }
+
+  pre .keyword { color: #FF7B72; }
+  pre .func    { color: #D2A8FF; }
+  pre .string  { color: #A5D6FF; }
+  pre .number  { color: #79C0FF; }
+  pre .comment { color: #6B6D78; font-style: italic; }
+  pre .class   { color: #FFA657; }
+  pre .param   { color: #FFA657; }
+  pre .self    { color: #FF7B72; }
+  pre .builtin { color: #D2A8FF; }
+
+  /* =====================================================
+     Approach description
+     ===================================================== */
+  .approach-text {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .approach-text .key-insight {
+    display: block;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--accent-glow);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* =====================================================
+     Visualization canvas (template for step-throughs)
+     ===================================================== */
+  .viz-canvas {
+    width: 100%;
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--surface-0);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .viz-placeholder {
+    text-align: center;
+    color: var(--text-tertiary);
+    padding: 48px 24px;
+  }
+
+  .viz-placeholder .viz-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  .viz-placeholder p {
+    font-size: 14px;
+  }
+
+  .viz-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .viz-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .viz-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--accent-dim);
+  }
+
+  .viz-btn.primary {
+    background: var(--accent);
+    color: var(--surface-0);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .viz-btn.primary:hover {
+    background: var(--accent-dim);
+  }
+
+  .viz-step-info {
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* Viz controls section label to differentiate from problem nav */
+  .viz-section-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  /* =====================================================
+     Related problems
+     ===================================================== */
+  .related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .related-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .related-item:hover {
+    background: var(--surface-hover);
+  }
+
+  .related-item .related-id {
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .related-item .related-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* =====================================================
+     Animations
+     ===================================================== */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .section-card {
+    animation: fadeIn 0.3s ease both;
+  }
+  .section-card:nth-child(1) { animation-delay: 0.05s; }
+  .section-card:nth-child(2) { animation-delay: 0.10s; }
+
+  /* =====================================================
+     Responsive
+     ===================================================== */
+  @media (max-width: 768px) {
+    .app-container { padding: 0 16px; }
+    .problem-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Top nav -->
+  <nav class="top-nav">
+    <button class="back-link" onclick="goBack()">← Back to Explorer</button>
+    <span class="nav-title">Solution Detail</span>
+  </nav>
+
+  <!-- Problem navigation — prev / next -->
+  <div class="problem-navigation">
+    <button class="nav-btn" id="prevSolutionBtn" onclick="goToSolution('prev')">
+      ← <span class="nav-label">Prev</span>
+      <span class="nav-title-text" id="prevSolutionTitle"></span>
+    </button>
+    <span class="nav-position" id="navPosition"></span>
+    <button class="nav-btn" id="nextSolutionBtn" onclick="goToSolution('next')">
+      <span class="nav-label">Next</span>
+      <span class="nav-title-text" id="nextSolutionTitle"></span> →
+    </button>
+  </div>
+
+  <!-- Problem header -->
+  <div class="problem-header">
+    <span class="problem-id" id="probId">#000</span>
+    <h1 class="problem-title" id="probTitle">Problem Title</h1>
+  </div>
+  <div class="problem-meta" id="probMeta">
+    <span class="badge" id="probDifficulty">easy</span>
+    <span class="badge" id="probStatus">solved</span>
+    <span class="tag-pill" id="probTags">hash-map</span>
+  </div>
+
+  <!-- Complexity badges -->
+  <div class="complexity-badges">
+    <div class="complexity-badge">
+      <span class="label">Time</span>
+      <span class="value" id="timeComplexity">O(n)</span>
+    </div>
+    <div class="complexity-badge">
+      <span class="label">Space</span>
+      <span class="value" id="spaceComplexity">O(n)</span>
+    </div>
+  </div>
+
+  <!-- Detail grid -->
+  <div class="detail-grid">
+    <!-- Code section -->
+    <div class="section-card">
+      <div class="section-title">Solution Code</div>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="lang-label">Python</span>
+          <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>
+        </div>
+        <pre id="codeContent"><span class="comment"># Loading…</span></pre>
+      </div>
+    </div>
+
+    <!-- Approach & Visualization -->
+    <div>
+      <div class="section-card" style="margin-bottom:24px;">
+        <div class="section-title">Approach</div>
+        <div class="approach-text" id="approachContent">
+          <p id="approachDesc">Loading approach description…</p>
+          <span class="key-insight" id="keyInsight">💡 Key insight here</span>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">Visualization</div>
+        <div class="viz-canvas" id="vizCanvas">
+          <div class="viz-placeholder">
+            <div class="viz-icon">🎨</div>
+            <p>Interactive visualization coming soon</p>
+            <p style="font-size:12px;margin-top:8px;opacity:0.6;">Interactive visualization coming soon</p>
+          </div>
+        </div>
+        <div class="viz-section-label">Step Controls</div>
+        <div class="viz-controls">
+          <button class="viz-btn" onclick="vizPrev()">◀ Prev</button>
+          <button class="viz-btn primary" onclick="vizAutoPlay()">▶ Play</button>
+          <button class="viz-btn" onclick="vizNext()">Next ▶</button>
+          <button class="viz-btn" onclick="vizReset()">↺ Reset</button>
+        </div>
+        <div class="viz-step-info" id="vizStepInfo">Step 0 / 0 · awaiting visualization</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related problems -->
+  <div class="section-card" style="margin-bottom:48px;">
+    <div class="section-title">Related Problems</div>
+    <div class="related-list" id="relatedList">
+      <div style="color:var(--text-tertiary);font-size:14px;">More solutions loaded dynamically from the index.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// Load solution data
+// =====================================================
+
+let currentSolution = null;
+
+// All solutions data — loaded async from JSON
+let SOLUTIONS = [];
+
+async function loadSolutions() {
+  // Timeout after 3s to handle file:// protocol where fetch may hang
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('loadSolutions timeout')), 3000)
+  );
+  try {
+    const resp = await Promise.race([
+      fetch('data/solutions-data.json'),
+      timeout
+    ]);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    SOLUTIONS = await resp.json();
+    // Only call initializePage if it wasn't already called from URL data
+    if (!window._pageInitialized) {
+      initializePage();
+    }
+  } catch (err) {
+    console.error('Failed to load solutions data:', err);
+    // If page wasn't already initialized from URL data, show error
+    if (!window._pageInitialized) {
+      document.getElementById('probTitle').textContent = 'Failed to load data';
+    }
+  }
+}
+
+function getSolutionById(id) {
+  return SOLUTIONS.find(s => s.id === id);
+}
+
+// Get sorted IDs for prev/next navigation
+function getSortedSolutionIds() {
+  return SOLUTIONS.map(s => s.id).sort((a, b) => a - b);
+}
+
+// Navigate to the prev or next solution
+function goToSolution(direction) {
+  const ids = getSortedSolutionIds();
+  const currentId = parseInt(new URLSearchParams(window.location.search).get('id'));
+  const currentIndex = ids.indexOf(currentId);
+  if (currentIndex === -1) return;
+
+  let targetIndex;
+  if (direction === 'prev') {
+    targetIndex = currentIndex - 1;
+  } else {
+    targetIndex = currentIndex + 1;
+  }
+
+  if (targetIndex < 0 || targetIndex >= ids.length) return;
+  window.location.href = `solution-detail.html?id=${ids[targetIndex]}`;
+}
+
+// Update prev/next button labels and disabled state
+function updateProblemNavigation() {
+  const ids = getSortedSolutionIds();
+  const currentId = currentSolution ? currentSolution.id : parseInt(new URLSearchParams(window.location.search).get('id'));
+  if (!currentId) return;
+  const currentIndex = ids.indexOf(currentId);
+  if (currentIndex === -1) return;
+
+  // Update position indicator
+  document.getElementById('navPosition').textContent =
+    `${currentIndex + 1} / ${ids.length}`;
+
+  // Update prev button
+  const prevBtn = document.getElementById('prevSolutionBtn');
+  const prevTitle = document.getElementById('prevSolutionTitle');
+  if (currentIndex > 0) {
+    const prevId = ids[currentIndex - 1];
+    const prev = getSolutionById(prevId);
+    if (prev) {
+      prevTitle.textContent = `#${String(prev.id).padStart(3, '0')} ${prev.title}`;
+    }
+    prevBtn.classList.remove('disabled');
+  } else {
+    prevTitle.textContent = '';
+    prevBtn.classList.add('disabled');
+  }
+
+  // Update next button
+  const nextBtn = document.getElementById('nextSolutionBtn');
+  const nextTitle = document.getElementById('nextSolutionTitle');
+  if (currentIndex < ids.length - 1) {
+    const nextId = ids[currentIndex + 1];
+    const next = getSolutionById(nextId);
+    if (next) {
+      nextTitle.textContent = `#${String(next.id).padStart(3, '0')} ${next.title}`;
+    }
+    nextBtn.classList.remove('disabled');
+  } else {
+    nextTitle.textContent = '';
+    nextBtn.classList.add('disabled');
+  }
+}
+
+// Get the solution object from URL params or fallback to SOLUTIONS lookup
+function getSolution() {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  // Try data param first (passed from index.html)
+  let data = params.get('data');
+  if (data) {
+    try {
+      return JSON.parse(decodeURIComponent(data));
+    } catch (_) {}
+  }
+  // Fallback: find by ID from loaded data
+  if (SOLUTIONS.length > 0) {
+    return getSolutionById(id);
+  }
+  return null;
+}
+
+// Initialize the page once data is loaded
+async function initializePage() {
+  window._pageInitialized = true;
+  const solution = getSolution();
+  currentSolution = solution;
+
+  if (!solution) {
+    document.getElementById('probTitle').textContent = 'Solution not found';
+    document.getElementById('approachDesc').textContent = 'Could not find a solution with the given ID.';
+    return;
+  }
+
+  document.getElementById('probId').textContent = `#${String(solution.id).padStart(3, '0')}`;
+  document.getElementById('probTitle').textContent = solution.title;
+  document.getElementById('probDifficulty').textContent = solution.difficulty;
+  document.getElementById('probDifficulty').className = `badge ${solution.difficulty}`;
+  document.getElementById('probStatus').textContent = solution.status === 'solved' ? 'Solved' : 'In Progress';
+  document.getElementById('probStatus').className = `badge ${solution.status === 'solved' ? 'solved' : 'wip'}`;
+  document.getElementById('probTags').textContent = solution.tags.join(', ');
+  document.getElementById('timeComplexity').textContent = solution.complexity.time;
+  document.getElementById('spaceComplexity').textContent = solution.complexity.space;
+  document.getElementById('approachDesc').textContent = solution.approach || solution.desc;
+  document.getElementById('keyInsight').innerHTML = `💡 ${solution.keyInsight || 'Key insight coming soon'}`;
+
+  // Fetch and display actual solution code from the solutions/ directory
+  loadSolutionCode(solution);
+
+  // Related problems
+  const relatedContainer = document.getElementById('relatedList');
+  const related = SOLUTIONS.filter(s => {
+    if (s.id === solution.id) return false;
+    return s.tags.some(t => solution.tags.includes(t));
+  }).slice(0, 4);
+
+  if (related.length > 0) {
+    relatedContainer.innerHTML = related.map(s => `
+      <a class="related-item" href="solution-detail.html?id=${s.id}">
+        <span>
+          <span class="related-id">#${String(s.id).padStart(3, '0')}</span>
+          <span class="related-title" style="margin-left:8px;">${s.title}</span>
+        </span>
+        <span class="badge ${s.difficulty}" style="font-size:10px;">${s.difficulty}</span>
+      </a>
+    `).join('');
+  }
+
+  // Update prev/next navigation
+  updateProblemNavigation();
+
+  // Kick off visualization
+  initVisualization(solution);
+}
+
+// =====================================================
+// Fetch and syntax-highlight solution code from ../solutions/
+// =====================================================
+
+function highlightPython(code) {
+  // Tokenize line by line
+  return code.split('\n').map(line => {
+    let trimmed = line.trimLeft();
+    let indent = line.substring(0, line.length - trimmed.length);
+    let result = indent;
+
+    // Comment (full line)
+    if (/^\s*#/.test(line)) {
+      return `<span class="comment">${escapeHtml(line)}</span>`;
+    }
+
+    // Tokenize the trimmed part
+    const tokens = [];
+    let i = 0;
+    while (i < trimmed.length) {
+      // String literals
+      if (trimmed[i] === "'" || trimmed[i] === '"') {
+        const quote = trimmed[i];
+        let j = i + 1;
+        while (j < trimmed.length && trimmed[j] !== quote) {
+          if (trimmed[j] === '\\') j++;
+          j++;
+        }
+        if (j < trimmed.length) j++; // closing quote
+        const str = trimmed.substring(i, j);
+        // Check if this is a docstring (""" or ''')
+        if (str.startsWith('"""') || str.startsWith("'''")) {
+          tokens.push(`<span class="comment">${escapeHtml(str)}</span>`);
+        } else {
+          tokens.push(`<span class="string">${escapeHtml(str)}</span>`);
+        }
+        i = j;
+        continue;
+      }
+
+      // Triple-quote docstrings (handled above for single-line, but multi-line is per-line)
+
+      // Comments
+      if (trimmed[i] === '#') {
+        tokens.push(`<span class="comment">${escapeHtml(trimmed.substring(i))}</span>`);
+        break;
+      }
+
+      // Numbers
+      if (/\d/.test(trimmed[i]) && (i === 0 || /[\s\(\[,=+\-*/%]/.test(trimmed[i-1]))) {
+        let j = i;
+        while (j < trimmed.length && /[\d.]/.test(trimmed[j])) j++;
+        tokens.push(`<span class="number">${escapeHtml(trimmed.substring(i, j))}</span>`);
+        i = j;
+        continue;
+      }
+
+      // Identifiers / keywords
+      if (/[a-zA-Z_]/.test(trimmed[i])) {
+        let j = i;
+        while (j < trimmed.length && /[\w]/.test(trimmed[j])) j++;
+        const word = trimmed.substring(i, j);
+        if (['def', 'class', 'return', 'if', 'elif', 'else', 'for', 'while', 'in', 'not', 'and', 'or',
+             'import', 'from', 'as', 'try', 'except', 'finally', 'with', 'raise', 'pass', 'break',
+             'continue', 'lambda', 'yield', 'global', 'nonlocal', 'assert', 'del', 'is', 'None',
+             'True', 'False'].includes(word)) {
+          tokens.push(`<span class="keyword">${word}</span>`);
+        } else if (word === 'self') {
+          tokens.push(`<span class="self">self</span>`);
+        } else {
+          tokens.push(escapeHtml(word));
+        }
+        i = j;
+        continue;
+      }
+
+      tokens.push(escapeHtml(trimmed[i]));
+      i++;
+    }
+
+    return result + tokens.join('');
+  }).join('\n');
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+async function loadSolutionCode(solution) {
+  const codeContainer = document.getElementById('codeContent');
+  try {
+    // The solution-detail.html is in site/, solutions/ is one level up
+    const resp = await fetch(`../solutions/${solution.file}`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const rawCode = await resp.text();
+
+    // Extract just the code inside # @lc code=start ... # @lc code=end
+    const match = rawCode.match(/# @lc code=start\n([\s\S]*?)\n# @lc code=end/);
+    const displayCode = match ? match[1].trim() : rawCode.trim();
+
+    const highlighted = highlightPython(displayCode);
+    codeContainer.innerHTML = highlighted;
+  } catch (err) {
+    console.warn('Could not fetch solution file, showing placeholder:', err);
+    codeContainer.innerHTML =
+      `<span class="comment"># Could not load solutions/${solution.file}</span>\n` +
+      `<span class="comment"># Make sure the file exists in the solutions/ directory.</span>`;
+  }
+}
+
+// =====================================================
+  // Visualization engine — step-through animations
+  // =====================================================
+
+  // Save solution for viz engine to pick up when it loads
+  window._pendingVizSolution = null;
+
+  function initVisualization(solution) {
+    if (typeof window.initVizFromDetail === 'function') {
+      window.initVizFromDetail(solution);
+    } else {
+      // viz-engine.js not loaded yet — queue it
+      window._pendingVizSolution = solution;
+    }
+  }
+
+  // Also expose to window so viz-engine.js can find it
+  window.initVisualization = initVisualization;
+
+  // Kick off data loading — run as background task
+  loadSolutions();
+
+  // If solution data is already in URL, initialize immediately without waiting for SOLUTIONS
+  (function initFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get('data');
+    if (data) {
+      try {
+        const solution = JSON.parse(decodeURIComponent(data));
+        initializePage();
+      } catch (_) {}
+    }
+  })();
+
+  // Kick off viz data loading
+  (function loadVizScript() {
+    const script = document.createElement('script');
+    script.src = 'scripts/viz-engine.js';
+    script.onload = () => {
+      // viz-engine.js loaded — check for pending solution
+      if (typeof window.initVizEngine === 'function') {
+        window.initVizEngine();
+      }
+      // If there was a pending solution from before viz-engine loaded, init now
+      if (window._pendingVizSolution && typeof window.initVizFromDetail === 'function') {
+        window.initVizFromDetail(window._pendingVizSolution);
+        window._pendingVizSolution = null;
+      }
+    };
+    document.body.appendChild(script);
+  })();
+
+// =====================================================
+// Navigation & Actions
+// =====================================================
+
+function goBack() {
+  window.location.href = 'index.html';
+}
+
+function copyCode() {
+  const code = document.getElementById('codeContent').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// =====================================================
+// Visualization controls — delegated to viz-engine.js
+// =====================================================
+
+let vizStep = 0;
+let vizTotal = 0;
+
+function vizPrev() {
+  if (typeof window.vizPrev === 'function') window.vizPrev();
+}
+
+function vizNext() {
+  if (typeof window.vizNext === 'function') window.vizNext();
+}
+
+function vizAutoPlay() {
+  if (typeof window.vizAutoPlay === 'function') window.vizAutoPlay();
+}
+
+function vizReset() {
+  if (typeof window.vizReset === 'function') window.vizReset();
+}
+
+function updateVizInfo() {
+  const info = document.getElementById('vizStepInfo');
+  if (typeof window.vizTotal !== 'undefined') {
+    info.textContent = `Step ${window.vizStep || 0} / ${window.vizTotal || 0}`;
+  } else {
+    info.textContent = 'Step 0 / 0 · awaiting visualization';
+  }
+}
+
+// Periodically sync step info after viz-engine updates
+setInterval(() => {
+  const info = document.getElementById('vizStepInfo');
+  if (typeof window.vizTotal !== 'undefined' && typeof window.vizStep !== 'undefined') {
+    info.textContent = `Step ${window.vizStep} / ${window.vizTotal}`;
+  }
+}, 500);
+</script>
+</body>
+</html>

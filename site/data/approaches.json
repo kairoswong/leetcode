@@ -1,0 +1,17 @@
+{
+  "1":  "Use a hash map to store each number's index as we iterate. For each number, compute its complement (target − num) and check if it already exists in the map. This gives O(1) lookups per element.",
+  "2":  "Traverse both lists simultaneously, summing digit-by-digit with carry. Create a new node for each digit of the result.",
+  "3":  "Use a sliding window with two pointers (left, right). Expand the right pointer, and when a duplicate is found, move the left pointer past the previous occurrence.",
+  "4":  "Binary search on the smaller array to partition both arrays such that all left elements ≤ all right elements. The median is derived from the partition boundary.",
+  "5":  "Expand around the center — for each position (and between each pair), expand outward as long as the characters match, tracking the longest palindrome found.",
+  "6":  "Simulate the zigzag traversal by iterating through the string and appending each character to the appropriate row, changing direction at the top and bottom rows.",
+  "7":  "Repeatedly pop the last digit using modulo 10 and push it onto the result. Check for overflow before updating the result.",
+  "8":  "Skip leading whitespace, handle sign character, then read digits while checking for overflow at each step.",
+  "21": "Use a dummy head node and a pointer. Compare the current nodes of both lists, appending the smaller one, and advancing the pointer.",
+  "28": "Slide a window of length needle across haystack, comparing character by character.",
+  "36": "Use a hash set to track seen numbers in each row, column, and 3×3 box. The box index is derived from (row//3)*3 + (col//3).",
+  "42": "Two-pointer approach from both ends. Track left_max and right_max — water trapped at a position depends on the shorter of the two max heights.",
+  "48": "First transpose the matrix (swap [i][j] with [j][i]), then reverse each row. This achieves a 90° clockwise rotation in-place.",
+  "69": "Binary search for the square root in range [0, x]. At each step, compute mid² and compare with x.",
+  "70": "This is the Fibonacci sequence in disguise. The number of ways to reach step n = ways to reach n-1 + ways to reach n-2."
+}

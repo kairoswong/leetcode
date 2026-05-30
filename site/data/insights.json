@@ -1,0 +1,17 @@
+{
+  "1":  "A hash map trades space for time — we store past elements to avoid the O(n²) brute-force comparison.",
+  "2":  "Use a carry variable to handle sums ≥ 10, continuing to the next most significant digit.",
+  "3":  "The sliding window ensures each character is visited at most twice — once by each pointer — achieving O(n) time.",
+  "4":  "By partitioning the smaller array, we implicitly partition the larger one — achieving O(log(min(m,n))) instead of O(m+n).",
+  "5":  "There are 2n−1 possible centers in a string of length n (including gaps between characters). Expanding from each center is O(n) per center.",
+  "6":  "Track direction (down/up) and flip when reaching row 0 or the last row — this gives an O(n) one-pass solution.",
+  "7":  "Check overflow before it happens: if rev > INT_MAX/10 or rev < INT_MIN/10, the next digit will cause overflow.",
+  "8":  "Process the string character by character with a state machine: whitespace → sign → digits → end — early exit on non-digit.",
+  "21": "A dummy head eliminates edge-case handling for the initial empty result list, making the code cleaner and less error-prone.",
+  "28": "Only need to search up to (len(haystack) − len(needle)) to avoid unnecessary comparisons.",
+  "36": "A flat set with encoded keys like `(5) in row 1` lets us validate all three constraints in a single pass through the board.",
+  "42": "At any position, water trapped = min(max left height, max right height) − current height. The two-pointer method computes this in one pass.",
+  "48": "Transpose + reverse each row is a cleaner mental model than rotating four cells at a time — both are O(n²) but this is far less error-prone.",
+  "69": "Binary search on a monotonic function (the square of a number is monotonically increasing for non-negative inputs).",
+  "70": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two."
+}

@@ -1,0 +1,17 @@
+{
+  "two sum": ["array", "hash-map"],
+  "add two": ["math", "linked-list"],
+  "substring": ["string", "sliding-window", "hash-map"],
+  "median": ["binary-search", "divide-and-conquer"],
+  "longest": ["string", "two-pointer", "dp"],
+  "zigzag": ["string", "simulation"],
+  "reverse integer": ["math", "simulation"],
+  "atoi": ["string", "simulation"],
+  "merge": ["linked-list", "recursion"],
+  "occurrence": ["string", "two-pointer"],
+  "sudoku": ["hash-map", "matrix", "simulation"],
+  "rain": ["two-pointer", "array", "stack"],
+  "rotate": ["matrix", "simulation"],
+  "sqrt": ["binary-search", "math"],
+  "climbing": ["dp", "math"]
+}

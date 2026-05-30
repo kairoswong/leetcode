@@ -1,0 +1,228 @@
+{
+  "1": {
+    "type": "hash-map",
+    "label": "Two Sum — Hash Map Walkthrough",
+    "example": {
+      "input": "nums = [2, 7, 11, 15], target = 9",
+      "params": { "nums": [2, 7, 11, 15], "target": 9 }
+    },
+    "steps": [
+      { "step": 0, "info": "Start: i=0, num=2. complement=7. hash_map={}. Not found. Store 2→0.", "highlight": "hash_map = {}; current: 2; complement: 7 → not found" },
+      { "step": 1, "info": "i=0, num=2, complement=7. hash_map={}. 7 not in map. Store 2 at index 0.", "highlight": "hash_map = {2:0}; current: 2; complement: 7 → not found" },
+      { "step": 2, "info": "i=1, num=7, complement=2. hash_map={2:0}. 2 IS in map! Return [0,1].", "highlight": "hash_map = {2:0}; current: 7; complement: 2 → FOUND! Return [0,1]" }
+    ]
+  },
+  "2": {
+    "type": "linked-list",
+    "label": "Add Two Numbers — Digit-by-Digit Walkthrough",
+    "example": {
+      "input": "l1 = [2,4,3], l2 = [5,6,4]",
+      "params": { "list1": [2,4,3], "list2": [5,6,4] }
+    },
+    "steps": [
+      { "step": 0, "info": "Start: carry=0, dummy head. Adding 2+5=7 → node 7", "highlight": "2 + 5 + carry(0) = 7 → node (7)" },
+      { "step": 1, "info": "carry=0. Adding 4+6=10 → node 0, carry=1", "highlight": "4 + 6 + carry(0) = 10 → node (0), carry=1" },
+      { "step": 2, "info": "carry=1. Adding 3+4+1=8 → node 8", "highlight": "3 + 4 + carry(1) = 8 → node (8)" },
+      { "step": 3, "info": "Done! Result: 7→0→8 (which is 807)", "highlight": "Result: 7 → 0 → 8 = 807 ✅" }
+    ]
+  },
+  "3": {
+    "type": "sliding-window",
+    "label": "Longest Substring — Sliding Window",
+    "example": {
+      "input": "s = 'abcabcbb'",
+      "params": { "s": "abcabcbb" }
+    },
+    "steps": [
+      { "step": 0, "info": "Start: left=0, right=0, char='a', not in map. Add a→0. maxLen=1", "highlight": "Window: [a] b c a b c b b | maxLen=1", "window": [0,0] },
+      { "step": 1, "info": "right=1, char='b', not in map. Add b→1. maxLen=2", "highlight": "Window: [a b] c a b c b b | maxLen=2", "window": [0,1] },
+      { "step": 2, "info": "right=2, char='c', not in map. Add c→2. maxLen=3", "highlight": "Window: [a b c] a b c b b | maxLen=3", "window": [0,2] },
+      { "step": 3, "info": "right=3, char='a' EXISTS at idx 0 ≥ left(0). Move left to 1. Update a→3. maxLen stays 3.", "highlight": "Window: a [b c a] b c b b | maxLen=3", "window": [1,3] },
+      { "step": 4, "info": "right=4, char='b' EXISTS at idx 1 ≥ left(1). Move left to 2. Update b→4. maxLen=3.", "highlight": "Window: a b [c a b] c b b | maxLen=3", "window": [2,4] },
+      { "step": 5, "info": "right=5, char='c' EXISTS at idx 2 ≥ left(2). Move left to 3. Update c→5. maxLen stays 3.", "highlight": "Window: a b c [a b c] b b | maxLen=3", "window": [3,5] },
+      { "step": 6, "info": "right=6, char='b' EXISTS at idx 4 ≥ left(3). Move left to 5. Update b→6. maxLen stays 3.", "highlight": "Window: a b c a b [c b] b | maxLen=3", "window": [5,6] },
+      { "step": 7, "info": "right=7, char='b' EXISTS at idx 6 ≥ left(5). Move left to 7. Update b→7. maxLen stays 3.", "highlight": "Window: a b c a b c [b] b | maxLen=3", "window": [7,7] }
+    ]
+  },
+  "4": {
+    "type": "binary-partition",
+    "label": "Median of Two Sorted Arrays — Binary Partition",
+    "example": {
+      "input": "nums1 = [1,3], nums2 = [2]",
+      "params": { "nums1": [1,3], "nums2": [2] }
+    },
+    "steps": [
+      { "step": 0, "info": "Binary search on smaller array nums1 (size 2). total=3, half=1+1=2.", "highlight": "A=[1,3], B=[2]. total=3, half=(3+1)//2=2", "partitionA": 1, "partitionB": 1 },
+      { "step": 1, "info": "Try partition: A_left=[1], A_right=[3]. B_left=[2], B_right=[]. Check: A_left(1) ≤ B_right(∞)=OK. B_left(2) ≤ A_right(3)=OK!", "highlight": "A_left=[1] max=1, A_right=[3] min=3. B_left=[2] max=2, B_right=[] min=∞", "partitionA": 1, "partitionB": 1 },
+      { "step": 2, "info": "Condition met! total=3 (odd). median = max(A_left_max, B_left_max) = max(1,2) = 2.", "highlight": "Median = max(1, 2) = 2 🎯", "partitionA": 1, "partitionB": 1 }
+    ]
+  },
+  "5": {
+    "type": "expand-center",
+    "label": "Longest Palindromic Substring — Expand Around Center (Manacher)",
+    "example": {
+      "input": "s = 'babad'",
+      "params": { "s": "babad" }
+    },
+    "steps": [
+      { "step": 0, "info": "Process string: insert separators. s' = /b/a/b/a/d/. Using Manacher's algorithm.", "highlight": "Processed: / b / a / b / a / d /" },
+      { "step": 1, "info": "Explore centers. The longest palindrome found is 'bab' (or 'aba').", "highlight": "Longest palindrome: 'bab' with center at b and radius 2" },
+      { "step": 2, "info": "Answer extracted from original string using center and radius.", "highlight": "Result: 'bab' ✅" }
+    ]
+  },
+  "6": {
+    "type": "zigzag",
+    "label": "Zigzag Conversion — Row Simulation",
+    "example": {
+      "input": "s = 'PAYPALISHIRING', numRows = 3",
+      "params": { "s": "PAYPALISHIRING", "numRows": 3 }
+    },
+    "steps": [
+      { "step": 0, "info": "Row 0: P. Direction: down (cur=0 → bottom=2).", "highlight": "Row0: P | Row1:   | Row2:  " },
+      { "step": 1, "info": "Row 1: A. cur=1, going down.", "highlight": "Row0: P   | Row1: A | Row2:  " },
+      { "step": 2, "info": "Row 2: Y. Hit bottom, flip direction to up.", "highlight": "Row0: P   | Row1: A | Row2: Y" },
+      { "step": 3, "info": "Row 1: P. Going up (cur=2→0).", "highlight": "Row0: P   | Row1: A P | Row2: Y" },
+      { "step": 4, "info": "Row 0: A. Hit top, flip to down.", "highlight": "Row0: P A | Row1: A P | Row2: Y" },
+      { "step": 5, "info": "Continue to end. Final rows: ['PA', 'APL', 'YI'] → 'PAAPLAYI' ...", "highlight": "Row0: P A | Row1: A P L | Row2: Y I" }
+    ]
+  },
+  "7": {
+    "type": "digit-reversal",
+    "label": "Reverse Integer — Digit by Digit",
+    "example": {
+      "input": "x = 123",
+      "params": { "x": 123 }
+    },
+    "steps": [
+      { "step": 0, "info": "x=123, rev=0. Pop last digit: 123%10=3. x=12. rev=0*10+3=3.", "highlight": "rev=0 → pop 3 → rev=3" },
+      { "step": 1, "info": "x=12, rev=3. Pop last digit: 12%10=2. x=1. rev=3*10+2=32.", "highlight": "rev=3 → pop 2 → rev=32" },
+      { "step": 2, "info": "x=1, rev=32. Pop last digit: 1%10=1. x=0. rev=32*10+1=321.", "highlight": "rev=32 → pop 1 → rev=321" },
+      { "step": 3, "info": "x=0. Done! Return rev=321", "highlight": "Result: 321 ✅" }
+    ]
+  },
+  "8": {
+    "type": "state-machine",
+    "label": "String to Integer (atoi) — State Machine",
+    "example": {
+      "input": "s = '   -42'",
+      "params": { "s": "   -42" }
+    },
+    "steps": [
+      { "step": 0, "info": "State=WHITESPACE. Reading ' ' → stay in WHITESPACE.", "highlight": "Skipping whitespace...   " },
+      { "step": 1, "info": "State=WHITESPACE. Reading ' ' → stay.", "highlight": "Skipping whitespace...   " },
+      { "step": 2, "info": "State=WHITESPACE. Reading ' ' → stay.", "highlight": "Skipping whitespace...   " },
+      { "step": 3, "info": "State=WHITESPACE. Reading '-' → SIGN. sign=-1.", "highlight": "Sign detected: negative (-)" },
+      { "step": 4, "info": "State=SIGN. Reading '4' → DIGITS. result=4.", "highlight": "Reading digits: 4" },
+      { "step": 5, "info": "State=DIGITS. Reading '2' → still DIGITS. result=4*10+2=42.", "highlight": "Reading digits: 42" },
+      { "step": 6, "info": "End of string. Return sign*result = -42.", "highlight": "Result: -42 ✅" }
+    ]
+  },
+  "21": {
+    "type": "linked-list",
+    "label": "Merge Two Sorted Lists — Recursive Merge",
+    "example": {
+      "input": "list1 = [1,2,4], list2 = [1,3,4]",
+      "params": { "list1": [1,2,4], "list2": [1,3,4] }
+    },
+    "steps": [
+      { "step": 0, "info": "Compare list1.val(1) vs list2.val(1). 1==1, not less. Pick list2.", "highlight": "list1: 1→..., list2: 1→... Pick list2's 1." },
+      { "step": 1, "info": "Recurse: merge( [1,2,4], [3,4] ). list1.val(1) < list2.val(3). Pick list1.", "highlight": "list1: 1→2→..., list2: 3→4→... Pick list1's 1." },
+      { "step": 2, "info": "Recurse: merge( [2,4], [3,4] ). list1.val(2) < list2.val(3). Pick list1.", "highlight": "list1: 2→4, list2: 3→4. Pick list1's 2." },
+      { "step": 3, "info": "Recurse: merge( [4], [3,4] ). 4 >= 3. Pick list2's 3.", "highlight": "list1: 4, list2: 3→4. Pick list2's 3." },
+      { "step": 4, "info": "Recurse: merge( [4], [4] ). 4 >= 4. Pick list2's 4.", "highlight": "Pick list2's 4. Merged: 1→1→2→3→4→4" }
+    ]
+  },
+  "28": {
+    "type": "sliding-window",
+    "label": "Find the Index — Sliding Window",
+    "example": {
+      "input": "haystack = 'sadbutsad', needle = 'sad'",
+      "params": { "haystack": "sadbutsad", "needle": "sad" }
+    },
+    "steps": [
+      { "step": 0, "info": "Window start=0. Compare 'sad' vs 'sad' → match! Return 0.", "highlight": "sadbutsad | needle: sad | Match at 0! 🎯" },
+      { "step": 1, "info": "Window start=3. Compare 'but' vs 'sad' → no match.", "highlight": "sad|but|sad | 'but' ≠ 'sad' ✗" },
+      { "step": 2, "info": "Window start=6. Compare 'sad' vs 'sad' → match! Return 6.", "highlight": "sadbut|sad| | Match at 6! 🎯" }
+    ]
+  },
+  "36": {
+    "type": "sudoku",
+    "label": "Valid Sudoku — Single Pass with Hash Set",
+    "example": {
+      "input": "Standard 9×9 board with pre-filled numbers",
+      "params": { "board": "see JSON" }
+    },
+    "steps": [
+      { "step": 0, "info": "Initialize empty set `seen`. Iterate each cell row-by-row.", "highlight": "seen = {}" },
+      { "step": 1, "info": "For each filled cell, encode: '(5) in row 0', '(5) in column 1', '(5) in box 0'. Add to set.", "highlight": "Encoding each number with row/col/box context." },
+      { "step": 2, "info": "If any encoding already exists in set → INVALID. Otherwise, all clear → VALID.", "highlight": "No duplicates found → board is valid ✅" }
+    ]
+  },
+  "42": {
+    "type": "two-pointer",
+    "label": "Trapping Rain Water — Two Pointers",
+    "example": {
+      "input": "height = [0,1,0,2,1,0,1,3,2,1,2,1]",
+      "params": { "height": [0,1,0,2,1,0,1,3,2,1,2,1] }
+    },
+    "steps": [
+      { "step": 0, "info": "left=0, right=11. height[left]=0 < height[right]=1. height[left] < left_max(0) → no water. left=1.", "highlight": "left(0)=0 < right(11)=1. left_max=0, no water trapped.", "left": 0, "right": 11, "leftMax": 0, "rightMax": 0, "water": 0 },
+      { "step": 1, "info": "left=1, right=11. height[1]=1 >= left_max(0). Update left_max=1. left=2.", "highlight": "left(1)=1. Update left_max=1.", "left": 1, "right": 11, "leftMax": 1, "rightMax": 0, "water": 0 },
+      { "step": 2, "info": "left=2, right=11. height[2]=0 < left_max(1). water += 1-0 = 1. left=3.", "highlight": "left(2)=0 < left_max(1). water += 1. total=1 💧", "left": 2, "right": 11, "leftMax": 1, "rightMax": 0, "water": 1 },
+      { "step": 3, "info": "left=3, right=11. height[3]=2 >= left_max(1). Update left_max=2. left=4.", "highlight": "left(3)=2. Update left_max=2.", "left": 3, "right": 11, "leftMax": 2, "rightMax": 0, "water": 1 },
+      { "step": 4, "info": "left=4, right=11. height[4]=1 < left_max(2). water += 2-1 = 1. left=5.", "highlight": "left(4)=1 < left_max(2). water += 1. total=2 💧", "left": 4, "right": 11, "leftMax": 2, "rightMax": 0, "water": 2 },
+      { "step": 5, "info": "left=5, right=11. height[5]=0 < left_max(2). water += 2-0 = 2. left=6.", "highlight": "left(5)=0 < left_max(2). water += 2. total=4 💧", "left": 5, "right": 11, "leftMax": 2, "rightMax": 0, "water": 4 },
+      { "step": 6, "info": "left=6, right=11. height[6]=1 < left_max(2). water += 2-1 = 1. left=7.", "highlight": "left(6)=1 < left_max(2). water += 1. total=5 💧", "left": 6, "right": 11, "leftMax": 2, "rightMax": 0, "water": 5 },
+      { "step": 7, "info": "left=7, right=11. height[7]=3 >= left_max(2). Update left_max=3. left=8.", "highlight": "left(7)=3. Update left_max=3.", "left": 7, "right": 11, "leftMax": 3, "rightMax": 0, "water": 5 },
+      { "step": 8, "info": "left=8, right=11. height[left]=2 >= height[right]=1? No, use right side. height[11]=1 < right_max(0). Update right_max=1. right=10.", "highlight": "right(11)=1. Update right_max=1.", "left": 8, "right": 10, "leftMax": 3, "rightMax": 1, "water": 5 },
+      { "step": 9, "info": "right(10)=2 >= right_max(1). Update right_max=2. right=9.", "highlight": "right(10)=2. Update right_max=2.", "left": 8, "right": 9, "leftMax": 3, "rightMax": 2, "water": 5 },
+      { "step": 10, "info": "right(9)=1 < right_max(2). water += 2-1 = 1. right=8. left==right, done!", "highlight": "right(9)=1. water += 1. total=6 💧", "left": 8, "right": 8, "leftMax": 3, "rightMax": 3, "water": 6 },
+      { "step": 11, "info": "All done! Total water trapped = 6.", "highlight": "Total trapped water = 6 ✅", "water": 6 }
+    ]
+  },
+  "48": {
+    "type": "matrix-rotate",
+    "label": "Rotate Image — Transpose + Reverse",
+    "example": {
+      "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+      "params": { "matrix": [[1,2,3],[4,5,6],[7,8,9]] }
+    },
+    "steps": [
+      { "step": 0, "info": "Step 1: Transpose. Swap matrix[i][j] with matrix[j][i]. i=0, j=1: swap 2↔4.", "highlight": "Transpose: swap (0,1)=2 ↔ (1,0)=4", "phase": "transpose" },
+      { "step": 1, "info": "i=0, j=2: swap 3↔7.", "highlight": "Transpose: swap (0,2)=3 ↔ (2,0)=7", "phase": "transpose" },
+      { "step": 2, "info": "i=1, j=2: swap 6↔8.", "highlight": "Transpose: swap (1,2)=6 ↔ (2,1)=8", "phase": "transpose" },
+      { "step": 3, "info": "Transposed: [[1,4,7],[2,5,8],[3,6,9]]. Step 2: Reverse each row.", "highlight": "After transpose: [[1,4,7],[2,5,8],[3,6,9]]", "phase": "reverse" },
+      { "step": 4, "info": "Row 0 reversed: [7,4,1]. Row 1 reversed: [8,5,2]. Row 2 reversed: [9,6,3].", "highlight": "Final rotated matrix: [[7,4,1],[8,5,2],[9,6,3]] ✅", "phase": "done" }
+    ]
+  },
+  "69": {
+    "type": "binary-search",
+    "label": "Sqrt(x) — Binary Search",
+    "example": {
+      "input": "x = 8",
+      "params": { "x": 8 }
+    },
+    "steps": [
+      { "step": 0, "info": "Search range [0, 8]. mid = (0+8)//2 = 4. 4²=16 > 8 → go left. high=3.", "highlight": "mid=4, 4²=16 > 8. Search left: [0,3]" },
+      { "step": 1, "info": "Range [0,3]. mid = (0+3)//2 = 1. 1²=1 ≤ 8 → potential answer. Go right. low=2.", "highlight": "mid=1, 1²=1 ≤ 8. Save ans=1. Search right: [2,3]" },
+      { "step": 2, "info": "Range [2,3]. mid = (2+3)//2 = 2. 2²=4 ≤ 8 → ans=2. Go right. low=3.", "highlight": "mid=2, 2²=4 ≤ 8. ans=2. Search right: [3,3]" },
+      { "step": 3, "info": "Range [3,3]. mid = 3. 3²=9 > 8 → go left. high=2. low > high, done!", "highlight": "mid=3, 3²=9 > 8. Search left. low>high Done! ans=2." },
+      { "step": 4, "info": "Return ans=2. √8 ≈ 2.", "highlight": "Result: 2 ✅ (floor of sqrt(8))" }
+    ]
+  },
+  "70": {
+    "type": "fibonacci",
+    "label": "Climbing Stairs — Fibonacci",
+    "example": {
+      "input": "n = 5",
+      "params": { "n": 5, "fib": [1, 2] }
+    },
+    "steps": [
+      { "step": 0, "info": "Base cases: n=1 → 1 way. n=2 → 2 ways. For n=5, compute iteratively.", "highlight": "Base: dp[1]=1, dp[2]=2" },
+      { "step": 1, "info": "Step 3: dp[3] = dp[2] + dp[1] = 2 + 1 = 3", "highlight": "dp[3] = dp[2] + dp[1] = 2 + 1 = 3" },
+      { "step": 2, "info": "Step 4: dp[4] = dp[3] + dp[2] = 3 + 2 = 5", "highlight": "dp[4] = dp[3] + dp[2] = 3 + 2 = 5" },
+      { "step": 3, "info": "Step 5: dp[5] = dp[4] + dp[3] = 5 + 3 = 8", "highlight": "dp[5] = dp[4] + dp[3] = 5 + 3 = 8" },
+      { "step": 4, "info": "Result: 8 distinct ways to climb 5 stairs.", "highlight": "Number of ways to climb 5 stairs = 8 🎯" }
+    ]
+  }
+}

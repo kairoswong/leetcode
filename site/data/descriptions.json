@@ -1,0 +1,17 @@
+{
+  "1":  "Given an array of integers nums and an integer target, return indices of the two numbers that add up to target.",
+  "2":  "Add two numbers represented by linked lists and return the sum as a linked list.",
+  "3":  "Find the length of the longest substring without repeating characters.",
+  "4":  "Find the median of two sorted arrays in O(log(m+n)) time.",
+  "5":  "Find the longest palindromic substring in a given string.",
+  "6":  "Convert a string into a zigzag pattern on a given number of rows.",
+  "7":  "Reverse digits of a 32-bit signed integer with overflow handling.",
+  "8":  "Implement the myAtoi(string s) function that converts a string to a 32-bit signed integer.",
+  "21": "Merge two sorted linked lists into one sorted list.",
+  "28": "Return the index of the first occurrence of needle in haystack, or -1 if not found.",
+  "36": "Determine if a 9x9 Sudoku board is valid according to Sudoku rules.",
+  "42": "Compute how much water can be trapped between bars given an elevation map.",
+  "48": "Rotate an n×n 2D matrix 90 degrees clockwise in-place.",
+  "69": "Return the square root of x rounded down to the nearest integer.",
+  "70": "You are climbing a staircase. In how many distinct ways can you climb to the top?"
+}

@@ -1,0 +1,276 @@
+[
+  {
+    "id": 1,
+    "title": "Two Sum",
+    "file": "1.two-sum.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Given an array of integers nums and an integer target, return indices of the two numbers that add up to target.",
+    "approach": "Use a hash map to store each number's index as we iterate. For each number, compute its complement (target \u2212 num) and check if it already exists in the map. This gives O(1) lookups per element.",
+    "keyInsight": "A hash map trades space for time \u2014 we store past elements to avoid the O(n\u00b2) brute-force comparison.",
+    "tags": [
+      "array",
+      "hash-map"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Add Two Numbers",
+    "file": "2.add-two-numbers.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(max(m,n))",
+      "space": "O(max(m,n))"
+    },
+    "desc": "Add two numbers represented by linked lists and return the sum as a linked list.",
+    "approach": "Traverse both lists simultaneously, summing digit-by-digit with carry. Create a new node for each digit of the result.",
+    "keyInsight": "Use a carry variable to handle sums \u2265 10, continuing to the next most significant digit.",
+    "tags": [
+      "math",
+      "linked-list"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Longest Substring Without Repeating Characters",
+    "file": "3.longest-substring-without-repeating-characters.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(min(m,n))"
+    },
+    "desc": "Find the length of the longest substring without repeating characters.",
+    "approach": "Use a sliding window with two pointers (left, right). Expand the right pointer, and when a duplicate is found, move the left pointer past the previous occurrence.",
+    "keyInsight": "The sliding window ensures each character is visited at most twice \u2014 once by each pointer \u2014 achieving O(n) time.",
+    "tags": [
+      "string",
+      "sliding-window",
+      "hash-map"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Median of Two Sorted Arrays",
+    "file": "4.median-of-two-sorted-arrays.py",
+    "difficulty": "hard",
+    "status": "solved",
+    "complexity": {
+      "time": "O(log(min(m,n)))",
+      "space": "O(1)"
+    },
+    "desc": "Find the median of two sorted arrays in O(log(m+n)) time.",
+    "approach": "Binary search on the smaller array to partition both arrays such that all left elements \u2264 all right elements. The median is derived from the partition boundary.",
+    "keyInsight": "By partitioning the smaller array, we implicitly partition the larger one \u2014 achieving O(log(min(m,n))) instead of O(m+n).",
+    "tags": [
+      "binary-search",
+      "divide-and-conquer"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Longest Palindromic Substring",
+    "file": "5.longest-palindromic-substring.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n\u00b2)",
+      "space": "O(1)"
+    },
+    "desc": "Find the longest palindromic substring in a given string.",
+    "approach": "Expand around the center \u2014 for each position (and between each pair), expand outward as long as the characters match, tracking the longest palindrome found.",
+    "keyInsight": "There are 2n\u22121 possible centers in a string of length n (including gaps between characters). Expanding from each center is O(n) per center.",
+    "tags": [
+      "string",
+      "sliding-window",
+      "hash-map"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Zigzag Conversion",
+    "file": "6.zigzag-conversion.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Convert a string into a zigzag pattern on a given number of rows.",
+    "approach": "Simulate the zigzag traversal by iterating through the string and appending each character to the appropriate row, changing direction at the top and bottom rows.",
+    "keyInsight": "Track direction (down/up) and flip when reaching row 0 or the last row \u2014 this gives an O(n) one-pass solution.",
+    "tags": [
+      "string",
+      "simulation"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Reverse Integer",
+    "file": "7.reverse-integer.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(log n)",
+      "space": "O(1)"
+    },
+    "desc": "Reverse digits of a 32-bit signed integer with overflow handling.",
+    "approach": "Repeatedly pop the last digit using modulo 10 and push it onto the result. Check for overflow before updating the result.",
+    "keyInsight": "Check overflow before it happens: if rev > INT_MAX/10 or rev < INT_MIN/10, the next digit will cause overflow.",
+    "tags": [
+      "math",
+      "simulation"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "String to Integer (atoi)",
+    "file": "8.string-to-integer-atoi.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(1)"
+    },
+    "desc": "Implement the myAtoi(string s) function that converts a string to a 32-bit signed integer.",
+    "approach": "Skip leading whitespace, handle sign character, then read digits while checking for overflow at each step.",
+    "keyInsight": "Process the string character by character with a state machine: whitespace \u2192 sign \u2192 digits \u2192 end \u2014 early exit on non-digit.",
+    "tags": [
+      "string",
+      "simulation"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Merge Two Sorted Lists",
+    "file": "21.merge-two-sorted-lists.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(m+n)",
+      "space": "O(1)"
+    },
+    "desc": "Merge two sorted linked lists into one sorted list.",
+    "approach": "Use a dummy head node and a pointer. Compare the current nodes of both lists, appending the smaller one, and advancing the pointer.",
+    "keyInsight": "A dummy head eliminates edge-case handling for the initial empty result list, making the code cleaner and less error-prone.",
+    "tags": [
+      "linked-list",
+      "recursion"
+    ]
+  },
+  {
+    "id": 28,
+    "title": "Find the Index of the First Occurrence in a String",
+    "file": "28.find-the-index-of-the-first-occurrence-in-a-string.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n*m)",
+      "space": "O(1)"
+    },
+    "desc": "Return the index of the first occurrence of needle in haystack, or -1 if not found.",
+    "approach": "Slide a window of length needle across haystack, comparing character by character.",
+    "keyInsight": "Only need to search up to (len(haystack) \u2212 len(needle)) to avoid unnecessary comparisons.",
+    "tags": [
+      "string",
+      "two-pointer"
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Valid Sudoku",
+    "file": "36.valid-sudoku.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(1)",
+      "space": "O(1)"
+    },
+    "desc": "Determine if a 9x9 Sudoku board is valid according to Sudoku rules.",
+    "approach": "Use a hash set to track seen numbers in each row, column, and 3\u00d73 box. The box index is derived from (row//3)*3 + (col//3).",
+    "keyInsight": "A flat set with encoded keys like `(5) in row 1` lets us validate all three constraints in a single pass through the board.",
+    "tags": [
+      "hash-map",
+      "matrix",
+      "simulation"
+    ]
+  },
+  {
+    "id": 42,
+    "title": "Trapping Rain Water",
+    "file": "42.trapping-rain-water.py",
+    "difficulty": "hard",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(1)"
+    },
+    "desc": "Compute how much water can be trapped between bars given an elevation map.",
+    "approach": "Two-pointer approach from both ends. Track left_max and right_max \u2014 water trapped at a position depends on the shorter of the two max heights.",
+    "keyInsight": "At any position, water trapped = min(max left height, max right height) \u2212 current height. The two-pointer method computes this in one pass.",
+    "tags": [
+      "two-pointer",
+      "array",
+      "stack"
+    ]
+  },
+  {
+    "id": 48,
+    "title": "Rotate Image",
+    "file": "48.rotate-image.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n\u00b2)",
+      "space": "O(1)"
+    },
+    "desc": "Rotate an n\u00d7n 2D matrix 90 degrees clockwise in-place.",
+    "approach": "First transpose the matrix (swap [i][j] with [j][i]), then reverse each row. This achieves a 90\u00b0 clockwise rotation in-place.",
+    "keyInsight": "Transpose + reverse each row is a cleaner mental model than rotating four cells at a time \u2014 both are O(n\u00b2) but this is far less error-prone.",
+    "tags": [
+      "matrix",
+      "simulation"
+    ]
+  },
+  {
+    "id": 69,
+    "title": "Sqrt(x)",
+    "file": "69.sqrt-x.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(log n)",
+      "space": "O(1)"
+    },
+    "desc": "Return the square root of x rounded down to the nearest integer.",
+    "approach": "Binary search for the square root in range [0, x]. At each step, compute mid\u00b2 and compare with x.",
+    "keyInsight": "Binary search on a monotonic function (the square of a number is monotonically increasing for non-negative inputs).",
+    "tags": [
+      "binary-search",
+      "math"
+    ]
+  },
+  {
+    "id": 70,
+    "title": "Climbing Stairs",
+    "file": "70.climbing-stairs.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "\u2014",
+      "space": "\u2014"
+    },
+    "desc": "You are climbing a staircase. In how many distinct ways can you climb to the top?",
+    "approach": "This is the Fibonacci sequence in disguise. The number of ways to reach step n = ways to reach n-1 + ways to reach n-2.",
+    "keyInsight": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two.",
+    "tags": [
+      "dp",
+      "math"
+    ]
+  }
+]
