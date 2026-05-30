@@ -13,5 +13,7 @@
   "rain": ["two-pointer", "array", "stack"],
   "rotate": ["matrix", "simulation"],
   "sqrt": ["binary-search", "math"],
-  "climbing": ["dp", "math"]
+  "climbing": ["dp", "math"],
+  "tree": ["tree", "bfs"],
+  "binary": ["tree", "bfs", "recursion"]
 }

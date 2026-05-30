@@ -13,5 +13,6 @@
   "42": {"time": "O(n)",     "space": "O(1)"},
   "48": {"time": "O(n²)",    "space": "O(1)"},
   "69": {"time": "O(log n)", "space": "O(1)"},
-  "70": {"time": "—",        "space": "—"}
+  "70": {"time": "O(n)", "space": "O(1)"},
+  "102": {"time": "O(n)", "space": "O(n)"}
 }

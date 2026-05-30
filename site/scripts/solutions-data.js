@@ -961,8 +961,8 @@ const SOLUTIONS_DATA = [
     "difficulty": "easy",
     "status": "solved",
     "complexity": {
-      "time": "\u2014",
-      "space": "\u2014"
+      "time": "O(n)",
+      "space": "O(1)"
     },
     "desc": "You are climbing a staircase. In how many distinct ways can you climb to the top?",
     "approach": "This is the Fibonacci sequence in disguise. The number of ways to reach step n = ways to reach n-1 + ways to reach n-2.",
@@ -1021,17 +1021,66 @@ const SOLUTIONS_DATA = [
     "difficulty": "medium",
     "status": "solved",
     "complexity": {
-      "time": "\u2014",
-      "space": "\u2014"
+      "time": "O(n)",
+      "space": "O(n)"
     },
-    "desc": "\u2014",
-    "approach": "",
-    "keyInsight": "",
+    "desc": "Given the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level).",
+    "approach": "Use a queue to perform BFS (breadth-first search). Process nodes level by level: capture the current queue size, pop that many nodes, collect their values, and enqueue their children.",
+    "keyInsight": "A queue lets us process nodes in FIFO order, ensuring we visit children in left-to-right sequence within each level.",
     "tags": [
-      "array",
-      "hash-map"
+      "tree",
+      "bfs"
     ],
     "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        result = []\n        if not root:\n            return result\n\n        queue = [root]\n        while queue:\n            level_size = len(queue)\n            level = []\n            for _ in range(level_size):\n                node = queue.pop(0)\n                level.append(node.val)\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            result.append(level)\n\n        return result",
-    "viz": null
+    "viz": {
+      "type": "bfs-tree",
+      "label": "Binary Tree Level Order \u2014 BFS Queue",
+      "example": {
+        "input": "root = [3, 9, 20, null, null, 15, 7]",
+        "params": {
+          "tree": [
+            3,
+            9,
+            20,
+            null,
+            null,
+            15,
+            7
+          ]
+        }
+      },
+      "steps": [
+        {
+          "step": 0,
+          "info": "Initialize queue = [3], result = []. Level 0: queue size = 1.",
+          "highlight": "Level 0 starts. Queue: [3]",
+          "level": 0
+        },
+        {
+          "step": 1,
+          "info": "Process level 0: pop 3 \u2192 level = [3]. Enqueue left=9, right=20. Queue now: [9, 20]. result = [[3]].",
+          "highlight": "Level 0 done \u2192 [3]. Queue now: [9, 20]",
+          "level": 0
+        },
+        {
+          "step": 2,
+          "info": "Level 1: queue size = 2. Pop 9 \u2192 level = [9]. 9 has no children. Pop 20 \u2192 level = [9, 20]. Enqueue left=15, right=7. Queue now: [15, 7]. result = [[3], [9, 20]].",
+          "highlight": "Level 1 done \u2192 [9, 20]. Queue now: [15, 7]",
+          "level": 1
+        },
+        {
+          "step": 3,
+          "info": "Level 2: queue size = 2. Pop 15 \u2192 level = [15]. 15 has no children. Pop 7 \u2192 level = [15, 7]. 7 has no children. Queue empty.",
+          "highlight": "Level 2 done \u2192 [15, 7]. Queue empty.",
+          "level": 2
+        },
+        {
+          "step": 4,
+          "info": "Queue empty! Return result = [[3], [9, 20], [15, 7]].",
+          "highlight": "Result: [[3], [9, 20], [15, 7]] \u2705",
+          "level": -1
+        }
+      ]
+    }
   }
 ];

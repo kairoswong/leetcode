@@ -13,5 +13,6 @@
   "42": "At any position, water trapped = min(max left height, max right height) − current height. The two-pointer method computes this in one pass.",
   "48": "Transpose + reverse each row is a cleaner mental model than rotating four cells at a time — both are O(n²) but this is far less error-prone.",
   "69": "Binary search on a monotonic function (the square of a number is monotonically increasing for non-negative inputs).",
-  "70": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two."
+  "70": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two.",
+  "102": "A queue lets us process nodes in FIFO order, ensuring we visit children in left-to-right sequence within each level."
 }

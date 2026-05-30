@@ -116,6 +116,8 @@ function renderTypeSpecific(type, step, viz) {
       return renderSudoku(step, viz);
     case 'fibonacci':
       return renderFibonacci(step, viz);
+    case 'bfs-tree':
+      return renderBfsTree(step, viz);
     default:
       return `<div style="padding:24px;text-align:center;color:var(--text-tertiary);font-size:14px;">Visualization type "${type}" not supported yet.</div>`;
   }
@@ -442,9 +444,105 @@ function renderFibonacci(step, viz) {
   return html;
 }
 
+// -------- BFS Tree (e.g. Binary Tree Level Order Traversal) --------
+function renderBfsTree(step, viz) {
+  // Build a tree structure from the flat level-by-level example data
+  const treeData = viz.example.params.tree || [3, 9, 20, null, null, 15, 7];
+  const currentLevel = step.level;
+
+  // Build tree nodes with positions for rendering
+  // We render level by level with spacing
+  function buildLevels(arr) {
+    if (!arr.length) return [];
+    const levels = [];
+    let idx = 0;
+    let level = 0;
+    const queue = [{ val: arr[0], pos: 0 }];
+    while (queue.length > 0) {
+      const size = queue.length;
+      const current = [];
+      for (let i = 0; i < size; i++) {
+        const node = queue.shift();
+        current.push(node);
+        const leftIdx = idx * 2 + 1;
+        const rightIdx = idx * 2 + 2;
+        if (leftIdx < arr.length && arr[leftIdx] !== null && arr[leftIdx] !== undefined) {
+          queue.push({ val: arr[leftIdx], pos: leftIdx });
+        }
+        if (rightIdx < arr.length && arr[rightIdx] !== null && arr[rightIdx] !== undefined) {
+          queue.push({ val: arr[rightIdx], pos: rightIdx });
+        }
+        idx++;
+      }
+      levels.push(current);
+      level++;
+    }
+    return levels;
+  }
+
+  const levels = buildLevels(treeData);
+  const maxLevel = levels.length;
+
+  let html = `<div style="padding:12px 16px;text-align:center;">`;
+
+  // Render levels with connecting lines
+  levels.forEach((levelNodes, lvl) => {
+    const isActive = lvl === currentLevel;
+    const isPast = lvl < currentLevel;
+    const spacing = Math.max(40, 200 - lvl * 20);
+
+    html += `<div style="display:flex;justify-content:center;gap:${spacing}px;margin-bottom:8px;position:relative;">`;
+    
+    levelNodes.forEach((node) => {
+      let bg = 'var(--surface-2)';
+      let border = 'var(--border)';
+      let color = 'var(--text-tertiary)';
+
+      if (isActive) {
+        bg = 'var(--accent-glow)';
+        border = 'var(--accent)';
+        color = 'var(--accent)';
+      } else if (isPast) {
+        bg = 'var(--green-bg)';
+        border = 'var(--green)';
+        color = 'var(--green)';
+      }
+
+      html += `<div style="
+        width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+        border-radius:50%;
+        background:${bg};
+        border:2px solid ${border};
+        font-family:var(--font-code);font-size:14px;font-weight:600;
+        color:${color};
+      ">${node.val}</div>`;
+    });
+
+    html += `</div>`;
+
+    // Level label
+    if (lvl < maxLevel - 1) {
+      html += `<div style="font-size:10px;color:var(--text-tertiary);margin-bottom:4px;">
+        ${isActive ? '⬅' : ''} Level ${lvl} ${isPast ? '✅' : ''}
+      </div>`;
+    }
+  });
+
+  // Result preview
+  if (step.level === -1) {
+    html += `<div style="margin-top:12px;padding:8px 16px;background:var(--green-bg);border:1px solid var(--green);border-radius:var(--radius-md);display:inline-block;">
+      <span style="color:var(--green);font-weight:600;">✅ Complete!</span>
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
 // =====================================================
 // UI Controls
 // =====================================================
+
 function updateVizUI() {
   document.getElementById('vizStepInfo').textContent = 
     `Step ${window.vizStep} / ${window.vizTotal}`;
