@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Solution Detail — LeetCode Explorer</title>
 <link rel="icon" href="assets/leetcode.ico">
+<script src="scripts/solutions-data.js"></script>
 <style>
   /* ===== Self-hosted fonts ===== */
   @font-face {
@@ -130,6 +131,16 @@
     transition: all 0.15s;
     text-decoration: none;
     white-space: nowrap;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .problem-navigation .nav-btn:first-child {
+    justify-content: flex-end;
+  }
+
+  .problem-navigation .nav-btn:last-child {
+    justify-content: flex-start;
   }
 
   .problem-navigation .nav-btn:hover {
@@ -623,29 +634,21 @@
 // =====================================================
 
 let currentSolution = null;
+const _detailData = {};  // populated from SOLUTIONS_DATA
 
-// All solutions data — loaded async from JSON
+// All solutions index — loaded from scripts/solutions-data.js (includes code + viz)
 let SOLUTIONS = [];
 
-async function loadSolutions() {
-  // Timeout after 3s to handle file:// protocol where fetch may hang
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('loadSolutions timeout')), 3000)
-  );
-  try {
-    const resp = await Promise.race([
-      fetch('data/solutions-data.json'),
-      timeout
-    ]);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    SOLUTIONS = await resp.json();
-    // Only call initializePage if it wasn't already called from URL data
+function loadSolutions() {
+  if (typeof SOLUTIONS_DATA !== 'undefined') {
+    SOLUTIONS = SOLUTIONS_DATA;
+    // Build a code lookup map for quick access
+    SOLUTIONS.forEach(s => { _detailData[s.id] = { code: s.code || '', viz: s.viz || null }; });
     if (!window._pageInitialized) {
       initializePage();
     }
-  } catch (err) {
-    console.error('Failed to load solutions data:', err);
-    // If page wasn't already initialized from URL data, show error
+  } else {
+    console.error('SOLUTIONS_DATA not found. Run: python scripts/generate-index.py');
     if (!window._pageInitialized) {
       document.getElementById('probTitle').textContent = 'Failed to load data';
     }
@@ -884,25 +887,17 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-async function loadSolutionCode(solution) {
-  const codeContainer = document.getElementById('codeContent');
-  try {
-    // The solution-detail.html is in site/, solutions/ is one level up
-    const resp = await fetch(`../solutions/${solution.file}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const rawCode = await resp.text();
-
-    // Extract just the code inside # @lc code=start ... # @lc code=end
-    const match = rawCode.match(/# @lc code=start\n([\s\S]*?)\n# @lc code=end/);
-    const displayCode = match ? match[1].trim() : rawCode.trim();
-
-    const highlighted = highlightPython(displayCode);
-    codeContainer.innerHTML = highlighted;
-  } catch (err) {
-    console.warn('Could not fetch solution file, showing placeholder:', err);
-    codeContainer.innerHTML =
-      `<span class="comment"># Could not load solutions/${solution.file}</span>\n` +
-      `<span class="comment"># Make sure the file exists in the solutions/ directory.</span>`;
+function loadSolutionCode(solution) {
+  const detail = _detailData[solution.id];
+  if (detail && detail.code) {
+    document.getElementById('codeContent').innerHTML = highlightPython(detail.code);
+  } else {
+    document.getElementById('codeContent').innerHTML =
+      `<span class="comment"># Code not available for this solution.</span>`;
+  }
+  // Set viz data for the engine
+  if (detail && detail.viz) {
+    window._vizDetailData = detail.viz;
   }
 }
 
@@ -940,16 +935,14 @@ async function loadSolutionCode(solution) {
     }
   })();
 
-  // Kick off viz data loading
+  // Kick off viz engine
   (function loadVizScript() {
     const script = document.createElement('script');
     script.src = 'scripts/viz-engine.js';
     script.onload = () => {
-      // viz-engine.js loaded — check for pending solution
       if (typeof window.initVizEngine === 'function') {
         window.initVizEngine();
       }
-      // If there was a pending solution from before viz-engine loaded, init now
       if (window._pendingVizSolution && typeof window.initVizFromDetail === 'function') {
         window.initVizFromDetail(window._pendingVizSolution);
         window._pendingVizSolution = null;

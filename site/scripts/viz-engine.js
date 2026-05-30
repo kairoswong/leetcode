@@ -9,9 +9,6 @@
 // =====================================================
 // Globals
 // =====================================================
-let VIZ_DATA = {};       // loaded from visualizations.json
-let VIZ_DATA_READY = false;  // flag to check if data is loaded
-let VIZ_QUEUE = [];       // queue of solutions waiting for VIZ_DATA
 window.vizSteps = [];
 window.vizStep = 0;
 window.vizTotal = 0;
@@ -19,58 +16,35 @@ let vizTimer = null;
 let currentVizId = null;
 
 // =====================================================
-// Load visualization data
+// Helper: get viz data for a solution (from on-demand loaded detail data)
 // =====================================================
-async function loadVizData() {
-  // Timeout after 3s to handle file:// protocol where fetch may hang
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('loadVizData timeout')), 3000)
-  );
-  try {
-    const resp = await Promise.race([
-      fetch('data/visualizations.json'),
-      timeout
-    ]);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    VIZ_DATA = await resp.json();
-    VIZ_DATA_READY = true;
-    // Process any queued solutions
-    while (VIZ_QUEUE.length > 0) {
-      initVisualization(VIZ_QUEUE.shift());
-    }
-  } catch (err) {
-    console.warn('Could not load visualizations.json:', err);
-    VIZ_DATA_READY = true; // mark as ready even on failure
-    // Still process queue — will show "no visualization" placeholder
-    while (VIZ_QUEUE.length > 0) {
-      initVisualization(VIZ_QUEUE.shift());
-    }
+function _getVizData(solutionId) {
+  if (window._vizDetailData) {
+    return window._vizDetailData;
   }
+  return null;
 }
 
 // =====================================================
 // Initialize visualization for a given solution
 // =====================================================
 function initVisualization(solution) {
-  if (!VIZ_DATA_READY) {
-    // VIZ_DATA not loaded yet — queue the solution
-    VIZ_QUEUE.push(solution);
-    return;
-  }
-  if (!solution || !VIZ_DATA[solution.id]) {
-    // No visualization data – show placeholder
+  const viz = _getVizData(solution.id);
+  if (!viz) {
+    // Viz data not loaded yet — show placeholder until _onVizDetailReady retries
     const canvas = document.getElementById('vizCanvas');
-    canvas.innerHTML = `
-      <div class="viz-placeholder">
-        <div class="viz-icon">🎨</div>
-        <p>No visualization available yet for this problem.</p>
-      </div>`;
-    document.getElementById('vizStepInfo').textContent = 'Step 0 / 0 · no visualization';
+    if (canvas) {
+      canvas.innerHTML = `
+        <div class="viz-placeholder">
+          <div class="viz-icon">🎨</div>
+          <p>Loading visualization…</p>
+        </div>`;
+    }
+    document.getElementById('vizStepInfo').textContent = 'Step 0 / 0 · loading…';
     return;
   }
 
   currentVizId = solution.id;
-  const viz = VIZ_DATA[solution.id];
   window.vizSteps = viz.steps;
   window.vizTotal = viz.steps.length - 1;
   window.vizStep = 0;
@@ -479,7 +453,7 @@ function updateVizUI() {
 function vizPrev() {
   if (window.vizStep > 0) {
     window.vizStep--;
-    const viz = VIZ_DATA[currentVizId];
+    const viz = _getVizData(currentVizId);
     if (viz) renderVizStep(viz);
     updateVizUI();
   }
@@ -488,7 +462,7 @@ function vizPrev() {
 function vizNext() {
   if (window.vizStep < window.vizTotal) {
     window.vizStep++;
-    const viz = VIZ_DATA[currentVizId];
+    const viz = _getVizData(currentVizId);
     if (viz) renderVizStep(viz);
     updateVizUI();
   }
@@ -521,7 +495,7 @@ function vizReset() {
     document.querySelector('.viz-btn.primary').textContent = '▶ Play';
   }
   window.vizStep = 0;
-  const viz = VIZ_DATA[currentVizId];
+  const viz = _getVizData(currentVizId);
   if (viz) renderVizStep(viz);
   updateVizUI();
 }
@@ -543,16 +517,14 @@ window.initVizFromDetail = function(solution) {
 };
 
 async function initVizEngine() {
-  await loadVizData();
-  // VIZ_DATA is now loaded — VIZ_QUEUE was processed in loadVizData
-  // Check for pending solution from inline script
+  // Check for pending solution
   if (window._pendingVizSolution) {
     initVisualization(window._pendingVizSolution);
     window._pendingVizSolution = null;
     return;
   }
-  // Use window.currentSolution (set by inline script)
-  if (window.currentSolution && !VIZ_QUEUE.includes(window.currentSolution)) {
+  // Use window.currentSolution
+  if (window.currentSolution) {
     initVisualization(window.currentSolution);
   }
 }

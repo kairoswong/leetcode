@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LeetCode Solutions Explorer</title>
 <link rel="icon" href="../assets/leetcode.ico">
+<script src="scripts/solutions-data.js"></script>
 <style>
   /* ===== Self-hosted fonts ===== */
   @font-face {
@@ -566,28 +567,25 @@
 
 <script>
 // =====================================================
-// Data: Loaded from data/solutions-data.json
+// Data: Loaded from data/solutions-data.js
 // To regenerate after adding new solutions:
 //     python scripts/generate-index.py
 // =====================================================
 
 let SOLUTIONS = [];
 
-// Load solutions data asynchronously
-async function loadSolutions() {
-  try {
-    const resp = await fetch('data/solutions-data.json');
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-    SOLUTIONS = data;
+// Load solutions data
+function loadSolutions() {
+  if (typeof SOLUTIONS_DATA !== 'undefined') {
+    SOLUTIONS = SOLUTIONS_DATA;
     init();
-  } catch (err) {
-    console.error('Failed to load solutions data:', err);
+  } else {
+    console.error('SOLUTIONS_DATA not found. Run: python scripts/generate-index.py');
     document.getElementById('solutionGrid').innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">⚠️</div>
         <h3>Failed to load solutions</h3>
-        <p>Make sure <code>data/solutions-data.json</code> exists.<br>
+        <p>Make sure <code>data/solutions-data.js</code> exists.<br>
            Run <code>python scripts/generate-index.py</code> to generate it.</p>
       </div>`;
   }
