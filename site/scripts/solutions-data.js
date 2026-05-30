@@ -1013,5 +1013,25 @@ const SOLUTIONS_DATA = [
         }
       ]
     }
+  },
+  {
+    "id": 102,
+    "title": "Binary Tree Level Order Traversal",
+    "file": "102.binary-tree-level-order-traversal.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "\u2014",
+      "space": "\u2014"
+    },
+    "desc": "\u2014",
+    "approach": "",
+    "keyInsight": "",
+    "tags": [
+      "array",
+      "hash-map"
+    ],
+    "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        result = []\n        if not root:\n            return result\n\n        queue = [root]\n        while queue:\n            level_size = len(queue)\n            level = []\n            for _ in range(level_size):\n                node = queue.pop(0)\n                level.append(node.val)\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            result.append(level)\n\n        return result",
+    "viz": null
   }
 ];

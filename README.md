@@ -10,7 +10,7 @@
 ## Preview
 
 <div align="center">
-  <img src="assets/preview/home.jpeg" alt="LeetCode Explorer Home Page" style="max-width: 100%; width: 800px;"/>
+  <img src="assets/preview/home.jpg" alt="LeetCode Explorer Home Page" style="max-width: 100%; width: 800px;"/>
   <p><em>Home page — problem browser with difficulty/tag filtering</em></p>
 </div>
 
