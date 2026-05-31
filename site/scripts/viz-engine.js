@@ -365,11 +365,11 @@ function renderTwoPointer(step, viz) {
   });
 
   html += `</div>`;
-  // Debug info
-  html += `<div style="display:flex;justify-content:center;gap:24px;margin-top:24px;font-size:12px;font-family:var(--font-code);color:var(--text-secondary);">
-    <span>left_max: <span style="color:var(--accent);">${step.leftMax || 0}</span></span>
-    <span>right_max: <span style="color:var(--accent);">${step.rightMax || 0}</span></span>
-    <span>💧 total: <span style="color:var(--accent);font-weight:600;">${water}</span></span>
+  // Debug info — fixed-width columns so layout stays stable across steps
+  html += `<div style="display:flex;justify-content:center;margin-top:24px;font-size:12px;font-family:var(--font-code);color:var(--text-secondary);">
+    <span style="flex:1;text-align:center;">left_max: <span style="color:var(--accent);">${step.leftMax || 0}</span></span>
+    <span style="flex:1;text-align:center;">right_max: <span style="color:var(--accent);">${step.rightMax || 0}</span></span>
+    <span style="flex:1;text-align:center;">💧 total: <span style="color:var(--accent);font-weight:600;">${water}</span></span>
   </div>`;
   html += `</div>`;
   return html;
@@ -985,8 +985,8 @@ function renderSudoku(step, viz) {
 
       html += `<div style="
         ${borders.join(';')};
-        width:30px;height:30px;display:flex;align-items:center;justify-content:center;
-        font-family:var(--font-code);font-size:13px;font-weight:600;
+        width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+        font-family:var(--font-code);font-size:14px;font-weight:600;
         background:${bg};color:${color};
         transition:all 0.15s;
       ">${isEmpty ? '' : val}</div>`;

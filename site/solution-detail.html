@@ -59,9 +59,9 @@
   }
 
   .app-container {
-    max-width: 1200px;
+    max-width: 1040px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 32px;
   }
 
   /* =====================================================
@@ -71,9 +71,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
 
   .top-nav .back-link {
@@ -106,8 +106,13 @@
   .problem-navigation {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .problem-navigation.bottom-nav {
+    margin-top: 28px;
+    margin-bottom: 48px;
   }
 
   .problem-navigation .nav-btn {
@@ -202,7 +207,7 @@
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
 
   .badge {
@@ -262,24 +267,20 @@
   }
 
   /* =====================================================
-     Section layout
+     Section layout — vertical stack
      ===================================================== */
-  .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 48px;
+  .detail-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 56px;
   }
 
-  @media (max-width: 900px) {
-    .detail-grid { grid-template-columns: 1fr; }
-  }
-
-  .section-card {
+  .detail-stack .section-card {
     background: var(--surface-1);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 28px;
   }
 
   .section-title {
@@ -288,7 +289,7 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--text-tertiary);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   /* =====================================================
@@ -299,6 +300,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     overflow: hidden;
+    min-height: 260px;
   }
 
   .code-header {
@@ -341,6 +343,8 @@
   pre {
     padding: 16px;
     overflow-x: auto;
+    overflow-y: auto;
+    max-height: 480px;
     font-family: var(--font-code);
     font-size: 14px;
     line-height: 1.7;
@@ -364,6 +368,7 @@
     font-size: 15px;
     color: var(--text-secondary);
     line-height: 1.8;
+    max-width: 720px;
   }
 
   .approach-text .key-insight {
@@ -378,13 +383,13 @@
   }
 
   /* =====================================================
-     Visualization canvas (template for step-throughs)
+     Visualization canvas
      ===================================================== */
   .viz-canvas {
     width: 100%;
-    min-height: 200px;
-    max-height: 400px;
+    height: 340px;
     overflow-y: auto;
+    overflow-x: hidden;
     background: var(--surface-0);
     border-radius: var(--radius-md);
     display: flex;
@@ -414,7 +419,7 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-top: 16px;
+    margin-top: 20px;
   }
 
   .viz-btn {
@@ -451,7 +456,9 @@
     font-size: 13px;
     color: var(--text-tertiary);
     text-align: center;
-    margin-top: 12px;
+    margin-top: 14px;
+    min-height: 20px;
+    line-height: 20px;
   }
 
   /* Viz controls section label to differentiate from problem nav */
@@ -514,6 +521,7 @@
   }
   .section-card:nth-child(1) { animation-delay: 0.05s; }
   .section-card:nth-child(2) { animation-delay: 0.10s; }
+  .section-card:nth-child(3) { animation-delay: 0.15s; }
 
   /* =====================================================
      Responsive
@@ -569,9 +577,9 @@
     </div>
   </div>
 
-  <!-- Detail grid -->
-  <div class="detail-grid">
-    <!-- Code section -->
+  <!-- Detail stack -- vertical: Code → Approach → Visualization -->
+  <div class="detail-stack">
+    <!-- Solution Code -->
     <div class="section-card">
       <div class="section-title">Solution Code</div>
       <div class="code-block">
@@ -583,35 +591,47 @@
       </div>
     </div>
 
-    <!-- Approach & Visualization -->
-    <div>
-      <div class="section-card" style="margin-bottom:24px;">
-        <div class="section-title">Approach</div>
-        <div class="approach-text" id="approachContent">
-          <p id="approachDesc">Loading approach description…</p>
-          <span class="key-insight" id="keyInsight">💡 Key insight here</span>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">Visualization</div>
-        <div class="viz-canvas" id="vizCanvas">
-          <div class="viz-placeholder">
-            <div class="viz-icon">🎨</div>
-            <p>Interactive visualization coming soon</p>
-            <p style="font-size:12px;margin-top:8px;opacity:0.6;">Interactive visualization coming soon</p>
-          </div>
-        </div>
-        <div class="viz-section-label">Step Controls</div>
-        <div class="viz-controls">
-          <button class="viz-btn" onclick="vizPrev()">◀ Prev</button>
-          <button class="viz-btn primary" onclick="vizAutoPlay()">▶ Play</button>
-          <button class="viz-btn" onclick="vizNext()">Next ▶</button>
-          <button class="viz-btn" onclick="vizReset()">↺ Reset</button>
-        </div>
-        <div class="viz-step-info" id="vizStepInfo">Step 0 / 0 · awaiting visualization</div>
+    <!-- Approach -->
+    <div class="section-card">
+      <div class="section-title">Approach</div>
+      <div class="approach-text" id="approachContent">
+        <p id="approachDesc">Loading approach description…</p>
+        <span class="key-insight" id="keyInsight">💡 Key insight here</span>
       </div>
     </div>
+
+    <!-- Visualization -->
+    <div class="section-card">
+      <div class="section-title">Visualization</div>
+      <div class="viz-canvas" id="vizCanvas">
+        <div class="viz-placeholder">
+          <div class="viz-icon">🎨</div>
+          <p>Interactive visualization coming soon</p>
+          <p style="font-size:12px;margin-top:8px;opacity:0.6;">Interactive visualization coming soon</p>
+        </div>
+      </div>
+      <div class="viz-section-label">Step Controls</div>
+      <div class="viz-controls">
+        <button class="viz-btn" onclick="vizPrev()">◀ Prev</button>
+        <button class="viz-btn primary" onclick="vizAutoPlay()">▶ Play</button>
+        <button class="viz-btn" onclick="vizNext()">Next ▶</button>
+        <button class="viz-btn" onclick="vizReset()">↺ Reset</button>
+      </div>
+      <div class="viz-step-info" id="vizStepInfo">Step 0 / 0 · awaiting visualization</div>
+    </div>
+  </div>
+
+  <!-- Bottom problem navigation — prev / next -->
+  <div class="problem-navigation bottom-nav">
+    <button class="nav-btn" id="prevSolutionBtnBottom" onclick="goToSolution('prev')">
+      ← <span class="nav-label">Prev</span>
+      <span class="nav-title-text" id="prevSolutionTitleBottom"></span>
+    </button>
+    <span class="nav-position" id="navPositionBottom"></span>
+    <button class="nav-btn" id="nextSolutionBtnBottom" onclick="goToSolution('next')">
+      <span class="nav-label">Next</span>
+      <span class="nav-title-text" id="nextSolutionTitleBottom"></span> →
+    </button>
   </div>
 
   <!-- Related problems -->
@@ -685,39 +705,49 @@ function updateProblemNavigation() {
   const currentIndex = ids.indexOf(currentId);
   if (currentIndex === -1) return;
 
-  // Update position indicator
-  document.getElementById('navPosition').textContent =
-    `${currentIndex + 1} / ${ids.length}`;
+  // Update position indicator (both top and bottom)
+  const posText = `${currentIndex + 1} / ${ids.length}`;
+  document.getElementById('navPosition').textContent = posText;
+  document.getElementById('navPositionBottom').textContent = posText;
 
-  // Update prev button
-  const prevBtn = document.getElementById('prevSolutionBtn');
-  const prevTitle = document.getElementById('prevSolutionTitle');
-  if (currentIndex > 0) {
-    const prevId = ids[currentIndex - 1];
-    const prev = getSolutionById(prevId);
-    if (prev) {
-      prevTitle.textContent = `#${String(prev.id).padStart(3, '0')} ${prev.title}`;
+  // Update prev buttons
+  const updatePrev = (btnId, titleId) => {
+    const btn = document.getElementById(btnId);
+    const title = document.getElementById(titleId);
+    if (currentIndex > 0) {
+      const prevId = ids[currentIndex - 1];
+      const prev = getSolutionById(prevId);
+      if (prev) {
+        title.textContent = `#${String(prev.id).padStart(3, '0')} ${prev.title}`;
+      }
+      btn.classList.remove('disabled');
+    } else {
+      title.textContent = '';
+      btn.classList.add('disabled');
     }
-    prevBtn.classList.remove('disabled');
-  } else {
-    prevTitle.textContent = '';
-    prevBtn.classList.add('disabled');
-  }
+  };
 
-  // Update next button
-  const nextBtn = document.getElementById('nextSolutionBtn');
-  const nextTitle = document.getElementById('nextSolutionTitle');
-  if (currentIndex < ids.length - 1) {
-    const nextId = ids[currentIndex + 1];
-    const next = getSolutionById(nextId);
-    if (next) {
-      nextTitle.textContent = `#${String(next.id).padStart(3, '0')} ${next.title}`;
+  // Update next buttons
+  const updateNext = (btnId, titleId) => {
+    const btn = document.getElementById(btnId);
+    const title = document.getElementById(titleId);
+    if (currentIndex < ids.length - 1) {
+      const nextId = ids[currentIndex + 1];
+      const next = getSolutionById(nextId);
+      if (next) {
+        title.textContent = `#${String(next.id).padStart(3, '0')} ${next.title}`;
+      }
+      btn.classList.remove('disabled');
+    } else {
+      title.textContent = '';
+      btn.classList.add('disabled');
     }
-    nextBtn.classList.remove('disabled');
-  } else {
-    nextTitle.textContent = '';
-    nextBtn.classList.add('disabled');
-  }
+  };
+
+  updatePrev('prevSolutionBtn', 'prevSolutionTitle');
+  updatePrev('prevSolutionBtnBottom', 'prevSolutionTitleBottom');
+  updateNext('nextSolutionBtn', 'nextSolutionTitle');
+  updateNext('nextSolutionBtnBottom', 'nextSolutionTitleBottom');
 }
 
 // Get the solution object from URL params or fallback to SOLUTIONS lookup
