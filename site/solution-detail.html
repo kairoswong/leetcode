@@ -383,95 +383,6 @@
   }
 
   /* =====================================================
-     Visualization canvas
-     ===================================================== */
-  .viz-canvas {
-    width: 100%;
-    height: 340px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: var(--surface-0);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .viz-placeholder {
-    text-align: center;
-    color: var(--text-tertiary);
-    padding: 48px 24px;
-  }
-
-  .viz-placeholder .viz-icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-    opacity: 0.5;
-  }
-
-  .viz-placeholder p {
-    font-size: 14px;
-  }
-
-  .viz-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .viz-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--surface-2);
-    color: var(--text-secondary);
-    font-family: var(--font-ui);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .viz-btn:hover {
-    background: var(--surface-hover);
-    color: var(--text-primary);
-    border-color: var(--accent-dim);
-  }
-
-  .viz-btn.primary {
-    background: var(--accent);
-    color: var(--surface-0);
-    border-color: var(--accent);
-    font-weight: 600;
-  }
-
-  .viz-btn.primary:hover {
-    background: var(--accent-dim);
-  }
-
-  .viz-step-info {
-    font-family: var(--font-code);
-    font-size: 13px;
-    color: var(--text-tertiary);
-    text-align: center;
-    margin-top: 14px;
-    min-height: 20px;
-    line-height: 20px;
-  }
-
-  /* Viz controls section label to differentiate from problem nav */
-  .viz-section-label {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    text-align: center;
-    margin-bottom: 4px;
-  }
-
-  /* =====================================================
      Related problems
      ===================================================== */
   .related-list {
@@ -577,7 +488,7 @@
     </div>
   </div>
 
-  <!-- Detail stack -- vertical: Code → Approach → Visualization -->
+  <!-- Detail stack -- vertical: Code → Approach -->
   <div class="detail-stack">
     <!-- Solution Code -->
     <div class="section-card">
@@ -600,25 +511,6 @@
       </div>
     </div>
 
-    <!-- Visualization -->
-    <div class="section-card">
-      <div class="section-title">Visualization</div>
-      <div class="viz-canvas" id="vizCanvas">
-        <div class="viz-placeholder">
-          <div class="viz-icon">🎨</div>
-          <p>Interactive visualization coming soon</p>
-          <p style="font-size:12px;margin-top:8px;opacity:0.6;">Interactive visualization coming soon</p>
-        </div>
-      </div>
-      <div class="viz-section-label">Step Controls</div>
-      <div class="viz-controls">
-        <button class="viz-btn" onclick="vizPrev()">◀ Prev</button>
-        <button class="viz-btn primary" onclick="vizAutoPlay()">▶ Play</button>
-        <button class="viz-btn" onclick="vizNext()">Next ▶</button>
-        <button class="viz-btn" onclick="vizReset()">↺ Reset</button>
-      </div>
-      <div class="viz-step-info" id="vizStepInfo">Step 0 / 0 · awaiting visualization</div>
-    </div>
   </div>
 
   <!-- Bottom problem navigation — prev / next -->
@@ -651,14 +543,14 @@
 let currentSolution = null;
 const _detailData = {};  // populated from SOLUTIONS_DATA
 
-// All solutions index — loaded from scripts/solutions-data.js (includes code + viz)
+// All solutions index — loaded from scripts/solutions-data.js (includes code)
 let SOLUTIONS = [];
 
 function loadSolutions() {
   if (typeof SOLUTIONS_DATA !== 'undefined') {
     SOLUTIONS = SOLUTIONS_DATA;
     // Build a code lookup map for quick access
-    SOLUTIONS.forEach(s => { _detailData[s.id] = { code: s.code || '', viz: s.viz || null }; });
+    SOLUTIONS.forEach(s => { _detailData[s.id] = { code: s.code || '' }; });
     if (!window._pageInitialized) {
       initializePage();
     }
@@ -816,9 +708,6 @@ async function initializePage() {
 
   // Update prev/next navigation
   updateProblemNavigation();
-
-  // Kick off visualization
-  initVisualization(solution);
 }
 
 // =====================================================
@@ -920,61 +809,7 @@ function loadSolutionCode(solution) {
     document.getElementById('codeContent').innerHTML =
       `<span class="comment"># Code not available for this solution.</span>`;
   }
-  // Set viz data for the engine
-  if (detail && detail.viz) {
-    window._vizDetailData = detail.viz;
-  }
 }
-
-// =====================================================
-  // Visualization engine — step-through animations
-  // =====================================================
-
-  // Save solution for viz engine to pick up when it loads
-  window._pendingVizSolution = null;
-
-  function initVisualization(solution) {
-    if (typeof window.initVizFromDetail === 'function') {
-      window.initVizFromDetail(solution);
-    } else {
-      // viz-engine.js not loaded yet — queue it
-      window._pendingVizSolution = solution;
-    }
-  }
-
-  // Also expose to window so viz-engine.js can find it
-  window.initVisualization = initVisualization;
-
-  // Kick off data loading — run as background task
-  loadSolutions();
-
-  // If solution data is already in URL, initialize immediately without waiting for SOLUTIONS
-  (function initFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const data = params.get('data');
-    if (data) {
-      try {
-        const solution = JSON.parse(decodeURIComponent(data));
-        initializePage();
-      } catch (_) {}
-    }
-  })();
-
-  // Kick off viz engine
-  (function loadVizScript() {
-    const script = document.createElement('script');
-    script.src = 'scripts/viz-engine.js';
-    script.onload = () => {
-      if (typeof window.initVizEngine === 'function') {
-        window.initVizEngine();
-      }
-      if (window._pendingVizSolution && typeof window.initVizFromDetail === 'function') {
-        window.initVizFromDetail(window._pendingVizSolution);
-        window._pendingVizSolution = null;
-      }
-    };
-    document.body.appendChild(script);
-  })();
 
 // =====================================================
 // Navigation & Actions
@@ -994,45 +829,8 @@ function copyCode() {
   });
 }
 
-// =====================================================
-// Visualization controls — delegated to viz-engine.js
-// =====================================================
-
-let vizStep = 0;
-let vizTotal = 0;
-
-function vizPrev() {
-  if (typeof window.vizPrev === 'function') window.vizPrev();
-}
-
-function vizNext() {
-  if (typeof window.vizNext === 'function') window.vizNext();
-}
-
-function vizAutoPlay() {
-  if (typeof window.vizAutoPlay === 'function') window.vizAutoPlay();
-}
-
-function vizReset() {
-  if (typeof window.vizReset === 'function') window.vizReset();
-}
-
-function updateVizInfo() {
-  const info = document.getElementById('vizStepInfo');
-  if (typeof window.vizTotal !== 'undefined') {
-    info.textContent = `Step ${window.vizStep || 0} / ${window.vizTotal || 0}`;
-  } else {
-    info.textContent = 'Step 0 / 0 · awaiting visualization';
-  }
-}
-
-// Periodically sync step info after viz-engine updates
-setInterval(() => {
-  const info = document.getElementById('vizStepInfo');
-  if (typeof window.vizTotal !== 'undefined' && typeof window.vizStep !== 'undefined') {
-    info.textContent = `Step ${window.vizStep} / ${window.vizTotal}`;
-  }
-}, 500);
+// Kick off data loading
+loadSolutions();
 </script>
 </body>
 </html>

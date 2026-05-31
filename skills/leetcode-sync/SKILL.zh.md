@@ -20,7 +20,7 @@
 
 读取 `site/data/` 下所有 JSON 文件：
 - `difficulties.json`、`complexities.json`、`descriptions.json`
-- `approaches.json`、`insights.json`、`tags.json`、`visualizations.json`
+- `approaches.json`、`insights.json`、`tags.json`
 - `solutions-data.json`（检查是否已存在该题目）
 
 ### 3. 分析代码并自动推导元数据
@@ -44,11 +44,6 @@
 - `tags.json` 格式为 `{ "关键词": ["标签1", "标签2"] }`
 - 用到 HashMap → `hash-map`，双指针 → `two-pointer`，滑动窗口 → `sliding-window`，依此类推
 
-**可视化** — 自动生成步骤数据：
-- 根据算法类型选择对应的可视化类型（见下方参考表）
-- 挑一个短小的示例输入，逐步骤模拟执行
-- 每步记录 `info`（描述）和 `highlight`（一句话高亮）
-
 如果遇到无法确定的项，可以简要确认。
 
 ### 4. 更新 JSON 文件
@@ -68,24 +63,6 @@ python3 scripts/generate-index.py
 
 ---
 
-## 可视化类型参考
-
-| 类型 | 适用场景 | 参数示例 |
-|------|---------|---------|
-| `hash-map` | 哈希表查找 | `{ "nums": [...], "target": N }` |
-| `linked-list` | 链表遍历 | `{ "list1": [...], "list2": [...] }` |
-| `sliding-window` | 双指针滑动窗口 | `{ "s": "字符串" }`，需要标记窗口边界 |
-| `binary-partition` | 二分查找 / 分区 | `{ "nums1": [...], "nums2": [...] }` |
-| `expand-center` | 中心扩散 | `{ "s": "字符串" }` |
-| `zigzag` | Z 字形排列 | `{ "s": "字符串", "numRows": N }` |
-| `digit-reversal` | 逐位数字处理 | `{ "x": N }` |
-| `two-pointer` | 双指针数组遍历 | `{ "height": [...] }` |
-| `matrix` | 矩阵变换 | `{ "matrix": [[...]] }` |
-| `binary-search` | 范围上的二分查找 | `{ "x": N }` |
-| `dp-table` | 动态规划表格 | `{ "n": N }` |
-
----
-
 ## 修改的文件
 
 - `site/data/difficulties.json`
@@ -94,7 +71,6 @@ python3 scripts/generate-index.py
 - `site/data/approaches.json`
 - `site/data/insights.json`
 - `site/data/tags.json`
-- `site/data/visualizations.json`
 
 ## 生成的文件
 

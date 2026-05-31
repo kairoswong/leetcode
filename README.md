@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/license-BSD--3--Clause-green.svg)
 ![Status](https://img.shields.io/badge/status-Active-brightgreen.svg)
 
-> Interactive LeetCode solution site with an algorithm visualization engine for step-by-step walkthroughs.
+> LeetCode solution browser with code viewer and approach notes.
 
 ## Preview
 
@@ -20,7 +20,6 @@
 - **Problem Browser** — filter by difficulty and tags
 - **Code Viewer** — Python solutions with one-click copy
 - **Approach Notes** — step-by-step reasoning with optimization tips
-- **Algorithm Visualization** — step-through and auto-play for selected problems
 - **Problem Navigation** — quick prev/next switching
 - **Related Problems** — knowledge graph connecting related topics
 - **Agent Workflow** — Agent skill (`leetcode-sync`) to auto-update metadata when adding new solutions
@@ -48,10 +47,9 @@ leetcode/
 │       └── SKILL.md              # Agent skill
 ├── site/                         # Static site
 │   ├── index.html                # Problem browser
-│   ├── solution-detail.html      # Detail page (code + viz)
+│   ├── solution-detail.html      # Detail page (code + approach)
 │   ├── data/                     # JSON data files
 │   └── scripts/
-│       └── viz-engine.js         # Canvas visualization engine
 ├── solutions/                    # Python solution files
 ├── scripts/                      # Build & utility scripts
 ├── assets/
@@ -71,7 +69,7 @@ An agent skill automates metadata updates when adding solutions.
    ```
    @leetcode-sync Add solution 15
    ```
-3. The agent reads your code, analyzes it to infer difficulty, complexity, tags, and visualization steps, then updates all JSON data and rebuilds the site index.
+3. The agent reads your code, analyzes it to infer difficulty, complexity, tags, then updates all JSON data and rebuilds the site index.
 
 ### Metadata Files Updated
 
@@ -83,7 +81,6 @@ An agent skill automates metadata updates when adding solutions.
 | `site/data/approaches.json` | Solution approach / algorithm pattern |
 | `site/data/insights.json` | Key insight behind the solution |
 | `site/data/tags.json` | Topic tags for filtering |
-| `site/data/visualizations.json` | Step-by-step viz steps for the canvas engine |
 
 ## License
 

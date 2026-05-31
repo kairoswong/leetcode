@@ -1,6 +1,6 @@
 ---
 name: leetcode-sync
-description: 'Update LeetCode solution metadata after adding a new solution file. Use when: adding a new .py solution, fixing stale JSON data, regenerating site index after changes. Reads the solution file and updates difficulties.json, complexities.json, descriptions.json, approaches.json, insights.json, tags.json, and visualizations.json accordingly.'
+description: 'Update LeetCode solution metadata after adding a new solution file. Use when: adding a new .py solution, fixing stale JSON data, regenerating site index after changes. Reads the solution file and updates difficulties.json, complexities.json, descriptions.json, approaches.json, insights.json, and tags.json accordingly.'
 argument-hint: 'Solution ID or title to update'
 ---
 
@@ -31,7 +31,6 @@ Read all JSON files under `site/data/`:
 - `approaches.json`
 - `insights.json`
 - `tags.json`
-- `visualizations.json`
 - `solutions-data.json` (to check existing entries)
 
 ### 3. Analyze code & infer metadata
@@ -55,15 +54,6 @@ Derive each field from the code using the following rules:
 - `tags.json` format is `{ "keyword": ["tag1", "tag2"] }` where `keyword` is a word from the title (lowercased)
 - HashMap usage → `hash-map`, two-pointer → `two-pointer`, sliding window → `sliding-window`, etc.
 
-**Visualization** — Auto-generate step data using the $\text{VizProtocol}$:
-- Identify algorithm type and select corresponding high-fidelity components.
-- Define a representative example and perform a dry run of the solution.
-- For each step, generate a state object containing:
-    - `state`: Current values of all key variables (e.g., `pointers`, `bounds`, `current_val`).
-    - `action`: The current operation (e.g., `compare`, `move`, `swap`, `mark`).
-    - `focus`: The specific element ID or coordinate to highlight.
-- Ensure `info` provides a clear narrative and `highlight` summarizes the state transition.
-
 If any field cannot be confidently inferred, briefly confirm with the user.
 
 ### 4. Write updated JSON files
@@ -83,26 +73,6 @@ Verify the output shows `✅` success messages.
 
 ---
 
-## Visualization Type Reference
-
-Available viz types and typical use cases:
-
-| Type | Use Case | Example Params |
-|------|----------|---------------|
-| `hash-map` | HashMap-based lookup | `{ "nums": [...], "target": N }` |
-| `linked-list` | Linked list traversal | `{ "list1": [...], "list2": [...] }` |
-| `sliding-window` | Two-pointer sliding window | `{ "s": "string" }`, window indices |
-| `binary-partition` | Binary search / partition | `{ "nums1": [...], "nums2": [...] }` |
-| `expand-center` | Expand around center | `{ "s": "string" }` |
-| `zigzag` | Row simulation | `{ "s": "string", "numRows": N }` |
-| `digit-reversal` | Digit-by-digit processing | `{ "x": N }` |
-| `two-pointer` | Two-pointer array traversal | `{ "height": [...] }` |
-| `matrix` | Matrix transformation | `{ "matrix": [[...]] }` |
-| `binary-search` | Binary search on range | `{ "x": N }` |
-| `dp-table` | Dynamic programming table | `{ "n": N }` |
-
----
-
 ## Files Modified
 
 - `site/data/difficulties.json`
@@ -111,7 +81,6 @@ Available viz types and typical use cases:
 - `site/data/approaches.json`
 - `site/data/insights.json`
 - `site/data/tags.json`
-- `site/data/visualizations.json`
 
 ## Files Generated
 
