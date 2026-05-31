@@ -253,21 +253,21 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "Binary search on smaller array nums1 (size 2). total=3, half=1+1=2.",
-          "highlight": "A=[1,3], B=[2]. total=3, half=(3+1)//2=2",
+          "info": "Binary search on the smaller array. total=3, half=2. Try partitionA=1.",
+          "highlight": "Search smaller array",
           "partitionA": 1,
           "partitionB": 1
         },
         {
           "step": 1,
-          "info": "Try partition: A_left=[1], A_right=[3]. B_left=[2], B_right=[]. Check: A_left(1) \u2264 B_right(\u221e)=OK. B_left(2) \u2264 A_right(3)=OK!",
-          "highlight": "A_left=[1] max=1, A_right=[3] min=3. B_left=[2] max=2, B_right=[] min=\u221e",
+          "info": "partitionA=1: A_left=[1], A_right=[3]. partitionB=1: B_left=[2], B_right=[].",
+          "highlight": "Check: A_left_max(1) \u2264 B_right_min(\u221e)=OK. B_left_max(2) \u2264 A_right_min(3)=OK!",
           "partitionA": 1,
           "partitionB": 1
         },
         {
           "step": 2,
-          "info": "Condition met! total=3 (odd). median = max(A_left_max, B_left_max) = max(1,2) = 2.",
+          "info": "Condition met! total=3 (odd) \u2192 median = max(A_left_max, B_left_max) = max(1, 2) = 2",
           "highlight": "Median = max(1, 2) = 2 \ud83c\udfaf",
           "partitionA": 1,
           "partitionB": 1
@@ -296,7 +296,7 @@ const SOLUTIONS_DATA = [
     "code": "# Manacher Algorithm is all you need\nclass Solution:\n    def longestPalindrome(self, s: str) -> str:\n        processed_s = \"/\" + \"/\".join(s) + \"/\"\n        n = len(processed_s)\n\n        p = [0] * n\n        mid, r = 0, 0\n        max_center, max_radius = 0, 0\n\n        for i in range(n):\n            if i < r:\n                p[i] = min(p[2 * mid - i], r - i)\n            else:\n                p[i] = 1\n\n            while (i - p[i] >= 0 and \n                i + p[i] < n and\n                processed_s[i - p[i]] == processed_s[i + p[i]]):\n                p[i] += 1\n\n            if i + p[i] > r:\n                mid = i\n                r = i +p[i]\n            \n            if p[i] > max_radius:\n                max_radius = p[i]\n                max_center = i\n\n        start = (max_center - max_radius + 1) // 2\n        length = max_radius - 1\n\n        return s[start : start + length]",
     "viz": {
       "type": "expand-center",
-      "label": "Longest Palindromic Substring \u2014 Expand Around Center (Manacher)",
+      "label": "Longest Palindromic Substring \u2014 Expand Around Center",
       "example": {
         "input": "s = 'babad'",
         "params": {
@@ -306,18 +306,59 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "Process string: insert separators. s' = /b/a/b/a/d/. Using Manacher's algorithm.",
-          "highlight": "Processed: / b / a / b / a / d /"
+          "info": "Start. For each character as center (odd) and between chars (even), expand outward.",
+          "highlight": "b a b a d \u2014 expand around centers",
+          "center": -1,
+          "radius": 0,
+          "longest": ""
         },
         {
           "step": 1,
-          "info": "Explore centers. The longest palindrome found is 'bab' (or 'aba').",
-          "highlight": "Longest palindrome: 'bab' with center at b and radius 2"
+          "info": "Center at 0 ('b'), radius=1: left=-1, out of bounds. Done expanding.",
+          "highlight": "Center 0 ('b'): max radius = 0. Palindrome: 'b'",
+          "center": 0,
+          "radius": 0,
+          "longest": "b"
         },
         {
           "step": 2,
-          "info": "Answer extracted from original string using center and radius.",
-          "highlight": "Result: 'bab' \u2705"
+          "info": "Center between 0-1, radius=1: left=0 ('b') == right=1 ('a')? No. Done.",
+          "highlight": "Center between 0-1: no expansion. Palindrome: ''",
+          "center": 0,
+          "radius": 0,
+          "longest": "b"
+        },
+        {
+          "step": 3,
+          "info": "Center at 1 ('a'), radius=1: left=0 ('b') == right=2 ('b')? Yes! Expand to radius=2: left=-1, done.",
+          "highlight": "Center 1 ('a'): radius=1 => 'bab' \u2713",
+          "center": 1,
+          "radius": 1,
+          "longest": "bab"
+        },
+        {
+          "step": 4,
+          "info": "Center between 1-2, radius=1: left=1 ('a') == right=2 ('b')? No. Done.",
+          "highlight": "Center between 1-2: no expansion",
+          "center": 1,
+          "radius": 0,
+          "longest": "bab"
+        },
+        {
+          "step": 5,
+          "info": "Center at 2 ('b'), radius=1: left=1 ('a') == right=3 ('a')? Yes! radius=2: left=0 ('b') == right=4 ('d')? No.",
+          "highlight": "Center 2 ('b'): radius=1 => 'aba' \u2713 (length=3 = 'bab')",
+          "center": 2,
+          "radius": 1,
+          "longest": "bab"
+        },
+        {
+          "step": 6,
+          "info": "Centers 3,4 and remaining between-centers checked. No longer palindrome found.",
+          "highlight": "Final: longest palindrome = 'bab' (length 3)",
+          "center": 1,
+          "radius": 1,
+          "longest": "bab"
         }
       ]
     }
@@ -353,33 +394,183 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "Row 0: P. Direction: down (cur=0 \u2192 bottom=2).",
-          "highlight": "Row0: P | Row1:   | Row2:  "
+          "info": "Row 0: add 'P'. Direction down, curRow=0.",
+          "highlight": "P placed in row 0",
+          "rows": [
+            "P",
+            "",
+            ""
+          ],
+          "curRow": 0,
+          "direction": "down"
         },
         {
           "step": 1,
-          "info": "Row 1: A. cur=1, going down.",
-          "highlight": "Row0: P   | Row1: A | Row2:  "
+          "info": "Row 1: add 'A'. curRow=1, still going down.",
+          "highlight": "A placed in row 1",
+          "rows": [
+            "P",
+            "A",
+            ""
+          ],
+          "curRow": 1,
+          "direction": "down"
         },
         {
           "step": 2,
-          "info": "Row 2: Y. Hit bottom, flip direction to up.",
-          "highlight": "Row0: P   | Row1: A | Row2: Y"
+          "info": "Row 2: add 'Y'. Hit bottom, flip direction to up.",
+          "highlight": "Y placed in row 2",
+          "rows": [
+            "P",
+            "A",
+            "Y"
+          ],
+          "curRow": 2,
+          "direction": "up"
         },
         {
           "step": 3,
-          "info": "Row 1: P. Going up (cur=2\u21920).",
-          "highlight": "Row0: P   | Row1: A P | Row2: Y"
+          "info": "Row 1: add 'P'. Going up.",
+          "highlight": "P placed in row 1",
+          "rows": [
+            "P",
+            "AP",
+            "Y"
+          ],
+          "curRow": 1,
+          "direction": "up"
         },
         {
           "step": 4,
-          "info": "Row 0: A. Hit top, flip to down.",
-          "highlight": "Row0: P A | Row1: A P | Row2: Y"
+          "info": "Row 0: add 'A'. Hit top, flip direction to down.",
+          "highlight": "A placed in row 0",
+          "rows": [
+            "PA",
+            "AP",
+            "Y"
+          ],
+          "curRow": 0,
+          "direction": "down"
         },
         {
           "step": 5,
-          "info": "Continue to end. Final rows: ['PA', 'APL', 'YI'] \u2192 'PAAPLAYI' ...",
-          "highlight": "Row0: P A | Row1: A P L | Row2: Y I"
+          "info": "Row 1: add 'L'. Going down.",
+          "highlight": "L placed in row 1",
+          "rows": [
+            "PA",
+            "APL",
+            "Y"
+          ],
+          "curRow": 1,
+          "direction": "down"
+        },
+        {
+          "step": 6,
+          "info": "Row 2: add 'I'. Hit bottom, flip to up.",
+          "highlight": "I placed in row 2",
+          "rows": [
+            "PA",
+            "APL",
+            "YI"
+          ],
+          "curRow": 2,
+          "direction": "up"
+        },
+        {
+          "step": 7,
+          "info": "Row 1: add 'S'. Going up.",
+          "highlight": "S placed in row 1",
+          "rows": [
+            "PA",
+            "APLS",
+            "YI"
+          ],
+          "curRow": 1,
+          "direction": "up"
+        },
+        {
+          "step": 8,
+          "info": "Row 0: add 'H'. Hit top, flip to down.",
+          "highlight": "H placed in row 0",
+          "rows": [
+            "PAH",
+            "APLS",
+            "YI"
+          ],
+          "curRow": 0,
+          "direction": "down"
+        },
+        {
+          "step": 9,
+          "info": "Row 1: add 'I'. Going down.",
+          "highlight": "I placed in row 1",
+          "rows": [
+            "PAH",
+            "APLSI",
+            "YI"
+          ],
+          "curRow": 1,
+          "direction": "down"
+        },
+        {
+          "step": 10,
+          "info": "Row 2: add 'R'. Hit bottom, flip to up.",
+          "highlight": "R placed in row 2",
+          "rows": [
+            "PAH",
+            "APLSI",
+            "YIR"
+          ],
+          "curRow": 2,
+          "direction": "up"
+        },
+        {
+          "step": 11,
+          "info": "Row 1: add 'I'. Going up.",
+          "highlight": "I placed in row 1",
+          "rows": [
+            "PAH",
+            "APLSII",
+            "YIR"
+          ],
+          "curRow": 1,
+          "direction": "up"
+        },
+        {
+          "step": 12,
+          "info": "Row 0: add 'N'. Hit top, flip to down.",
+          "highlight": "N placed in row 0",
+          "rows": [
+            "PAHN",
+            "APLSII",
+            "YIR"
+          ],
+          "curRow": 0,
+          "direction": "down"
+        },
+        {
+          "step": 13,
+          "info": "Row 1: add 'G'. Going down.",
+          "highlight": "G placed in row 1",
+          "rows": [
+            "PAHN",
+            "APLSIIG",
+            "YIR"
+          ],
+          "curRow": 1,
+          "direction": "down"
+        },
+        {
+          "step": 14,
+          "info": "Done! Concatenate rows \u2192 'PAHN' + 'APLSIIG' + 'YIR'",
+          "highlight": "Result: 'PAHNAPLSIIGYIR' \u2705",
+          "rows": [
+            "PAHN",
+            "APLSIIG",
+            "YIR"
+          ],
+          "curRow": 1,
+          "direction": "down"
         }
       ]
     }
@@ -414,23 +605,35 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "x=123, rev=0. Pop last digit: 123%10=3. x=12. rev=0*10+3=3.",
-          "highlight": "rev=0 \u2192 pop 3 \u2192 rev=3"
+          "info": "Start: x=123, rev=0. Pop last digit: 123 % 10 = 3.",
+          "highlight": "pop=3, rev=0\u00d710+3=3",
+          "remaining": 123,
+          "revVal": 0,
+          "pop": 3
         },
         {
           "step": 1,
-          "info": "x=12, rev=3. Pop last digit: 12%10=2. x=1. rev=3*10+2=32.",
-          "highlight": "rev=3 \u2192 pop 2 \u2192 rev=32"
+          "info": "x=12, rev=3. Pop: 12 % 10 = 2. rev=3\u00d710+2=32.",
+          "highlight": "pop=2, rev=3\u00d710+2=32",
+          "remaining": 12,
+          "revVal": 3,
+          "pop": 2
         },
         {
           "step": 2,
-          "info": "x=1, rev=32. Pop last digit: 1%10=1. x=0. rev=32*10+1=321.",
-          "highlight": "rev=32 \u2192 pop 1 \u2192 rev=321"
+          "info": "x=1, rev=32. Pop: 1 % 10 = 1. rev=32\u00d710+1=321.",
+          "highlight": "pop=1, rev=32\u00d710+1=321",
+          "remaining": 1,
+          "revVal": 32,
+          "pop": 1
         },
         {
           "step": 3,
-          "info": "x=0. Done! Return rev=321",
-          "highlight": "Result: 321 \u2705"
+          "info": "x=0. Return rev=321.",
+          "highlight": "Result: 321 \u2705",
+          "remaining": 0,
+          "revVal": 321,
+          "pop": ""
         }
       ]
     }
@@ -465,38 +668,66 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "State=WHITESPACE. Reading ' ' \u2192 stay in WHITESPACE.",
-          "highlight": "Skipping whitespace...   "
+          "info": "State=WHITESPACE. Reading char 0: ' '. Stay in WHITESPACE.",
+          "highlight": "Skipping whitespace",
+          "state": "WHITESPACE",
+          "idx": 0,
+          "sign": 1,
+          "resultStr": ""
         },
         {
           "step": 1,
-          "info": "State=WHITESPACE. Reading ' ' \u2192 stay.",
-          "highlight": "Skipping whitespace...   "
+          "info": "State=WHITESPACE. Reading char 1: ' '. Stay.",
+          "highlight": "Still skipping whitespace",
+          "state": "WHITESPACE",
+          "idx": 1,
+          "sign": 1,
+          "resultStr": ""
         },
         {
           "step": 2,
-          "info": "State=WHITESPACE. Reading ' ' \u2192 stay.",
-          "highlight": "Skipping whitespace...   "
+          "info": "State=WHITESPACE. Reading char 2: ' '. Stay.",
+          "highlight": "Still skipping whitespace",
+          "state": "WHITESPACE",
+          "idx": 2,
+          "sign": 1,
+          "resultStr": ""
         },
         {
           "step": 3,
-          "info": "State=WHITESPACE. Reading '-' \u2192 SIGN. sign=-1.",
-          "highlight": "Sign detected: negative (-)"
+          "info": "State=WHITESPACE. Reading char 3: '-'. Transition to SIGN. sign=-1.",
+          "highlight": "Sign detected: negative (-)",
+          "state": "SIGN",
+          "idx": 3,
+          "sign": -1,
+          "resultStr": ""
         },
         {
           "step": 4,
-          "info": "State=SIGN. Reading '4' \u2192 DIGITS. result=4.",
-          "highlight": "Reading digits: 4"
+          "info": "State=SIGN. Reading char 4: '4'. Transition to DIGITS. result=4.",
+          "highlight": "Reading digit: 4",
+          "state": "DIGITS",
+          "idx": 4,
+          "sign": -1,
+          "resultStr": "4"
         },
         {
           "step": 5,
-          "info": "State=DIGITS. Reading '2' \u2192 still DIGITS. result=4*10+2=42.",
-          "highlight": "Reading digits: 42"
+          "info": "State=DIGITS. Reading char 5: '2'. result=4\u00d710+2=42.",
+          "highlight": "Reading digit: 42",
+          "state": "DIGITS",
+          "idx": 5,
+          "sign": -1,
+          "resultStr": "42"
         },
         {
           "step": 6,
-          "info": "End of string. Return sign*result = -42.",
-          "highlight": "Result: -42 \u2705"
+          "info": "End of string. Transition to DONE. Return sign\u00d7result = -42.",
+          "highlight": "Done! Return -42",
+          "state": "DONE",
+          "idx": 5,
+          "sign": -1,
+          "resultStr": "42"
         }
       ]
     }
@@ -586,7 +817,7 @@ const SOLUTIONS_DATA = [
     "code": "class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        length = len(needle)\n        kmp = [0] * length\n        for i in range(1, length):\n            j = kmp[i - 1]\n            while j > 0 and needle[i] != needle[j]:\n                j = kmp[j - 1]\n            if needle[i] == needle[j]:\n                j += 1\n            kmp[i] = j\n\n        j = 0\n        for i in range(len(haystack)):\n            while j > 0 and haystack[i] != needle[j]:\n                j = kmp[j - 1]\n            if haystack[i] == needle[j]:\n                j += 1\n            if j == length:\n                return i - length + 1\n        return -1",
     "viz": {
       "type": "sliding-window",
-      "label": "Find the Index \u2014 Sliding Window",
+      "label": "Find the Index of the First Occurrence in a String",
       "example": {
         "input": "haystack = 'sadbutsad', needle = 'sad'",
         "params": {
@@ -597,18 +828,66 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "Window start=0. Compare 'sad' vs 'sad' \u2192 match! Return 0.",
-          "highlight": "sadbutsad | needle: sad | Match at 0! \ud83c\udfaf"
+          "info": "Window at haystack[0:3]. Compare 'sad' vs 'sad' \u2192 match! Return 0.",
+          "highlight": "sadbutsad \u2014 match at index 0! \ud83c\udfaf",
+          "window": [
+            0,
+            2
+          ]
         },
         {
           "step": 1,
-          "info": "Window start=3. Compare 'but' vs 'sad' \u2192 no match.",
-          "highlight": "sad|but|sad | 'but' \u2260 'sad' \u2717"
+          "info": "If no match at 0: slide to window haystack[1:4] \u2192 'adb' vs 'sad' \u2192 no.",
+          "highlight": "Index 1: 'adb' \u2260 'sad' \u2717",
+          "window": [
+            1,
+            3
+          ]
         },
         {
           "step": 2,
-          "info": "Window start=6. Compare 'sad' vs 'sad' \u2192 match! Return 6.",
-          "highlight": "sadbut|sad| | Match at 6! \ud83c\udfaf"
+          "info": "Slide to haystack[2:5] \u2192 'dbu' vs 'sad' \u2192 no.",
+          "highlight": "Index 2: 'dbu' \u2260 'sad' \u2717",
+          "window": [
+            2,
+            4
+          ]
+        },
+        {
+          "step": 3,
+          "info": "Slide to haystack[3:6] \u2192 'but' vs 'sad' \u2192 no.",
+          "highlight": "Index 3: 'but' \u2260 'sad' \u2717",
+          "window": [
+            3,
+            5
+          ]
+        },
+        {
+          "step": 4,
+          "info": "Slide to haystack[4:7] \u2192 'uts' vs 'sad' \u2192 no.",
+          "highlight": "Index 4: 'uts' \u2260 'sad' \u2717",
+          "window": [
+            4,
+            6
+          ]
+        },
+        {
+          "step": 5,
+          "info": "Slide to haystack[5:8] \u2192 'tsa' vs 'sad' \u2192 no.",
+          "highlight": "Index 5: 'tsa' \u2260 'sad' \u2717",
+          "window": [
+            5,
+            7
+          ]
+        },
+        {
+          "step": 6,
+          "info": "Slide to haystack[6:9] \u2192 'sad' vs 'sad' \u2192 match! Return 6.",
+          "highlight": "sadbut|sad| \u2014 match at index 6! \ud83c\udfaf",
+          "window": [
+            6,
+            8
+          ]
         }
       ]
     }
@@ -638,24 +917,255 @@ const SOLUTIONS_DATA = [
       "example": {
         "input": "Standard 9\u00d79 board with pre-filled numbers",
         "params": {
-          "board": "see JSON"
+          "board": [
+            [
+              "5",
+              "3",
+              ".",
+              ".",
+              "7",
+              ".",
+              ".",
+              ".",
+              "."
+            ],
+            [
+              "6",
+              ".",
+              ".",
+              "1",
+              "9",
+              "5",
+              ".",
+              ".",
+              "."
+            ],
+            [
+              ".",
+              "9",
+              "8",
+              ".",
+              ".",
+              ".",
+              ".",
+              "6",
+              "."
+            ],
+            [
+              "8",
+              ".",
+              ".",
+              ".",
+              "6",
+              ".",
+              ".",
+              ".",
+              "3"
+            ],
+            [
+              "4",
+              ".",
+              ".",
+              "8",
+              ".",
+              "3",
+              ".",
+              ".",
+              "1"
+            ],
+            [
+              "7",
+              ".",
+              ".",
+              ".",
+              "2",
+              ".",
+              ".",
+              ".",
+              "6"
+            ],
+            [
+              ".",
+              "6",
+              ".",
+              ".",
+              ".",
+              ".",
+              "2",
+              "8",
+              "."
+            ],
+            [
+              ".",
+              ".",
+              ".",
+              "4",
+              "1",
+              "9",
+              ".",
+              ".",
+              "5"
+            ],
+            [
+              ".",
+              ".",
+              ".",
+              ".",
+              "8",
+              ".",
+              ".",
+              "7",
+              "9"
+            ]
+          ]
         }
       },
       "steps": [
         {
           "step": 0,
-          "info": "Initialize empty set `seen`. Iterate each cell row-by-row.",
-          "highlight": "seen = {}"
+          "info": "Initialize empty set `seen`. Begin scanning the board row by row.",
+          "highlight": "Start scanning...",
+          "highlighted": [],
+          "seenCount": 0,
+          "valid": true
         },
         {
           "step": 1,
-          "info": "For each filled cell, encode: '(5) in row 0', '(5) in column 1', '(5) in box 0'. Add to set.",
-          "highlight": "Encoding each number with row/col/box context."
+          "info": "Cell [0,0] = '5'. Encode: '5 in row 0', '5 in col 0', '5 in box 0'. First occurrence \u2192 add to set.",
+          "highlight": "Adding 5 \u2192 (row0, col0, box0)",
+          "highlighted": [
+            [
+              0,
+              0
+            ]
+          ],
+          "seenCount": 1,
+          "valid": true
         },
         {
           "step": 2,
-          "info": "If any encoding already exists in set \u2192 INVALID. Otherwise, all clear \u2192 VALID.",
-          "highlight": "No duplicates found \u2192 board is valid \u2705"
+          "info": "Cell [0,1] = '3'. Encode and add. No conflicts.",
+          "highlight": "Adding 3 \u2192 (row0, col1, box0)",
+          "highlighted": [
+            [
+              0,
+              1
+            ]
+          ],
+          "seenCount": 2,
+          "valid": true
+        },
+        {
+          "step": 3,
+          "info": "Cell [0,4] = '7'. Encode and add.",
+          "highlight": "Adding 7 \u2192 (row0, col4, box1)",
+          "highlighted": [
+            [
+              0,
+              4
+            ]
+          ],
+          "seenCount": 3,
+          "valid": true
+        },
+        {
+          "step": 4,
+          "info": "Cell [1,0] = '6'. Encode: '6 in row 1', '6 in col 0', '6 in box 0'. Add to set.",
+          "highlight": "Adding 6 \u2192 (row1, col0, box0)",
+          "highlighted": [
+            [
+              1,
+              0
+            ]
+          ],
+          "seenCount": 4,
+          "valid": true
+        },
+        {
+          "step": 5,
+          "info": "Cell [1,3] = '1'. Add.",
+          "highlight": "Adding 1 \u2192 (row1, col3, box1)",
+          "highlighted": [
+            [
+              1,
+              3
+            ]
+          ],
+          "seenCount": 5,
+          "valid": true
+        },
+        {
+          "step": 6,
+          "info": "Cell [1,4] = '9'. Add.",
+          "highlight": "Adding 9 \u2192 (row1, col4, box1)",
+          "highlighted": [
+            [
+              1,
+              4
+            ]
+          ],
+          "seenCount": 6,
+          "valid": true
+        },
+        {
+          "step": 7,
+          "info": "Cell [1,5] = '5'. Add.",
+          "highlight": "Adding 5 \u2192 (row1, col5, box1)",
+          "highlighted": [
+            [
+              1,
+              5
+            ]
+          ],
+          "seenCount": 7,
+          "valid": true
+        },
+        {
+          "step": 8,
+          "info": "Cell [2,1] = '9'. Encoding: '9 in row 2', '9 in col 1', '9 in box 0'. All new \u2192 add.",
+          "highlight": "Adding 9 \u2192 (row2, col1, box0)",
+          "highlighted": [
+            [
+              2,
+              1
+            ]
+          ],
+          "seenCount": 8,
+          "valid": true
+        },
+        {
+          "step": 9,
+          "info": "Continue scanning... Many cells processed. No duplicates found so far.",
+          "highlight": "All clear so far \u2728",
+          "highlighted": [
+            [
+              3,
+              0
+            ]
+          ],
+          "seenCount": 15,
+          "valid": true
+        },
+        {
+          "step": 10,
+          "info": "More cells processed \u2014 still no conflicts in any row, col, or box.",
+          "highlight": "Still valid \u2728",
+          "highlighted": [
+            [
+              3,
+              4
+            ]
+          ],
+          "seenCount": 22,
+          "valid": true
+        },
+        {
+          "step": 12,
+          "info": "Board fully scanned. No duplicate encodings found \u2192 board is VALID!",
+          "highlight": "Board is valid! \u2705",
+          "highlighted": [],
+          "seenCount": 35,
+          "valid": true
         }
       ]
     }
@@ -928,28 +1438,58 @@ const SOLUTIONS_DATA = [
       "steps": [
         {
           "step": 0,
-          "info": "Search range [0, 8]. mid = (0+8)//2 = 4. 4\u00b2=16 > 8 \u2192 go left. high=3.",
-          "highlight": "mid=4, 4\u00b2=16 > 8. Search left: [0,3]"
+          "info": "Search range [0, 8]. mid = (0+8)//2 = 4. 4\u00b2=16 > 8 \u2192 go left.",
+          "highlight": "mid=4, 4\u00b2 > 8. Search left half.",
+          "range": [
+            0,
+            8
+          ],
+          "mid": 4,
+          "ans": -1
         },
         {
           "step": 1,
-          "info": "Range [0,3]. mid = (0+3)//2 = 1. 1\u00b2=1 \u2264 8 \u2192 potential answer. Go right. low=2.",
-          "highlight": "mid=1, 1\u00b2=1 \u2264 8. Save ans=1. Search right: [2,3]"
+          "info": "Range [0, 3]. mid = (0+3)//2 = 1. 1\u00b2=1 \u2264 8 \u2192 save ans=1, go right.",
+          "highlight": "mid=1, 1\u00b2 \u2264 8. ans=1. Search right.",
+          "range": [
+            0,
+            3
+          ],
+          "mid": 1,
+          "ans": 1
         },
         {
           "step": 2,
-          "info": "Range [2,3]. mid = (2+3)//2 = 2. 2\u00b2=4 \u2264 8 \u2192 ans=2. Go right. low=3.",
-          "highlight": "mid=2, 2\u00b2=4 \u2264 8. ans=2. Search right: [3,3]"
+          "info": "Range [2, 3]. mid = (2+3)//2 = 2. 2\u00b2=4 \u2264 8 \u2192 save ans=2, go right.",
+          "highlight": "mid=2, 2\u00b2 \u2264 8. ans=2. Search right.",
+          "range": [
+            2,
+            3
+          ],
+          "mid": 2,
+          "ans": 2
         },
         {
           "step": 3,
-          "info": "Range [3,3]. mid = 3. 3\u00b2=9 > 8 \u2192 go left. high=2. low > high, done!",
-          "highlight": "mid=3, 3\u00b2=9 > 8. Search left. low>high Done! ans=2."
+          "info": "Range [3, 3]. mid = 3. 3\u00b2=9 > 8 \u2192 go left. low=3, high=2. low > high, stop.",
+          "highlight": "mid=3, 3\u00b2 > 8. Search left. Done!",
+          "range": [
+            3,
+            3
+          ],
+          "mid": 3,
+          "ans": 2
         },
         {
           "step": 4,
-          "info": "Return ans=2. \u221a8 \u2248 2.",
-          "highlight": "Result: 2 \u2705 (floor of sqrt(8))"
+          "info": "Return ans=2. sqrt(8) floor = 2.",
+          "highlight": "Result: 2 \u2705",
+          "range": [
+            0,
+            8
+          ],
+          "mid": -1,
+          "ans": 2
         }
       ]
     }

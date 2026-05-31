@@ -52,22 +52,26 @@
       "params": { "nums1": [1,3], "nums2": [2] }
     },
     "steps": [
-      { "step": 0, "info": "Binary search on smaller array nums1 (size 2). total=3, half=1+1=2.", "highlight": "A=[1,3], B=[2]. total=3, half=(3+1)//2=2", "partitionA": 1, "partitionB": 1 },
-      { "step": 1, "info": "Try partition: A_left=[1], A_right=[3]. B_left=[2], B_right=[]. Check: A_left(1) ≤ B_right(∞)=OK. B_left(2) ≤ A_right(3)=OK!", "highlight": "A_left=[1] max=1, A_right=[3] min=3. B_left=[2] max=2, B_right=[] min=∞", "partitionA": 1, "partitionB": 1 },
-      { "step": 2, "info": "Condition met! total=3 (odd). median = max(A_left_max, B_left_max) = max(1,2) = 2.", "highlight": "Median = max(1, 2) = 2 🎯", "partitionA": 1, "partitionB": 1 }
+      { "step": 0, "info": "Binary search on the smaller array. total=3, half=2. Try partitionA=1.", "highlight": "Search smaller array", "partitionA": 1, "partitionB": 1 },
+      { "step": 1, "info": "partitionA=1: A_left=[1], A_right=[3]. partitionB=1: B_left=[2], B_right=[].", "highlight": "Check: A_left_max(1) ≤ B_right_min(∞)=OK. B_left_max(2) ≤ A_right_min(3)=OK!", "partitionA": 1, "partitionB": 1 },
+      { "step": 2, "info": "Condition met! total=3 (odd) → median = max(A_left_max, B_left_max) = max(1, 2) = 2", "highlight": "Median = max(1, 2) = 2 🎯", "partitionA": 1, "partitionB": 1 }
     ]
   },
   "5": {
     "type": "expand-center",
-    "label": "Longest Palindromic Substring — Expand Around Center (Manacher)",
+    "label": "Longest Palindromic Substring — Expand Around Center",
     "example": {
       "input": "s = 'babad'",
       "params": { "s": "babad" }
     },
     "steps": [
-      { "step": 0, "info": "Process string: insert separators. s' = /b/a/b/a/d/. Using Manacher's algorithm.", "highlight": "Processed: / b / a / b / a / d /" },
-      { "step": 1, "info": "Explore centers. The longest palindrome found is 'bab' (or 'aba').", "highlight": "Longest palindrome: 'bab' with center at b and radius 2" },
-      { "step": 2, "info": "Answer extracted from original string using center and radius.", "highlight": "Result: 'bab' ✅" }
+      { "step": 0, "info": "Start. For each character as center (odd) and between chars (even), expand outward.", "highlight": "b a b a d — expand around centers", "center": -1, "radius": 0, "longest": "" },
+      { "step": 1, "info": "Center at 0 ('b'), radius=1: left=-1, out of bounds. Done expanding.", "highlight": "Center 0 ('b'): max radius = 0. Palindrome: 'b'", "center": 0, "radius": 0, "longest": "b" },
+      { "step": 2, "info": "Center between 0-1, radius=1: left=0 ('b') == right=1 ('a')? No. Done.", "highlight": "Center between 0-1: no expansion. Palindrome: ''", "center": 0, "radius": 0, "longest": "b" },
+      { "step": 3, "info": "Center at 1 ('a'), radius=1: left=0 ('b') == right=2 ('b')? Yes! Expand to radius=2: left=-1, done.", "highlight": "Center 1 ('a'): radius=1 => 'bab' ✓", "center": 1, "radius": 1, "longest": "bab" },
+      { "step": 4, "info": "Center between 1-2, radius=1: left=1 ('a') == right=2 ('b')? No. Done.", "highlight": "Center between 1-2: no expansion", "center": 1, "radius": 0, "longest": "bab" },
+      { "step": 5, "info": "Center at 2 ('b'), radius=1: left=1 ('a') == right=3 ('a')? Yes! radius=2: left=0 ('b') == right=4 ('d')? No.", "highlight": "Center 2 ('b'): radius=1 => 'aba' ✓ (length=3 = 'bab')", "center": 2, "radius": 1, "longest": "bab" },
+      { "step": 6, "info": "Centers 3,4 and remaining between-centers checked. No longer palindrome found.", "highlight": "Final: longest palindrome = 'bab' (length 3)", "center": 1, "radius": 1, "longest": "bab" }
     ]
   },
   "6": {
@@ -78,12 +82,21 @@
       "params": { "s": "PAYPALISHIRING", "numRows": 3 }
     },
     "steps": [
-      { "step": 0, "info": "Row 0: P. Direction: down (cur=0 → bottom=2).", "highlight": "Row0: P | Row1:   | Row2:  " },
-      { "step": 1, "info": "Row 1: A. cur=1, going down.", "highlight": "Row0: P   | Row1: A | Row2:  " },
-      { "step": 2, "info": "Row 2: Y. Hit bottom, flip direction to up.", "highlight": "Row0: P   | Row1: A | Row2: Y" },
-      { "step": 3, "info": "Row 1: P. Going up (cur=2→0).", "highlight": "Row0: P   | Row1: A P | Row2: Y" },
-      { "step": 4, "info": "Row 0: A. Hit top, flip to down.", "highlight": "Row0: P A | Row1: A P | Row2: Y" },
-      { "step": 5, "info": "Continue to end. Final rows: ['PA', 'APL', 'YI'] → 'PAAPLAYI' ...", "highlight": "Row0: P A | Row1: A P L | Row2: Y I" }
+      { "step": 0, "info": "Row 0: add 'P'. Direction down, curRow=0.", "highlight": "P placed in row 0", "rows": ["P", "", ""], "curRow": 0, "direction": "down" },
+      { "step": 1, "info": "Row 1: add 'A'. curRow=1, still going down.", "highlight": "A placed in row 1", "rows": ["P", "A", ""], "curRow": 1, "direction": "down" },
+      { "step": 2, "info": "Row 2: add 'Y'. Hit bottom, flip direction to up.", "highlight": "Y placed in row 2", "rows": ["P", "A", "Y"], "curRow": 2, "direction": "up" },
+      { "step": 3, "info": "Row 1: add 'P'. Going up.", "highlight": "P placed in row 1", "rows": ["P", "AP", "Y"], "curRow": 1, "direction": "up" },
+      { "step": 4, "info": "Row 0: add 'A'. Hit top, flip direction to down.", "highlight": "A placed in row 0", "rows": ["PA", "AP", "Y"], "curRow": 0, "direction": "down" },
+      { "step": 5, "info": "Row 1: add 'L'. Going down.", "highlight": "L placed in row 1", "rows": ["PA", "APL", "Y"], "curRow": 1, "direction": "down" },
+      { "step": 6, "info": "Row 2: add 'I'. Hit bottom, flip to up.", "highlight": "I placed in row 2", "rows": ["PA", "APL", "YI"], "curRow": 2, "direction": "up" },
+      { "step": 7, "info": "Row 1: add 'S'. Going up.", "highlight": "S placed in row 1", "rows": ["PA", "APLS", "YI"], "curRow": 1, "direction": "up" },
+      { "step": 8, "info": "Row 0: add 'H'. Hit top, flip to down.", "highlight": "H placed in row 0", "rows": ["PAH", "APLS", "YI"], "curRow": 0, "direction": "down" },
+      { "step": 9, "info": "Row 1: add 'I'. Going down.", "highlight": "I placed in row 1", "rows": ["PAH", "APLSI", "YI"], "curRow": 1, "direction": "down" },
+      { "step": 10, "info": "Row 2: add 'R'. Hit bottom, flip to up.", "highlight": "R placed in row 2", "rows": ["PAH", "APLSI", "YIR"], "curRow": 2, "direction": "up" },
+      { "step": 11, "info": "Row 1: add 'I'. Going up.", "highlight": "I placed in row 1", "rows": ["PAH", "APLSII", "YIR"], "curRow": 1, "direction": "up" },
+      { "step": 12, "info": "Row 0: add 'N'. Hit top, flip to down.", "highlight": "N placed in row 0", "rows": ["PAHN", "APLSII", "YIR"], "curRow": 0, "direction": "down" },
+      { "step": 13, "info": "Row 1: add 'G'. Going down.", "highlight": "G placed in row 1", "rows": ["PAHN", "APLSIIG", "YIR"], "curRow": 1, "direction": "down" },
+      { "step": 14, "info": "Done! Concatenate rows → 'PAHN' + 'APLSIIG' + 'YIR'", "highlight": "Result: 'PAHNAPLSIIGYIR' ✅", "rows": ["PAHN", "APLSIIG", "YIR"], "curRow": 1, "direction": "down" }
     ]
   },
   "7": {
@@ -94,10 +107,10 @@
       "params": { "x": 123 }
     },
     "steps": [
-      { "step": 0, "info": "x=123, rev=0. Pop last digit: 123%10=3. x=12. rev=0*10+3=3.", "highlight": "rev=0 → pop 3 → rev=3" },
-      { "step": 1, "info": "x=12, rev=3. Pop last digit: 12%10=2. x=1. rev=3*10+2=32.", "highlight": "rev=3 → pop 2 → rev=32" },
-      { "step": 2, "info": "x=1, rev=32. Pop last digit: 1%10=1. x=0. rev=32*10+1=321.", "highlight": "rev=32 → pop 1 → rev=321" },
-      { "step": 3, "info": "x=0. Done! Return rev=321", "highlight": "Result: 321 ✅" }
+      { "step": 0, "info": "Start: x=123, rev=0. Pop last digit: 123 % 10 = 3.", "highlight": "pop=3, rev=0×10+3=3", "remaining": 123, "revVal": 0, "pop": 3 },
+      { "step": 1, "info": "x=12, rev=3. Pop: 12 % 10 = 2. rev=3×10+2=32.", "highlight": "pop=2, rev=3×10+2=32", "remaining": 12, "revVal": 3, "pop": 2 },
+      { "step": 2, "info": "x=1, rev=32. Pop: 1 % 10 = 1. rev=32×10+1=321.", "highlight": "pop=1, rev=32×10+1=321", "remaining": 1, "revVal": 32, "pop": 1 },
+      { "step": 3, "info": "x=0. Return rev=321.", "highlight": "Result: 321 ✅", "remaining": 0, "revVal": 321, "pop": "" }
     ]
   },
   "8": {
@@ -108,13 +121,13 @@
       "params": { "s": "   -42" }
     },
     "steps": [
-      { "step": 0, "info": "State=WHITESPACE. Reading ' ' → stay in WHITESPACE.", "highlight": "Skipping whitespace...   " },
-      { "step": 1, "info": "State=WHITESPACE. Reading ' ' → stay.", "highlight": "Skipping whitespace...   " },
-      { "step": 2, "info": "State=WHITESPACE. Reading ' ' → stay.", "highlight": "Skipping whitespace...   " },
-      { "step": 3, "info": "State=WHITESPACE. Reading '-' → SIGN. sign=-1.", "highlight": "Sign detected: negative (-)" },
-      { "step": 4, "info": "State=SIGN. Reading '4' → DIGITS. result=4.", "highlight": "Reading digits: 4" },
-      { "step": 5, "info": "State=DIGITS. Reading '2' → still DIGITS. result=4*10+2=42.", "highlight": "Reading digits: 42" },
-      { "step": 6, "info": "End of string. Return sign*result = -42.", "highlight": "Result: -42 ✅" }
+      { "step": 0, "info": "State=WHITESPACE. Reading char 0: ' '. Stay in WHITESPACE.", "highlight": "Skipping whitespace", "state": "WHITESPACE", "idx": 0, "sign": 1, "resultStr": "" },
+      { "step": 1, "info": "State=WHITESPACE. Reading char 1: ' '. Stay.", "highlight": "Still skipping whitespace", "state": "WHITESPACE", "idx": 1, "sign": 1, "resultStr": "" },
+      { "step": 2, "info": "State=WHITESPACE. Reading char 2: ' '. Stay.", "highlight": "Still skipping whitespace", "state": "WHITESPACE", "idx": 2, "sign": 1, "resultStr": "" },
+      { "step": 3, "info": "State=WHITESPACE. Reading char 3: '-'. Transition to SIGN. sign=-1.", "highlight": "Sign detected: negative (-)", "state": "SIGN", "idx": 3, "sign": -1, "resultStr": "" },
+      { "step": 4, "info": "State=SIGN. Reading char 4: '4'. Transition to DIGITS. result=4.", "highlight": "Reading digit: 4", "state": "DIGITS", "idx": 4, "sign": -1, "resultStr": "4" },
+      { "step": 5, "info": "State=DIGITS. Reading char 5: '2'. result=4×10+2=42.", "highlight": "Reading digit: 42", "state": "DIGITS", "idx": 5, "sign": -1, "resultStr": "42" },
+      { "step": 6, "info": "End of string. Transition to DONE. Return sign×result = -42.", "highlight": "Done! Return -42", "state": "DONE", "idx": 5, "sign": -1, "resultStr": "42" }
     ]
   },
   "21": {
@@ -134,15 +147,19 @@
   },
   "28": {
     "type": "sliding-window",
-    "label": "Find the Index — Sliding Window",
+    "label": "Find the Index of the First Occurrence in a String",
     "example": {
       "input": "haystack = 'sadbutsad', needle = 'sad'",
       "params": { "haystack": "sadbutsad", "needle": "sad" }
     },
     "steps": [
-      { "step": 0, "info": "Window start=0. Compare 'sad' vs 'sad' → match! Return 0.", "highlight": "sadbutsad | needle: sad | Match at 0! 🎯" },
-      { "step": 1, "info": "Window start=3. Compare 'but' vs 'sad' → no match.", "highlight": "sad|but|sad | 'but' ≠ 'sad' ✗" },
-      { "step": 2, "info": "Window start=6. Compare 'sad' vs 'sad' → match! Return 6.", "highlight": "sadbut|sad| | Match at 6! 🎯" }
+      { "step": 0, "info": "Window at haystack[0:3]. Compare 'sad' vs 'sad' → match! Return 0.", "highlight": "sadbutsad — match at index 0! 🎯", "window": [0, 2] },
+      { "step": 1, "info": "If no match at 0: slide to window haystack[1:4] → 'adb' vs 'sad' → no.", "highlight": "Index 1: 'adb' ≠ 'sad' ✗", "window": [1, 3] },
+      { "step": 2, "info": "Slide to haystack[2:5] → 'dbu' vs 'sad' → no.", "highlight": "Index 2: 'dbu' ≠ 'sad' ✗", "window": [2, 4] },
+      { "step": 3, "info": "Slide to haystack[3:6] → 'but' vs 'sad' → no.", "highlight": "Index 3: 'but' ≠ 'sad' ✗", "window": [3, 5] },
+      { "step": 4, "info": "Slide to haystack[4:7] → 'uts' vs 'sad' → no.", "highlight": "Index 4: 'uts' ≠ 'sad' ✗", "window": [4, 6] },
+      { "step": 5, "info": "Slide to haystack[5:8] → 'tsa' vs 'sad' → no.", "highlight": "Index 5: 'tsa' ≠ 'sad' ✗", "window": [5, 7] },
+      { "step": 6, "info": "Slide to haystack[6:9] → 'sad' vs 'sad' → match! Return 6.", "highlight": "sadbut|sad| — match at index 6! 🎯", "window": [6, 8] }
     ]
   },
   "36": {
@@ -150,12 +167,31 @@
     "label": "Valid Sudoku — Single Pass with Hash Set",
     "example": {
       "input": "Standard 9×9 board with pre-filled numbers",
-      "params": { "board": "see JSON" }
+      "params": { "board": [
+        ["5","3",".",".","7",".",".",".","."],
+        ["6",".",".","1","9","5",".",".","."],
+        [".","9","8",".",".",".",".","6","."],
+        ["8",".",".",".","6",".",".",".","3"],
+        ["4",".",".","8",".","3",".",".","1"],
+        ["7",".",".",".","2",".",".",".","6"],
+        [".","6",".",".",".",".","2","8","."],
+        [".",".",".","4","1","9",".",".","5"],
+        [".",".",".",".","8",".",".","7","9"]
+      ] }
     },
     "steps": [
-      { "step": 0, "info": "Initialize empty set `seen`. Iterate each cell row-by-row.", "highlight": "seen = {}" },
-      { "step": 1, "info": "For each filled cell, encode: '(5) in row 0', '(5) in column 1', '(5) in box 0'. Add to set.", "highlight": "Encoding each number with row/col/box context." },
-      { "step": 2, "info": "If any encoding already exists in set → INVALID. Otherwise, all clear → VALID.", "highlight": "No duplicates found → board is valid ✅" }
+      { "step": 0, "info": "Initialize empty set `seen`. Begin scanning the board row by row.", "highlight": "Start scanning...", "highlighted": [], "seenCount": 0, "valid": true },
+      { "step": 1, "info": "Cell [0,0] = '5'. Encode: '5 in row 0', '5 in col 0', '5 in box 0'. First occurrence → add to set.", "highlight": "Adding 5 → (row0, col0, box0)", "highlighted": [[0,0]], "seenCount": 1, "valid": true },
+      { "step": 2, "info": "Cell [0,1] = '3'. Encode and add. No conflicts.", "highlight": "Adding 3 → (row0, col1, box0)", "highlighted": [[0,1]], "seenCount": 2, "valid": true },
+      { "step": 3, "info": "Cell [0,4] = '7'. Encode and add.", "highlight": "Adding 7 → (row0, col4, box1)", "highlighted": [[0,4]], "seenCount": 3, "valid": true },
+      { "step": 4, "info": "Cell [1,0] = '6'. Encode: '6 in row 1', '6 in col 0', '6 in box 0'. Add to set.", "highlight": "Adding 6 → (row1, col0, box0)", "highlighted": [[1,0]], "seenCount": 4, "valid": true },
+      { "step": 5, "info": "Cell [1,3] = '1'. Add.", "highlight": "Adding 1 → (row1, col3, box1)", "highlighted": [[1,3]], "seenCount": 5, "valid": true },
+      { "step": 6, "info": "Cell [1,4] = '9'. Add.", "highlight": "Adding 9 → (row1, col4, box1)", "highlighted": [[1,4]], "seenCount": 6, "valid": true },
+      { "step": 7, "info": "Cell [1,5] = '5'. Add.", "highlight": "Adding 5 → (row1, col5, box1)", "highlighted": [[1,5]], "seenCount": 7, "valid": true },
+      { "step": 8, "info": "Cell [2,1] = '9'. Encoding: '9 in row 2', '9 in col 1', '9 in box 0'. All new → add.", "highlight": "Adding 9 → (row2, col1, box0)", "highlighted": [[2,1]], "seenCount": 8, "valid": true },
+      { "step": 9, "info": "Continue scanning... Many cells processed. No duplicates found so far.", "highlight": "All clear so far ✨", "highlighted": [[3,0]], "seenCount": 15, "valid": true },
+      { "step": 10, "info": "More cells processed — still no conflicts in any row, col, or box.", "highlight": "Still valid ✨", "highlighted": [[3,4]], "seenCount": 22, "valid": true },
+      { "step": 12, "info": "Board fully scanned. No duplicate encodings found → board is VALID!", "highlight": "Board is valid! ✅", "highlighted": [], "seenCount": 35, "valid": true }
     ]
   },
   "42": {
@@ -203,11 +239,11 @@
       "params": { "x": 8 }
     },
     "steps": [
-      { "step": 0, "info": "Search range [0, 8]. mid = (0+8)//2 = 4. 4²=16 > 8 → go left. high=3.", "highlight": "mid=4, 4²=16 > 8. Search left: [0,3]" },
-      { "step": 1, "info": "Range [0,3]. mid = (0+3)//2 = 1. 1²=1 ≤ 8 → potential answer. Go right. low=2.", "highlight": "mid=1, 1²=1 ≤ 8. Save ans=1. Search right: [2,3]" },
-      { "step": 2, "info": "Range [2,3]. mid = (2+3)//2 = 2. 2²=4 ≤ 8 → ans=2. Go right. low=3.", "highlight": "mid=2, 2²=4 ≤ 8. ans=2. Search right: [3,3]" },
-      { "step": 3, "info": "Range [3,3]. mid = 3. 3²=9 > 8 → go left. high=2. low > high, done!", "highlight": "mid=3, 3²=9 > 8. Search left. low>high Done! ans=2." },
-      { "step": 4, "info": "Return ans=2. √8 ≈ 2.", "highlight": "Result: 2 ✅ (floor of sqrt(8))" }
+      { "step": 0, "info": "Search range [0, 8]. mid = (0+8)//2 = 4. 4²=16 > 8 → go left.", "highlight": "mid=4, 4² > 8. Search left half.", "range": [0, 8], "mid": 4, "ans": -1 },
+      { "step": 1, "info": "Range [0, 3]. mid = (0+3)//2 = 1. 1²=1 ≤ 8 → save ans=1, go right.", "highlight": "mid=1, 1² ≤ 8. ans=1. Search right.", "range": [0, 3], "mid": 1, "ans": 1 },
+      { "step": 2, "info": "Range [2, 3]. mid = (2+3)//2 = 2. 2²=4 ≤ 8 → save ans=2, go right.", "highlight": "mid=2, 2² ≤ 8. ans=2. Search right.", "range": [2, 3], "mid": 2, "ans": 2 },
+      { "step": 3, "info": "Range [3, 3]. mid = 3. 3²=9 > 8 → go left. low=3, high=2. low > high, stop.", "highlight": "mid=3, 3² > 8. Search left. Done!", "range": [3, 3], "mid": 3, "ans": 2 },
+      { "step": 4, "info": "Return ans=2. sqrt(8) floor = 2.", "highlight": "Result: 2 ✅", "range": [0, 8], "mid": -1, "ans": 2 }
     ]
   },
   "70": {

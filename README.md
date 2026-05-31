@@ -10,8 +10,9 @@
 ## Preview
 
 <div align="center">
-  <img src="assets/preview/home.jpg" alt="LeetCode Explorer Home Page" style="max-width: 100%; width: 800px;"/>
-  <p><em>Home page — problem browser with difficulty/tag filtering</em></p>
+  <img src="assets/preview/home.jpg" alt="Home Page" style="width: 45%; height: 300px; object-fit: cover;"/>
+  <img src="assets/preview/silution-detail.jpg" alt="Solution Detail Page" style="width: 45%; height: 300px; object-fit: cover;"/>
+  <p><em>Home page (left) and Solution detail page (right)</em></p>
 </div>
 
 ## Features

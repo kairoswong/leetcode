@@ -55,10 +55,14 @@ Derive each field from the code using the following rules:
 - `tags.json` format is `{ "keyword": ["tag1", "tag2"] }` where `keyword` is a word from the title (lowercased)
 - HashMap usage → `hash-map`, two-pointer → `two-pointer`, sliding window → `sliding-window`, etc.
 
-**Visualization** — Auto-generate step data:
-- Pick a visualization type based on algorithm type (see reference table below)
-- Choose a small representative example, trace through the solution step by step
-- Each step records `info` (description) and `highlight` (one-line summary)
+**Visualization** — Auto-generate step data using the $\text{VizProtocol}$:
+- Identify algorithm type and select corresponding high-fidelity components.
+- Define a representative example and perform a dry run of the solution.
+- For each step, generate a state object containing:
+    - `state`: Current values of all key variables (e.g., `pointers`, `bounds`, `current_val`).
+    - `action`: The current operation (e.g., `compare`, `move`, `swap`, `mark`).
+    - `focus`: The specific element ID or coordinate to highlight.
+- Ensure `info` provides a clear narrative and `highlight` summarizes the state transition.
 
 If any field cannot be confidently inferred, briefly confirm with the user.
 
