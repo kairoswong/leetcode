@@ -17,5 +17,6 @@
   "climbing": ["dp", "math"],
   "tree": ["tree", "bfs"],
   "binary": ["tree", "bfs", "recursion"],
-  "maximum": ["tree", "dfs", "recursion"]
+  "maximum": ["tree", "dfs", "recursion"],
+  "pascal": ["math", "array", "dp"]
 }

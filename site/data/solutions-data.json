@@ -344,5 +344,25 @@
       "bfs"
     ],
     "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n\n        left_depth = self.maxDepth(root.left)\n        right_depth = self.maxDepth(root.right)\n        return 1 + max(left_depth, right_depth)"
+  },
+  {
+    "id": 118,
+    "title": "Pascal's Triangle",
+    "file": "118.pascals-triangle.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n\u00b2)",
+      "space": "O(n\u00b2)"
+    },
+    "desc": "Given an integer numRows, return the first numRows of Pascal's triangle.",
+    "approach": "Build the triangle row by row. Each row starts and ends with 1, and each interior element is the sum of the two elements above it.",
+    "keyInsight": "Each row can be initialized with all 1s, then the inner elements (excluding first and last) are filled using values from the previous row \u2014 this avoids special-case handling for the edges.",
+    "tags": [
+      "math",
+      "array",
+      "dp"
+    ],
+    "code": "class Solution:\n    def generate(self, numRows: int) -> List[List[int]]:\n        triangle = []\n\n        for i in range(numRows):\n            row = [1] * (i + 1)\n            for j in range(1, i):\n                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]\n            triangle.append(row)\n\n        return triangle"
   }
 ]
