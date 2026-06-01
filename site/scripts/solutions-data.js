@@ -156,6 +156,25 @@ const SOLUTIONS_DATA = [
     "code": "class Solution:\n    def myAtoi(self, s: str) -> int:\n        INT_MIN, INT_MAX = -2**31, 2**31 - 1\n        i, n = 0, len(s)\n\n        while i < n and s[i] == ' ':\n            i += 1\n\n        if i >= n:\n            return 0\n\n        sign = 1\n        if s[i] in '+-':\n            sign = -1 if s[i] == '-' else 1\n            i += 1\n\n        result = 0\n        while i < n and s[i].isdigit():\n            digit = int(s[i])\n            if result > (INT_MAX - digit) // 10:\n                return INT_MAX if sign == 1 else INT_MIN\n            result = result * 10 + digit\n            i += 1\n\n        return sign * result"
   },
   {
+    "id": 9,
+    "title": "Palindrome Number",
+    "file": "9.palindrome-number.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Determine whether an integer is a palindrome.",
+    "approach": "Convert the integer to a string and check if the string is equal to its reverse.",
+    "keyInsight": "Strings in Python can be easily reversed using slicing [::-1], making this a concise approach.",
+    "tags": [
+      "math",
+      "string"
+    ],
+    "code": "class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        if x < -2 ** 31 or x > 2 ** 31 - 1:\n            return False\n        \n        s = str(x)\n        return s == s[::-1]"
+  },
+  {
     "id": 21,
     "title": "Merge Two Sorted Lists",
     "file": "21.merge-two-sorted-lists.py",

@@ -7,6 +7,7 @@
   "zigzag": ["string", "simulation"],
   "reverse integer": ["math", "simulation"],
   "atoi": ["string", "simulation"],
+  "palindrome": ["math", "string"],
   "merge": ["linked-list", "recursion"],
   "occurrence": ["string", "two-pointer"],
   "sudoku": ["hash-map", "matrix", "simulation"],
