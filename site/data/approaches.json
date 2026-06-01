@@ -14,5 +14,6 @@
   "48": "First transpose the matrix (swap [i][j] with [j][i]), then reverse each row. This achieves a 90° clockwise rotation in-place.",
   "69": "Binary search for the square root in range [0, x]. At each step, compute mid² and compare with x.",
   "70": "This is the Fibonacci sequence in disguise. The number of ways to reach step n = ways to reach n-1 + ways to reach n-2.",
-  "102": "Use a queue to perform BFS (breadth-first search). Process nodes level by level: capture the current queue size, pop that many nodes, collect their values, and enqueue their children."
+  "102": "Use a queue to perform BFS (breadth-first search). Process nodes level by level: capture the current queue size, pop that many nodes, collect their values, and enqueue their children.",
+  "104": "Use DFS recursion: if the node is null, return 0; otherwise return 1 plus the maximum depth of the left and right subtrees."
 }

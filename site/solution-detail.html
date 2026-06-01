@@ -472,6 +472,76 @@
   @media (max-width: 768px) {
     .app-container { padding: 0 16px; }
     .problem-title { font-size: 22px; }
+
+    .top-nav {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .top-nav .nav-title {
+      order: 3;
+      width: 100%;
+      text-align: center;
+    }
+
+    .problem-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .problem-meta {
+      gap: 6px;
+    }
+
+    .complexity-badges {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .problem-navigation {
+      flex-wrap: wrap;
+    }
+    .problem-navigation .nav-btn {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .problem-navigation .nav-btn .nav-title-text {
+      max-width: 80px;
+    }
+    .problem-navigation .nav-position {
+      width: 100%;
+      text-align: center;
+      order: -1;
+    }
+
+    .detail-stack .section-card {
+      padding: 20px 16px;
+    }
+
+    pre {
+      font-size: 13px;
+      max-height: 360px;
+    }
+
+    .related-item {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .problem-navigation .nav-btn .nav-title-text {
+      display: none;
+    }
+    .problem-navigation .nav-btn {
+      justify-content: center;
+    }
+    .problem-navigation .nav-btn:first-child {
+      justify-content: center;
+    }
+    .problem-navigation .nav-btn:last-child {
+      justify-content: center;
+    }
   }
 
   /* =====================================================

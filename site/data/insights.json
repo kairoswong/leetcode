@@ -14,5 +14,6 @@
   "48": "Transpose + reverse each row is a cleaner mental model than rotating four cells at a time — both are O(n²) but this is far less error-prone.",
   "69": "Binary search on a monotonic function (the square of a number is monotonically increasing for non-negative inputs).",
   "70": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two.",
-  "102": "A queue lets us process nodes in FIFO order, ensuring we visit children in left-to-right sequence within each level."
+  "102": "A queue lets us process nodes in FIFO order, ensuring we visit children in left-to-right sequence within each level.",
+  "104": "The depth of a tree is defined recursively: a null node contributes 0, and a non-null node contributes 1 plus the maximum depth of its subtrees."
 }

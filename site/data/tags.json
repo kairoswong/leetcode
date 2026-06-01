@@ -15,5 +15,6 @@
   "sqrt": ["binary-search", "math"],
   "climbing": ["dp", "math"],
   "tree": ["tree", "bfs"],
-  "binary": ["tree", "bfs", "recursion"]
+  "binary": ["tree", "bfs", "recursion"],
+  "maximum": ["tree", "dfs", "recursion"]
 }

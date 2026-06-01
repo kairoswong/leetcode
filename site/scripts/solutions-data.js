@@ -308,5 +308,24 @@ const SOLUTIONS_DATA = [
       "bfs"
     ],
     "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        result = []\n        if not root:\n            return result\n\n        queue = [root]\n        while queue:\n            level_size = len(queue)\n            level = []\n            for _ in range(level_size):\n                node = queue.pop(0)\n                level.append(node.val)\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            result.append(level)\n\n        return result"
+  },
+  {
+    "id": 104,
+    "title": "Maximum Depth of Binary Tree",
+    "file": "104.maximum-depth-of-binary-tree.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Given the root of a binary tree, return its maximum depth.",
+    "approach": "Use DFS recursion: if the node is null, return 0; otherwise return 1 plus the maximum depth of the left and right subtrees.",
+    "keyInsight": "The depth of a tree is defined recursively: a null node contributes 0, and a non-null node contributes 1 plus the maximum depth of its subtrees.",
+    "tags": [
+      "tree",
+      "bfs"
+    ],
+    "code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n\n        left_depth = self.maxDepth(root.left)\n        right_depth = self.maxDepth(root.right)\n        return 1 + max(left_depth, right_depth)"
   }
 ];

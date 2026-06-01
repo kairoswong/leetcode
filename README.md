@@ -10,9 +10,11 @@
 ## Preview
 
 <div align="center">
-  <img src="assets/preview/home.jpg" alt="Home Page" style="width: 45%; height: 300px; object-fit: cover;"/>
-  <img src="assets/preview/silution-detail.jpg" alt="Solution Detail Page" style="width: 45%; height: 300px; object-fit: cover;"/>
-  <p><em>Home page (left) and Solution detail page (right)</em></p>
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+    <img src="assets/preview/home.jpg" alt="Home Page" style="width: 45%; height: 300px; object-fit: cover; min-width: 280px; flex: 1 1 40%;"/>
+    <img src="assets/preview/solution-detail.jpg" alt="Solution Detail Page" style="width: 45%; height: 300px; object-fit: cover; min-width: 280px; flex: 1 1 40%;"/>
+  </div>
+  <p><em>Home page and Solution detail page</em></p>
 </div>
 
 ## Features

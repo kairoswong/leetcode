@@ -22,7 +22,7 @@ OUTPUT_INDEX_JS = os.path.join(SCRIPTS_DIR, 'solutions-data.js')
 # Load metadata from external JSON files
 def load_json(filename):
     path = os.path.join(DATA_DIR, filename)
-    with open(path, 'r') as f:
+    with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 DIFFICULTY_MAP = {int(k): v for k, v in load_json('difficulties.json').items()}
@@ -86,9 +86,9 @@ def scan_solutions():
         if not fname.endswith('.py'):
             continue
         fpath = os.path.join(SOLUTIONS_DIR, fname)
-        with open(fpath, 'r') as f:
+        with open(fpath, 'r', encoding='utf-8') as f:
             content = f.read()
-        
+
         match = HEADER_RE.search(content)
         if not match:
             continue
@@ -127,7 +127,7 @@ def write_json(solutions, output_path):
 def _extract_code(fname):
     """Extract code from a solution .py file."""
     fpath = os.path.join(SOLUTIONS_DIR, fname)
-    with open(fpath, 'r') as f:
+    with open(fpath, 'r', encoding='utf-8') as f:
         content = f.read()
     code_match = re.search(r'# @lc code=start\n(.+?)\n# @lc code=end', content, re.DOTALL)
     return code_match.group(1).strip() if code_match else ''

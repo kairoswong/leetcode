@@ -263,7 +263,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
+  }
+
+  /* Sentinel always stays at the bottom of the grid area */
+  #scrollSentinel {
+    grid-column: 1 / -1;
   }
 
   .solution-card {
@@ -477,7 +482,21 @@
   @media (max-width: 768px) {
     .header { padding: 32px 0 24px; }
     .header-title h1 { font-size: 22px; }
-    .header-stats { gap: 16px; }
+
+    .header-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .header-stats {
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+    }
+    .stat-item:last-child .github-link {
+      /* ensure GitHub link text stays visible */
+      font-size: 13px;
+    }
+
     .solution-grid {
       grid-template-columns: 1fr;
     }
@@ -488,11 +507,20 @@
     .filter-buttons {
       flex-wrap: wrap;
     }
+    .filter-btn {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+    .sort-select {
+      width: 100%;
+    }
   }
 
   @media (max-width: 480px) {
     .header-top { flex-direction: column; align-items: flex-start; }
     .app-container { padding: 0 16px; }
+    .card-title { font-size: 15px; }
+    .card-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
   }
 
   /* =====================================================
@@ -592,6 +620,11 @@
   <!-- Solution Grid -->
   <div class="solution-grid" id="solutionGrid"></div>
 
+  <!-- Loading Sentinel for Infinite Scroll -->
+  <div id="scrollSentinel" style="text-align:center;padding:20px 0 40px;color:var(--text-tertiary);font-size:14px;">
+    <span id="sentinelText">Loading more…</span>
+  </div>
+
   <!-- Footer -->
   <div class="footer">
     <p>LeetCode Solutions Explorer &nbsp;·&nbsp;
@@ -615,6 +648,10 @@
 
 let SOLUTIONS = [];
 
+// Infinite scroll config
+const ITEMS_PER_PAGE = 20;
+let renderCount = ITEMS_PER_PAGE;
+
 // Load solutions data
 function loadSolutions() {
   if (typeof SOLUTIONS_DATA !== 'undefined') {
@@ -629,6 +666,7 @@ function loadSolutions() {
         <p>Make sure <code>data/solutions-data.js</code> exists.<br>
            Run <code>python scripts/generate-index.py</code> to generate it.</p>
       </div>`;
+    hideSentinel();
   }
 }
 
@@ -647,11 +685,12 @@ function statusIcon(s) {
 }
 
 // =====================================================
-// Render
+// Render (limited to renderCount items)
 // =====================================================
 
 function renderCards(list) {
   const grid = document.getElementById('solutionGrid');
+  const shown = list.slice(0, renderCount);
 
   if (list.length === 0) {
     grid.innerHTML = `
@@ -660,10 +699,11 @@ function renderCards(list) {
         <h3>No matches found</h3>
         <p>Try adjusting your search or filter.</p>
       </div>`;
+    hideSentinel();
     return;
   }
 
-  grid.innerHTML = list.map(s => `
+  grid.innerHTML = shown.map(s => `
     <div class="solution-card${s.status === 'incomplete' ? ' incomplete' : ''}"
          data-id="${s.id}"
          onclick="openSolution(${s.id})">
@@ -686,6 +726,58 @@ function renderCards(list) {
       </div>
     </div>
   `).join('');
+
+  // Show/hide sentinel
+  if (shown.length < list.length) {
+    showSentinel();
+  } else {
+    hideSentinel();
+  }
+}
+
+// =====================================================
+// Infinite scroll sentinel
+// =====================================================
+
+let sentinelObserver = null;
+
+function showSentinel() {
+  const el = document.getElementById('scrollSentinel');
+  const txt = document.getElementById('sentinelText');
+  if (el) el.style.display = 'block';
+  if (txt) txt.textContent = 'Scroll for more…';
+}
+
+function hideSentinel() {
+  const el = document.getElementById('scrollSentinel');
+  const txt = document.getElementById('sentinelText');
+  if (el) el.style.display = 'none';
+  if (txt) txt.textContent = '';
+}
+
+function loadMore() {
+  const fullList = getFilteredAndSorted();
+  if (renderCount >= fullList.length) {
+    hideSentinel();
+    return;
+  }
+  renderCount += ITEMS_PER_PAGE;
+  renderCards(fullList);
+}
+
+function setupIntersectionObserver() {
+  if (sentinelObserver) sentinelObserver.disconnect();
+
+  const sentinel = document.getElementById('scrollSentinel');
+  if (!sentinel) return;
+
+  sentinelObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      loadMore();
+    }
+  }, { rootMargin: '200px' });
+
+  sentinelObserver.observe(sentinel);
 }
 
 // =====================================================
@@ -696,7 +788,7 @@ function updateStats(list) {
   const total = list.length;
   const easy = list.filter(s => s.difficulty === 'easy').length;
   const medium = list.filter(s => s.difficulty === 'medium').length;
-  const hard = list.filter(s => s.difficulty === 'hard').length       ;
+  const hard = list.filter(s => s.difficulty === 'hard').length;
 
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-easy').textContent = easy;
@@ -749,9 +841,13 @@ function getFilteredAndSorted() {
 }
 
 function rerender() {
+  // Reset page count on filter/sort/search change
+  renderCount = ITEMS_PER_PAGE;
   const list = getFilteredAndSorted();
   renderCards(list);
   updateStats(SOLUTIONS.filter(s => s.status === 'solved' || currentFilter === 'all'));
+  // Re-observe sentinel after grid re-render
+  requestAnimationFrame(() => setupIntersectionObserver());
 }
 
 // =====================================================
@@ -803,6 +899,7 @@ function init() {
     });
   }
   rerender();
+  requestAnimationFrame(() => setupIntersectionObserver());
 }
 
 // Start loading solutions data
