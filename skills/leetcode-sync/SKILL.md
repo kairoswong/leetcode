@@ -37,10 +37,12 @@ Read all JSON files under `site/data/`:
 
 Derive each field from the code using the following rules:
 
-**Difficulty** — Based on code complexity and algorithm type:
-- Simple loops, basic math → `easy`
-- Common algorithms (two-pointer, binary search, BFS/DFS) → `medium`
-- Advanced structures or complex logic → `hard`
+**Difficulty** — Prefer the official LeetCode difficulty for the problem when available (for example, from the problem metadata or the LeetCode page). Do not guess difficulty only from code complexity.
+- If official difficulty is available, use it directly.
+- If official difficulty is not available, use a conservative fallback heuristic only as a last resort:
+  - simple loops, basic math → `easy`
+  - common algorithms (two-pointer, binary search, BFS/DFS) → `medium`
+  - advanced structures or complex logic → `hard`
 
 **Complexity** — Analyze loop nesting, recursion depth, and extra space usage; express in Big O notation.
 

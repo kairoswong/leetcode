@@ -364,5 +364,44 @@
       "dp"
     ],
     "code": "class Solution:\n    def generate(self, numRows: int) -> List[List[int]]:\n        triangle = []\n\n        for i in range(numRows):\n            row = [1] * (i + 1)\n            for j in range(1, i):\n                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]\n            triangle.append(row)\n\n        return triangle"
+  },
+  {
+    "id": 149,
+    "title": "Max Points on a Line",
+    "file": "149.max-points-on-a-line.py",
+    "difficulty": "hard",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n\u00b2)",
+      "space": "O(n)"
+    },
+    "desc": "Given n points on a plane, return the maximum number of points that lie on the same straight line.",
+    "approach": "For each point, compute normalized slopes to every other point using a hash map. Count how many points share each slope, and keep the maximum line count.",
+    "keyInsight": "Normalizing slopes makes collinear points collapse into the same bucket, and handling duplicates separately prevents them from being lost.",
+    "tags": [
+      "hash-map",
+      "geometry",
+      "math"
+    ],
+    "code": "class Solution:\n    def maxPoints(self, points: List[List[int]]) -> int:\n        def gcd(a: int, b: int) -> int:\n            while b:\n                a, b = b, a % b\n            return abs(a)\n\n        if len(points) < 3:\n            return len(points)\n\n        max_points = 1\n\n        for i in range(len(points)):\n            slopes = {}\n            same = 1\n            x1, y1 = points[i]\n\n            for j in range(i + 1, len(points)):\n                x2, y2 = points[j]\n                dx = x2 - x1\n                dy = y2 - y1\n\n                if dx == 0 and dy == 0:\n                    same += 1\n                    continue\n\n                if dx == 0:\n                    slope = \"inf\"\n                else:\n                    g = gcd(abs(dx), abs(dy))\n                    dx //= g\n                    dy //= g\n                    if dx < 0:\n                        dx, dy = -dx, -dy\n                    slope = (dx, dy)\n\n                slopes[slope] = slopes.get(slope, 0) + 1\n\n            max_points = max(max_points, same + max(slopes.values(), default=0))\n\n        return max_points"
+  },
+  {
+    "id": 151,
+    "title": "Reverse Words in a String",
+    "file": "151.reverse-words-in-a-string.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Given a string, reverse the order of the words while removing extra spaces.",
+    "approach": "Extract the words from the string, reverse their order, and join them back with single spaces.",
+    "keyInsight": "The key is to treat consecutive spaces as one separator and to reverse the word list after extraction.",
+    "tags": [
+      "string",
+      "two-pointer"
+    ],
+    "code": "class Solution:\n    def reverseWords(self, s: str) -> str:\n        # words = s.split()\n        # return \" \".join(reversed(words))\n        words = []\n        i = 0\n        n = len(s)\n\n        while i < n:\n            while i < n and s[i] == ' ':\n                i += 1\n            if i >= n:\n                break\n\n            j = i\n            while j < n and s[j] != ' ':\n                j += 1\n\n            words.append(s[i:j])\n            i = j\n\n        return \" \".join(reversed(words))"
   }
 ]

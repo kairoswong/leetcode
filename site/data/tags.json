@@ -18,5 +18,7 @@
   "tree": ["tree", "bfs"],
   "binary": ["tree", "bfs", "recursion"],
   "maximum": ["tree", "dfs", "recursion"],
-  "pascal": ["math", "array", "dp"]
+  "pascal": ["math", "array", "dp"],
+  "max points": ["hash-map", "geometry", "math"],
+  "reverse words": ["string", "two-pointer"]
 }

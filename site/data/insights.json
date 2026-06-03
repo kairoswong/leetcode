@@ -15,5 +15,7 @@
   "70": "Base cases: 1 way to reach stair 1 (1 step), 2 ways to reach stair 2 (1+1 or 2). Each subsequent stair is just the sum of the previous two.",
   "102": "A queue lets us process nodes in FIFO order, ensuring we visit children in left-to-right sequence within each level.",
   "104": "The depth of a tree is defined recursively: a null node contributes 0, and a non-null node contributes 1 plus the maximum depth of its subtrees.",
-  "118": "Each row can be initialized with all 1s, then the inner elements (excluding first and last) are filled using values from the previous row \u2014 this avoids special-case handling for the edges."
+  "118": "Each row can be initialized with all 1s, then the inner elements (excluding first and last) are filled using values from the previous row — this avoids special-case handling for the edges.",
+  "149": "Normalizing slopes makes collinear points collapse into the same bucket, and handling duplicates separately prevents them from being lost.",
+  "151": "The key is to treat consecutive spaces as one separator and to reverse the word list after extraction."
 }

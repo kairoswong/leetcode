@@ -10,9 +10,9 @@
 ## Preview
 
 <div align="center">
-  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-    <img src="assets/preview/home.jpg" alt="Home Page" style="width: 45%; height: 300px; object-fit: cover; min-width: 280px; flex: 1 1 40%;"/>
-    <img src="assets/preview/solution-detail.jpg" alt="Solution Detail Page" style="width: 45%; height: 300px; object-fit: cover; min-width: 280px; flex: 1 1 40%;"/>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-start;">
+    <img src="assets/preview/home.jpg" alt="Home Page" style="flex: 1 1 320px; width: 100%; max-width: 480px; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);"/>
+    <img src="assets/preview/solution-detail.jpg" alt="Solution Detail Page" style="flex: 1 1 320px; width: 100%; max-width: 480px; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);"/>
   </div>
   <p><em>Home page and Solution detail page</em></p>
 </div>
