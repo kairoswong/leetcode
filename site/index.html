@@ -542,7 +542,7 @@
   }
 
   /* =====================================================
-     Animations
+     Animations — smooth refresh
      ===================================================== */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(12px); }
@@ -553,22 +553,20 @@
     animation: fadeInUp 0.3s ease both;
   }
 
-  .solution-card:nth-child(1) { animation-delay: 0.02s; }
-  .solution-card:nth-child(2) { animation-delay: 0.04s; }
-  .solution-card:nth-child(3) { animation-delay: 0.06s; }
-  .solution-card:nth-child(4) { animation-delay: 0.08s; }
-  .solution-card:nth-child(5) { animation-delay: 0.10s; }
-  .solution-card:nth-child(6) { animation-delay: 0.12s; }
-  .solution-card:nth-child(7) { animation-delay: 0.14s; }
-  .solution-card:nth-child(8) { animation-delay: 0.16s; }
-  .solution-card:nth-child(9) { animation-delay: 0.18s; }
-  .solution-card:nth-child(10) { animation-delay: 0.20s; }
-  .solution-card:nth-child(11) { animation-delay: 0.22s; }
-  .solution-card:nth-child(12) { animation-delay: 0.24s; }
-  .solution-card:nth-child(13) { animation-delay: 0.26s; }
-  .solution-card:nth-child(14) { animation-delay: 0.28s; }
-  .solution-card:nth-child(15) { animation-delay: 0.30s; }
-  .solution-card:nth-child(n+16) { animation-delay: 0.32s; }
+  /* Smooth container transition when cards change */
+  .solution-grid {
+    transition: opacity 0.12s ease;
+    will-change: opacity;
+  }
+
+  .solution-grid.is-transitioning {
+    opacity: 0.4;
+  }
+
+  /* New cards arrive without disturbing existing layout */
+  .solution-card.card-enter {
+    animation: fadeInUp 0.3s ease both;
+  }
 </style>
 </head>
 <body>
@@ -703,7 +701,7 @@ function statusIcon(s) {
 }
 
 // =====================================================
-// Render (limited to renderCount items)
+// Render — smooth DOM diff (no flash)
 // =====================================================
 
 function renderCards(list) {
@@ -721,29 +719,35 @@ function renderCards(list) {
     return;
   }
 
-  grid.innerHTML = shown.map(s => `
-    <div class="solution-card${s.status === 'incomplete' ? ' incomplete' : ''}"
-         data-id="${s.id}"
-         onclick="openSolution(${s.id})">
-      <div class="card-header">
-        <div>
-          <div class="card-id">#${String(s.id).padStart(3, '0')}</div>
-          <div class="card-title">${s.title}</div>
-        </div>
-        <div class="card-badges">
-          <span class="badge ${s.difficulty}">${s.difficulty}</span>
-          ${s.status === 'incomplete' ? '<span class="badge incomplete">WIP</span>' : ''}
-        </div>
-      </div>
-      <div class="card-desc">${s.desc}</div>
-      <div class="card-meta">
-        ${s.status === 'solved'
-          ? `<span class="complexity">⌛ ${s.complexity.time} &nbsp;·&nbsp; 📦 ${s.complexity.space}</span>`
-          : ''}
-        <span class="status-indicator">${statusIcon(s.status)}</span>
-      </div>
-    </div>
-  `).join('');
+  // Build set of IDs that should be in the DOM
+  const targetIds = new Set(shown.map(s => s.id));
+
+  // 1. Remove cards that no longer match
+  const existingCards = grid.querySelectorAll('.solution-card');
+  existingCards.forEach(card => {
+    const id = parseInt(card.dataset.id);
+    if (!targetIds.has(id)) {
+      card.remove();
+    }
+  });
+
+  // 2. Rebuild in correct order using DocumentFragment (one paint batch)
+  const fragment = document.createDocumentFragment();
+  const existingMap = new Map();
+  grid.querySelectorAll('.solution-card').forEach(c => {
+    existingMap.set(parseInt(c.dataset.id), c);
+  });
+
+  shown.forEach(s => {
+    const existing = existingMap.get(s.id);
+    if (existing) {
+      existing.style.animation = 'none';
+      fragment.appendChild(existing);
+    } else {
+      fragment.appendChild(createCardElement(s));
+    }
+  });
+  grid.replaceChildren(fragment);
 
   // Show/hide sentinel
   if (shown.length < list.length) {
@@ -751,6 +755,32 @@ function renderCards(list) {
   } else {
     hideSentinel();
   }
+}
+
+function createCardElement(s) {
+  const card = document.createElement('div');
+  card.className = `solution-card${s.status === 'incomplete' ? ' incomplete' : ''} card-enter`;
+  card.dataset.id = s.id;
+  card.onclick = () => openSolution(s.id);
+  card.innerHTML = `
+    <div class="card-header">
+      <div>
+        <div class="card-id">#${String(s.id).padStart(3, '0')}</div>
+        <div class="card-title">${s.title}</div>
+      </div>
+      <div class="card-badges">
+        <span class="badge ${s.difficulty}">${s.difficulty}</span>
+        ${s.status === 'incomplete' ? '<span class="badge incomplete">WIP</span>' : ''}
+      </div>
+    </div>
+    <div class="card-desc">${s.desc}</div>
+    <div class="card-meta">
+      ${s.status === 'solved'
+        ? `<span class="complexity">⌛ ${s.complexity.time} &nbsp;·&nbsp; 📦 ${s.complexity.space}</span>`
+        : ''}
+      <span class="status-indicator">${statusIcon(s.status)}</span>
+    </div>`;
+  return card;
 }
 
 // =====================================================
@@ -780,7 +810,26 @@ function loadMore() {
     return;
   }
   renderCount += ITEMS_PER_PAGE;
-  renderCards(fullList);
+  const grid = document.getElementById('solutionGrid');
+  const shown = fullList.slice(0, renderCount);
+
+  // Only create cards that aren't already in the DOM
+  const existingIds = new Set();
+  grid.querySelectorAll('.solution-card').forEach(c =>
+    existingIds.add(parseInt(c.dataset.id))
+  );
+
+  const fragment = document.createDocumentFragment();
+  shown.forEach(s => {
+    if (!existingIds.has(s.id)) {
+      fragment.appendChild(createCardElement(s));
+    }
+  });
+  grid.appendChild(fragment);
+
+  if (renderCount >= fullList.length) {
+    hideSentinel();
+  }
 }
 
 function setupIntersectionObserver() {
@@ -872,10 +921,14 @@ function rerender() {
 // Event Listeners
 // =====================================================
 
-// Search
+// Search — debounced for smoothness
+let searchTimer;
 document.getElementById('searchInput').addEventListener('input', e => {
-  currentSearch = e.target.value;
-  rerender();
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    currentSearch = e.target.value;
+    rerender();
+  }, 80);
 });
 
 // Filter buttons
