@@ -405,5 +405,24 @@ const SOLUTIONS_DATA = [
       "two-pointer"
     ],
     "code": "class Solution:\n    def reverseWords(self, s: str) -> str:\n        # words = s.split()\n        # return \" \".join(reversed(words))\n        words = []\n        i = 0\n        n = len(s)\n\n        while i < n:\n            while i < n and s[i] == ' ':\n                i += 1\n            if i >= n:\n                break\n\n            j = i\n            while j < n and s[j] != ' ':\n                j += 1\n\n            words.append(s[i:j])\n            i = j\n\n        return \" \".join(reversed(words))"
+  },
+  {
+    "id": 165,
+    "title": "Compare Version Numbers",
+    "file": "165.compare-version-numbers.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(n)"
+    },
+    "desc": "Compare two version numbers version1 and version2, return -1, 0, or 1 based on their comparison.",
+    "approach": "Split both version strings by '.', find the max length, then iterate through indices. For each index, parse the revision part as int (defaulting to 0 if the version has fewer parts). Compare pairwise, returning -1 or 1 on the first difference.",
+    "keyInsight": "By using max(len(...)) and defaulting missing parts to 0 via index checks, we handle unequal-length versions without needing zip_longest or itertools.",
+    "tags": [
+      "string",
+      "simulation"
+    ],
+    "code": "class Solution:\n    def compareVersion(self, version1: str, version2: str) -> int:\n        parts_1 = version1.split(\".\")\n        parts_2 = version2.split(\".\")\n\n        n = max(len(parts_1), len(parts_2))\n        for i in range(n):\n            a = int(parts_1[i]) if i < len(parts_1) else 0\n            b = int(parts_2[i]) if i < len(parts_2) else 0\n\n            if a < b:\n                return -1\n            if a > b:\n                return 1\n\n        return 0"
   }
 ];

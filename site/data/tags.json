@@ -20,5 +20,6 @@
   "maximum": ["tree", "dfs", "recursion"],
   "pascal": ["math", "array", "dp"],
   "max points": ["hash-map", "geometry", "math"],
-  "reverse words": ["string", "two-pointer"]
+  "reverse words": ["string", "two-pointer"],
+  "compare version": ["string", "simulation"]
 }

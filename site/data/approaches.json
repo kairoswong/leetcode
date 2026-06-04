@@ -17,5 +17,6 @@
   "104": "Use DFS recursion: if the node is null, return 0; otherwise return 1 plus the maximum depth of the left and right subtrees.",
   "118": "Build the triangle row by row. Each row starts and ends with 1, and each interior element is the sum of the two elements above it.",
   "149": "For each point, compute normalized slopes to every other point using a hash map. Count how many points share each slope, and keep the maximum line count.",
-  "151": "Extract the words from the string, reverse their order, and join them back with single spaces."
+  "151": "Extract the words from the string, reverse their order, and join them back with single spaces.",
+  "165": "Split both version strings by '.', find the max length, then iterate through indices. For each index, parse the revision part as int (defaulting to 0 if the version has fewer parts). Compare pairwise, returning -1 or 1 on the first difference."
 }
