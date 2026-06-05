@@ -20,5 +20,6 @@
   "118": {"time": "O(n²)", "space": "O(n²)"},
   "149": {"time": "O(n²)", "space": "O(n)"},
   "151": {"time": "O(n)", "space": "O(n)"},
-  "165": {"time": "O(n)", "space": "O(n)"}
+  "165": {"time": "O(n)", "space": "O(n)"},
+  "190": {"time": "O(1)", "space": "O(1)"}
 }

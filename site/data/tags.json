@@ -21,5 +21,6 @@
   "pascal": ["math", "array", "dp"],
   "max points": ["hash-map", "geometry", "math"],
   "reverse words": ["string", "two-pointer"],
-  "compare version": ["string", "simulation"]
+  "compare version": ["string", "simulation"],
+  "reverse bits": ["bit-manipulation"]
 }

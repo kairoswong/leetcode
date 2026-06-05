@@ -422,5 +422,23 @@
       "simulation"
     ],
     "code": "class Solution:\n    def compareVersion(self, version1: str, version2: str) -> int:\n        parts_1 = version1.split(\".\")\n        parts_2 = version2.split(\".\")\n\n        n = max(len(parts_1), len(parts_2))\n        for i in range(n):\n            a = int(parts_1[i]) if i < len(parts_1) else 0\n            b = int(parts_2[i]) if i < len(parts_2) else 0\n\n            if a < b:\n                return -1\n            if a > b:\n                return 1\n\n        return 0"
+  },
+  {
+    "id": 190,
+    "title": "Reverse Bits",
+    "file": "190.reverse-bits.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(1)",
+      "space": "O(1)"
+    },
+    "desc": "Reverse bits of a given 32 bits unsigned integer.",
+    "approach": "Iterate 32 times \u2014 in each iteration, shift the result left by 1, extract the lowest bit of n using n & 1 and place it into the result, then shift n right by 1 to process the next bit.",
+    "keyInsight": "Bit manipulation operates directly on binary representation \u2014 each n & 1 peels off the lowest bit, and shifting builds the reversed result one bit at a time, all in constant time and space.",
+    "tags": [
+      "bit-manipulation"
+    ],
+    "code": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        reverse = 0\n\n        for i in range(32):\n            reverse <<= 1\n            reverse |= n & 1\n            n >>= 1\n\n        return reverse"
   }
 ]
