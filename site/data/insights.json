@@ -19,5 +19,6 @@
   "149": "Normalizing slopes makes collinear points collapse into the same bucket, and handling duplicates separately prevents them from being lost.",
   "151": "The key is to treat consecutive spaces as one separator and to reverse the word list after extraction.",
   "165": "By using max(len(...)) and defaulting missing parts to 0 via index checks, we handle unequal-length versions without needing zip_longest or itertools.",
-  "190": "Bit manipulation operates directly on binary representation — each n & 1 peels off the lowest bit, and shifting builds the reversed result one bit at a time, all in constant time and space."
+  "190": "Bit manipulation operates directly on binary representation — each n & 1 peels off the lowest bit, and shifting builds the reversed result one bit at a time, all in constant time and space.",
+  "191": "n & 1 isolates the least significant bit; repeatedly peeling off bits and counting the 1s gives the Hamming weight directly."
 }

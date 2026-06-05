@@ -19,5 +19,6 @@
   "149": "Given n points on a plane, return the maximum number of points that lie on the same straight line.",
   "151": "Given a string, reverse the order of the words while removing extra spaces.",
   "165": "Compare two version numbers version1 and version2, return -1, 0, or 1 based on their comparison.",
-  "190": "Reverse bits of a given 32 bits unsigned integer."
+  "190": "Reverse bits of a given 32 bits unsigned integer.",
+  "191": "Return the number of 1 bits (Hamming weight) in the binary representation of a positive integer."
 }

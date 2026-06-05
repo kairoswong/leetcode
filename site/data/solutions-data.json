@@ -440,5 +440,23 @@
       "bit-manipulation"
     ],
     "code": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        reverse = 0\n\n        for i in range(32):\n            reverse <<= 1\n            reverse |= n & 1\n            n >>= 1\n\n        return reverse"
+  },
+  {
+    "id": 191,
+    "title": "Number of 1 Bits",
+    "file": "191.number-of-1-bits.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(log n)",
+      "space": "O(1)"
+    },
+    "desc": "Return the number of 1 bits (Hamming weight) in the binary representation of a positive integer.",
+    "approach": "Iterate through each bit by repeatedly checking the lowest bit with n & 1, counting it if set, then shifting n right by 1 until n becomes 0.",
+    "keyInsight": "n & 1 isolates the least significant bit; repeatedly peeling off bits and counting the 1s gives the Hamming weight directly.",
+    "tags": [
+      "bit-manipulation"
+    ],
+    "code": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        count = 0\n        while n:\n            count += n & 1\n            n >>= 1\n        return count"
   }
 ]
