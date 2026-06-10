@@ -460,5 +460,44 @@ const SOLUTIONS_DATA = [
       "bit-manipulation"
     ],
     "code": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        count = 0\n        while n:\n            count += n & 1\n            n >>= 1\n        return count"
+  },
+  {
+    "id": 206,
+    "title": "Reverse Linked List",
+    "file": "206.reverse-linked-list.py",
+    "difficulty": "easy",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n)",
+      "space": "O(1)"
+    },
+    "desc": "Reverse a singly linked list and return the reversed list.",
+    "approach": "Use three pointers (prev, current, next_temp) to reverse links in-place by iterating through the list once. Each node's next pointer is redirected to the previous node.",
+    "keyInsight": "Reversing a linked list iteratively is O(n) with O(1) space \u2014 each node's next pointer is redirected to the previous node in a single pass.",
+    "tags": [
+      "linked-list",
+      "recursion"
+    ],
+    "code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        prev = None\n        current = head\n        while current:\n            next_temp = current.next\n            current.next = prev\n            prev = current\n            current = next_temp\n        return prev"
+  },
+  {
+    "id": 207,
+    "title": "Course Schedule",
+    "file": "207.course-schedule.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(V+E)",
+      "space": "O(V+E)"
+    },
+    "desc": "Determine if it is possible to finish all courses given numCourses and prerequisite pairs.",
+    "approach": "Use Kahn's algorithm (BFS topological sort). Build an adjacency list and indegree array, push all courses with indegree 0 into a queue, then process them while reducing indegrees of their neighbors.",
+    "keyInsight": "If a cycle exists in the directed graph, some nodes will never reach indegree 0, making it impossible to topologically sort all courses \u2014 the queue empties before processing all nodes.",
+    "tags": [
+      "graph",
+      "bfs",
+      "topological-sort"
+    ],
+    "code": "class Solution:\n    def canFinish(self, n: int, prerequisites: List[List[int]]) -> bool:\n        graph = [[] for _ in range(n)]\n        indegree = [0] * n\n        \n        for course, prereq in prerequisites:\n            graph[prereq].append(course)\n            indegree[course] += 1\n            \n        q = deque([i for i in range(n) if indegree[i] == 0])\n        \n        while q:\n            cur = q.popleft()\n            n -= 1\n            for nei in graph[cur]:\n                indegree[nei] -= 1\n                if indegree[nei] == 0:\n                    q.append(nei)\n                    \n        return n == 0"
   }
 ];
