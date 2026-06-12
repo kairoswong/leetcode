@@ -21,6 +21,7 @@
   "165": "Split both version strings by '.', find the max length, then iterate through indices. For each index, parse the revision part as int (defaulting to 0 if the version has fewer parts). Compare pairwise, returning -1 or 1 on the first difference.",
   "190": "Iterate 32 times — in each iteration, shift the result left by 1, extract the lowest bit of n using n & 1 and place it into the result, then shift n right by 1 to process the next bit.",
   "191": "Iterate through each bit by repeatedly checking the lowest bit with n & 1, counting it if set, then shifting n right by 1 until n becomes 0.",
+  "206": "Use three pointers (prev, current, next_temp) to reverse links in-place by iterating through the list once. Each node's next pointer is redirected to the previous node.",
   "207": "Use Kahn's algorithm (BFS topological sort). Build an adjacency list and indegree array, push all courses with indegree 0 into a queue, then process them while reducing indegrees of their neighbors.",
-  "206": "Use three pointers (prev, current, next_temp) to reverse links in-place by iterating through the list once. Each node's next pointer is redirected to the previous node."
+  "215": "Use a min-heap of size k. Iterate through the array, pushing each element into the heap. When the heap size exceeds k, pop the smallest element. After processing all elements, the top of the heap is the kth largest element."
 }

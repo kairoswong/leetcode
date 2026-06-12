@@ -21,6 +21,7 @@
   "165": "By using max(len(...)) and defaulting missing parts to 0 via index checks, we handle unequal-length versions without needing zip_longest or itertools.",
   "190": "Bit manipulation operates directly on binary representation — each n & 1 peels off the lowest bit, and shifting builds the reversed result one bit at a time, all in constant time and space.",
   "191": "n & 1 isolates the least significant bit; repeatedly peeling off bits and counting the 1s gives the Hamming weight directly.",
+  "206": "Reversing a linked list iteratively is O(n) with O(1) space — each node's next pointer is redirected to the previous node in a single pass.",
   "207": "If a cycle exists in the directed graph, some nodes will never reach indegree 0, making it impossible to topologically sort all courses — the queue empties before processing all nodes.",
-  "206": "Reversing a linked list iteratively is O(n) with O(1) space — each node's next pointer is redirected to the previous node in a single pass."
+  "215": "Maintaining a heap of exactly k elements ensures we keep only the k largest elements seen so far, and the smallest of those is the kth largest overall."
 }
