@@ -23,5 +23,6 @@
   "191": "Iterate through each bit by repeatedly checking the lowest bit with n & 1, counting it if set, then shifting n right by 1 until n becomes 0.",
   "206": "Use three pointers (prev, current, next_temp) to reverse links in-place by iterating through the list once. Each node's next pointer is redirected to the previous node.",
   "207": "Use Kahn's algorithm (BFS topological sort). Build an adjacency list and indegree array, push all courses with indegree 0 into a queue, then process them while reducing indegrees of their neighbors.",
-  "215": "Use a min-heap of size k. Iterate through the array, pushing each element into the heap. When the heap size exceeds k, pop the smallest element. After processing all elements, the top of the heap is the kth largest element."
+  "215": "Use a min-heap of size k. Iterate through the array, pushing each element into the heap. When the heap size exceeds k, pop the smallest element. After processing all elements, the top of the heap is the kth largest element.",
+  "221": "Use dynamic programming where dp[i][j] represents the side length of the largest square ending at cell (i, j). For each '1', compute dp[i][j] = min(dp[i−1][j], dp[i][j−1], dp[i−1][j−1]) + 1. Track the maximum side length found and return its square as the area."
 }

@@ -12,7 +12,7 @@ Updates all metadata JSON files in `site/data/` when a new solution `.py` file i
 
 - After adding a new `.py` solution file to `solutions/`
 - When metadata in any `site/data/*.json` file is incomplete or stale
-- Before or after running `python3 scripts/generate-index.py`
+- Before or after running `scripts/generate-index.py` (via `python3` or `python`)
 
 ## Procedure
 
@@ -66,9 +66,11 @@ Write the inferred results to each JSON file:
 
 ### 5. Regenerate site index
 
-Run:
+Detect whether `python3` or `python` is available on the current system, then run the appropriate command:
 ```bash
 python3 scripts/generate-index.py
+# or, if python3 is not found:
+python scripts/generate-index.py
 ```
 
 Verify the output shows `✅` success messages.

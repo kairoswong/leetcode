@@ -23,5 +23,6 @@
   "191": "n & 1 isolates the least significant bit; repeatedly peeling off bits and counting the 1s gives the Hamming weight directly.",
   "206": "Reversing a linked list iteratively is O(n) with O(1) space — each node's next pointer is redirected to the previous node in a single pass.",
   "207": "If a cycle exists in the directed graph, some nodes will never reach indegree 0, making it impossible to topologically sort all courses — the queue empties before processing all nodes.",
-  "215": "Maintaining a heap of exactly k elements ensures we keep only the k largest elements seen so far, and the smallest of those is the kth largest overall."
+  "215": "Maintaining a heap of exactly k elements ensures we keep only the k largest elements seen so far, and the smallest of those is the kth largest overall.",
+  "221": "The size of the largest square ending at (i, j) is limited by the smallest neighboring square above, to the left, and diagonally above-left — the minimum of these three plus one gives the new side length."
 }
