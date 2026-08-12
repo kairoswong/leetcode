@@ -1,12 +1,14 @@
 {
-  "1":  "Use a hash map to store each number's index as we iterate. For each number, compute its complement (target − num) and check if it already exists in the map. This gives O(1) lookups per element.",
-  "2":  "Traverse both lists simultaneously, summing digit-by-digit with carry. Create a new node for each digit of the result.",
-  "3":  "Use a sliding window with two pointers (left, right). Expand the right pointer, and when a duplicate is found, move the left pointer past the previous occurrence.",
-  "4":  "Binary search on the smaller array to partition both arrays such that all left elements ≤ all right elements. The median is derived from the partition boundary.",
-  "5":  "Expand around the center — for each position (and between each pair), expand outward as long as the characters match, tracking the longest palindrome found.",
-  "6":  "Simulate the zigzag traversal by iterating through the string and appending each character to the appropriate row, changing direction at the top and bottom rows.",
-  "7":  "Repeatedly pop the last digit using modulo 10 and push it onto the result. Check for overflow before updating the result.",
-  "8":  "Skip leading whitespace, handle sign character, then read digits while checking for overflow at each step.",  "9": "Convert the integer to a string and check if the string is equal to its reverse.",  "21": "Use a dummy head node and a pointer. Compare the current nodes of both lists, appending the smaller one, and advancing the pointer.",
+  "1": "Use a hash map to store each number's index as we iterate. For each number, compute its complement (target − num) and check if it already exists in the map. This gives O(1) lookups per element.",
+  "2": "Traverse both lists simultaneously, summing digit-by-digit with carry. Create a new node for each digit of the result.",
+  "3": "Use a sliding window with two pointers (left, right). Expand the right pointer, and when a duplicate is found, move the left pointer past the previous occurrence.",
+  "4": "Binary search on the smaller array to partition both arrays such that all left elements ≤ all right elements. The median is derived from the partition boundary.",
+  "5": "Expand around the center — for each position (and between each pair), expand outward as long as the characters match, tracking the longest palindrome found.",
+  "6": "Simulate the zigzag traversal by iterating through the string and appending each character to the appropriate row, changing direction at the top and bottom rows.",
+  "7": "Repeatedly pop the last digit using modulo 10 and push it onto the result. Check for overflow before updating the result.",
+  "8": "Skip leading whitespace, handle sign character, then read digits while checking for overflow at each step.",
+  "9": "Convert the integer to a string and check if the string is equal to its reverse.",
+  "21": "Use a dummy head node and a pointer. Compare the current nodes of both lists, appending the smaller one, and advancing the pointer.",
   "28": "Slide a window of length needle across haystack, comparing character by character.",
   "36": "Use a hash set to track seen numbers in each row, column, and 3×3 box. The box index is derived from (row//3)*3 + (col//3).",
   "42": "Two-pointer approach from both ends. Track left_max and right_max — water trapped at a position depends on the shorter of the two max heights.",
@@ -23,5 +25,6 @@
   "191": "Iterate through each bit by repeatedly checking the lowest bit with n & 1, counting it if set, then shifting n right by 1 until n becomes 0.",
   "207": "Use Kahn's algorithm (BFS topological sort). Build an adjacency list and indegree array, push all courses with indegree 0 into a queue, then process them while reducing indegrees of their neighbors.",
   "206": "Use three pointers (prev, current, next_temp) to reverse links in-place by iterating through the list once. Each node's next pointer is redirected to the previous node.",
-  "215": "Use a min-heap of size k. Push each element into the heap, and whenever it exceeds size k, pop the smallest. After processing all elements, the heap top holds the k-th largest."
+  "215": "Use a min-heap of size k. Iterate through the array, pushing each element into the heap. When the heap size exceeds k, pop the smallest element. After processing all elements, the top of the heap is the kth largest element.",
+  "221": "Use dynamic programming where dp[i][j] represents the side length of the largest square ending at cell (i, j). For each '1', compute dp[i][j] = min(dp[i−1][j], dp[i][j−1], dp[i−1][j−1]) + 1. Track the maximum side length found and return its square as the area."
 }

@@ -1,30 +1,127 @@
 {
-  "two sum": ["array", "hash-map"],
-  "add two": ["math", "linked-list"],
-  "substring": ["string", "sliding-window", "hash-map"],
-  "median": ["binary-search", "divide-and-conquer"],
-  "longest": ["string", "two-pointer", "dp"],
-  "zigzag": ["string", "simulation"],
-  "reverse integer": ["math", "simulation"],
-  "atoi": ["string", "simulation"],
-  "palindrome": ["math", "string"],
-  "merge": ["linked-list", "recursion"],
-  "occurrence": ["string", "two-pointer"],
-  "sudoku": ["hash-map", "matrix", "simulation"],
-  "rain": ["two-pointer", "array", "stack"],
-  "rotate": ["matrix", "simulation"],
-  "sqrt": ["binary-search", "math"],
-  "climbing": ["dp", "math"],
-  "tree": ["tree", "bfs"],
-  "binary": ["tree", "bfs", "recursion"],
-  "maximum": ["tree", "dfs", "recursion"],
-  "pascal": ["math", "array", "dp"],
-  "max points": ["hash-map", "geometry", "math"],
-  "reverse words": ["string", "two-pointer"],
-  "compare version": ["string", "simulation"],
-  "reverse bits": ["bit-manipulation"],
-  "number of 1 bits": ["bit-manipulation"],
-  "course schedule": ["graph", "bfs", "topological-sort"],
-  "reverse linked": ["linked-list", "recursion"],
-  "kth largest": ["heap", "array"]
+  "two sum": [
+    "array",
+    "hash-map"
+  ],
+  "add two": [
+    "math",
+    "linked-list"
+  ],
+  "substring": [
+    "string",
+    "sliding-window",
+    "hash-map"
+  ],
+  "median": [
+    "binary-search",
+    "divide-and-conquer"
+  ],
+  "longest": [
+    "string",
+    "two-pointer",
+    "dp"
+  ],
+  "zigzag": [
+    "string",
+    "simulation"
+  ],
+  "reverse integer": [
+    "math",
+    "simulation"
+  ],
+  "atoi": [
+    "string",
+    "simulation"
+  ],
+  "palindrome": [
+    "math",
+    "string"
+  ],
+  "merge": [
+    "linked-list",
+    "recursion"
+  ],
+  "occurrence": [
+    "string",
+    "two-pointer"
+  ],
+  "sudoku": [
+    "hash-map",
+    "matrix",
+    "simulation"
+  ],
+  "rain": [
+    "two-pointer",
+    "array",
+    "stack"
+  ],
+  "rotate": [
+    "matrix",
+    "simulation"
+  ],
+  "sqrt": [
+    "binary-search",
+    "math"
+  ],
+  "climbing": [
+    "dp",
+    "math"
+  ],
+  "tree": [
+    "tree",
+    "bfs"
+  ],
+  "binary": [
+    "tree",
+    "bfs",
+    "recursion"
+  ],
+  "maximum": [
+    "tree",
+    "dfs",
+    "recursion"
+  ],
+  "pascal": [
+    "math",
+    "array",
+    "dp"
+  ],
+  "max points": [
+    "hash-map",
+    "geometry",
+    "math"
+  ],
+  "reverse words": [
+    "string",
+    "two-pointer"
+  ],
+  "compare version": [
+    "string",
+    "simulation"
+  ],
+  "reverse bits": [
+    "bit-manipulation"
+  ],
+  "number of 1 bits": [
+    "bit-manipulation"
+  ],
+  "course schedule": [
+    "graph",
+    "bfs",
+    "topological-sort"
+  ],
+  "reverse linked": [
+    "linked-list",
+    "recursion"
+  ],
+  "kth largest": [
+    "array",
+    "heap",
+    "divide-and-conquer"
+  ],
+  "maximal square": [
+    "dp",
+    "matrix",
+    "array"
+  ]
 }

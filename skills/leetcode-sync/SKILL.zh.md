@@ -6,7 +6,7 @@
 
 - 往 `solutions/` 里新增了 `.py` 文件
 - 发现 `site/data/*.json` 里的数据不完整或者过时了
-- 在运行 `python3 scripts/generate-index.py` 前后，需要确保数据是最新的
+- 在运行 `scripts/generate-index.py`（通过 `python3` 或 `python`）前后，需要确保数据是最新的
 
 ## 工作流程
 
@@ -56,9 +56,11 @@
 
 ### 5. 重新生成站点索引
 
-运行：
+自动检测当前系统使用的是 `python3` 还是 `python` 命令，然后执行对应的命令：
 ```bash
 python3 scripts/generate-index.py
+# 如果 python3 不可用，则用：
+python scripts/generate-index.py
 ```
 
 确认输出里有 `✅` 成功标志。

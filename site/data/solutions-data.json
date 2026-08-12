@@ -508,13 +508,34 @@
       "time": "O(n log k)",
       "space": "O(k)"
     },
-    "desc": "Return the k-th largest element in an unsorted array.",
-    "approach": "Use a min-heap of size k. Push each element into the heap, and whenever it exceeds size k, pop the smallest. After processing all elements, the heap top holds the k-th largest.",
-    "keyInsight": "A min-heap of size k keeps only the k largest elements seen so far \u2014 its root (the smallest of those k) is exactly the k-th largest, achieving O(n log k) time.",
+    "desc": "Find the kth largest element in an unsorted array.",
+    "approach": "Use a min-heap of size k. Iterate through the array, pushing each element into the heap. When the heap size exceeds k, pop the smallest element. After processing all elements, the top of the heap is the kth largest element.",
+    "keyInsight": "Maintaining a heap of exactly k elements ensures we keep only the k largest elements seen so far, and the smallest of those is the kth largest overall.",
     "tags": [
+      "array",
       "heap",
+      "divide-and-conquer"
+    ],
+    "code": "import heapq\n\nclass Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        # nums.sort()\n        # return nums[-k]\n        \n        min_heap = []\n        \n        for num in nums:\n            heapq.heappush(min_heap, num)\n            \n            if len(min_heap) > k:\n                heapq.heappop(min_heap)\n                \n        return min_heap[0]"
+  },
+  {
+    "id": 221,
+    "title": "Maximal Square",
+    "file": "221.maximal-square.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(m\u00d7n)",
+      "space": "O(m\u00d7n)"
+    },
+    "desc": "Given an m\u00d7n binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.",
+    "approach": "Use dynamic programming where dp[i][j] represents the side length of the largest square ending at cell (i, j). For each '1', compute dp[i][j] = min(dp[i\u22121][j], dp[i][j\u22121], dp[i\u22121][j\u22121]) + 1. Track the maximum side length found and return its square as the area.",
+    "keyInsight": "The size of the largest square ending at (i, j) is limited by the smallest neighboring square above, to the left, and diagonally above-left \u2014 the minimum of these three plus one gives the new side length.",
+    "tags": [
+      "dp",
+      "matrix",
       "array"
     ],
-    "code": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        heap = []\n        \n        for num in nums:\n            heapq.heappush(heap, num)\n            if len(heap) > k:\n                heapq.heappop(heap)\n        return heap[0]"
+    "code": "class Solution:\n    def maximalSquare(self, matrix: List[List[str]]) -> int:\n        rows, cols = len(matrix), len(matrix[0])\n        dp = [[0] * cols for _ in range(rows)]\n        max_side = 0\n\n        for i in range(rows):\n            for j in range(cols):\n                if matrix[i][j] == '1':\n                    if i == 0 or j == 0:\n                        dp[i][j] = 1\n                    else:\n                        dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1\n                    max_side = max(max_side, dp[i][j])\n\n        result = max_side * max_side\n        return result"
   }
 ]

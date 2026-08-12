@@ -1,12 +1,14 @@
 {
-  "1":  "A hash map trades space for time — we store past elements to avoid the O(n²) brute-force comparison.",
-  "2":  "Use a carry variable to handle sums ≥ 10, continuing to the next most significant digit.",
-  "3":  "The sliding window ensures each character is visited at most twice — once by each pointer — achieving O(n) time.",
-  "4":  "By partitioning the smaller array, we implicitly partition the larger one — achieving O(log(min(m,n))) instead of O(m+n).",
-  "5":  "There are 2n−1 possible centers in a string of length n (including gaps between characters). Expanding from each center is O(n) per center.",
-  "6":  "Track direction (down/up) and flip when reaching row 0 or the last row — this gives an O(n) one-pass solution.",
-  "7":  "Check overflow before it happens: if rev > INT_MAX/10 or rev < INT_MIN/10, the next digit will cause overflow.",
-  "8":  "Process the string character by character with a state machine: whitespace → sign → digits → end — early exit on non-digit.",  "9": "Strings in Python can be easily reversed using slicing [::-1], making this a concise approach.",  "21": "A dummy head eliminates edge-case handling for the initial empty result list, making the code cleaner and less error-prone.",
+  "1": "A hash map trades space for time — we store past elements to avoid the O(n²) brute-force comparison.",
+  "2": "Use a carry variable to handle sums ≥ 10, continuing to the next most significant digit.",
+  "3": "The sliding window ensures each character is visited at most twice — once by each pointer — achieving O(n) time.",
+  "4": "By partitioning the smaller array, we implicitly partition the larger one — achieving O(log(min(m,n))) instead of O(m+n).",
+  "5": "There are 2n−1 possible centers in a string of length n (including gaps between characters). Expanding from each center is O(n) per center.",
+  "6": "Track direction (down/up) and flip when reaching row 0 or the last row — this gives an O(n) one-pass solution.",
+  "7": "Check overflow before it happens: if rev > INT_MAX/10 or rev < INT_MIN/10, the next digit will cause overflow.",
+  "8": "Process the string character by character with a state machine: whitespace → sign → digits → end — early exit on non-digit.",
+  "9": "Strings in Python can be easily reversed using slicing [::-1], making this a concise approach.",
+  "21": "A dummy head eliminates edge-case handling for the initial empty result list, making the code cleaner and less error-prone.",
   "28": "Only need to search up to (len(haystack) − len(needle)) to avoid unnecessary comparisons.",
   "36": "A flat set with encoded keys like `(5) in row 1` lets us validate all three constraints in a single pass through the board.",
   "42": "At any position, water trapped = min(max left height, max right height) − current height. The two-pointer method computes this in one pass.",
@@ -23,5 +25,6 @@
   "191": "n & 1 isolates the least significant bit; repeatedly peeling off bits and counting the 1s gives the Hamming weight directly.",
   "207": "If a cycle exists in the directed graph, some nodes will never reach indegree 0, making it impossible to topologically sort all courses — the queue empties before processing all nodes.",
   "206": "Reversing a linked list iteratively is O(n) with O(1) space — each node's next pointer is redirected to the previous node in a single pass.",
-  "215": "A min-heap of size k keeps only the k largest elements seen so far — its root (the smallest of those k) is exactly the k-th largest, achieving O(n log k) time."
+  "215": "Maintaining a heap of exactly k elements ensures we keep only the k largest elements seen so far, and the smallest of those is the kth largest overall.",
+  "221": "The size of the largest square ending at (i, j) is limited by the smallest neighboring square above, to the left, and diagonally above-left — the minimum of these three plus one gives the new side length."
 }
