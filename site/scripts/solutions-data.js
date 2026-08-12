@@ -499,5 +499,24 @@ const SOLUTIONS_DATA = [
       "topological-sort"
     ],
     "code": "class Solution:\n    def canFinish(self, n: int, prerequisites: List[List[int]]) -> bool:\n        graph = [[] for _ in range(n)]\n        indegree = [0] * n\n        \n        for course, prereq in prerequisites:\n            graph[prereq].append(course)\n            indegree[course] += 1\n            \n        q = deque([i for i in range(n) if indegree[i] == 0])\n        \n        while q:\n            cur = q.popleft()\n            n -= 1\n            for nei in graph[cur]:\n                indegree[nei] -= 1\n                if indegree[nei] == 0:\n                    q.append(nei)\n                    \n        return n == 0"
+  },
+  {
+    "id": 215,
+    "title": "Kth Largest Element in an Array",
+    "file": "215.kth-largest-element-in-an-array.py",
+    "difficulty": "medium",
+    "status": "solved",
+    "complexity": {
+      "time": "O(n log k)",
+      "space": "O(k)"
+    },
+    "desc": "Return the k-th largest element in an unsorted array.",
+    "approach": "Use a min-heap of size k. Push each element into the heap, and whenever it exceeds size k, pop the smallest. After processing all elements, the heap top holds the k-th largest.",
+    "keyInsight": "A min-heap of size k keeps only the k largest elements seen so far \u2014 its root (the smallest of those k) is exactly the k-th largest, achieving O(n log k) time.",
+    "tags": [
+      "heap",
+      "array"
+    ],
+    "code": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        heap = []\n        \n        for num in nums:\n            heapq.heappush(heap, num)\n            if len(heap) > k:\n                heapq.heappop(heap)\n        return heap[0]"
   }
 ];

@@ -24,5 +24,6 @@
   "190": {"time": "O(1)", "space": "O(1)"},
   "191": {"time": "O(log n)", "space": "O(1)"},
   "207": {"time": "O(V+E)", "space": "O(V+E)"},
-  "206": {"time": "O(n)", "space": "O(1)"}
+  "206": {"time": "O(n)", "space": "O(1)"},
+  "215": {"time": "O(n log k)", "space": "O(k)"}
 }
